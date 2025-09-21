@@ -5,6 +5,7 @@ namespace FS24StartHub.Core.Settings
     public interface ISettingsManager
     {
         AppSettings Load();
-        void Save(AppSettings settings);
+        void Update(AppSettings settings);
+        bool ValidateSimConfiguration(AppSettings settings);
     }
 }

@@ -42,7 +42,7 @@ namespace FS24StartHub.Tests.Settings
             Assert.IsNotNull(result);
             Assert.AreEqual(SimType.Steam, result!.SimType);
             Assert.AreEqual(@"C:\SimRoot", result.SimPath);
-            Assert.AreEqual(@"C:\SimRoot\FlightSimulator.exe", result.SimExePath);
+            Assert.IsNull(result.SimExePath);
             Assert.IsNull(result.PackageFamilyName);
         }
 

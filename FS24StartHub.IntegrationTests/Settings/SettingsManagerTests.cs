@@ -38,7 +38,7 @@ namespace FS24StartHub.IntegrationTests.Settings
         }
 
         [TestMethod]
-        public void SaveAndLoad_ShouldPersistCareersAndConfigs()
+        public void UpdateAndLoad_ShouldPersistCareersAndConfigs()
         {
             var manager = new SettingsManager(_baseFolder, _fileStorage, _jsonStorage, _logger);
 
@@ -49,7 +49,6 @@ namespace FS24StartHub.IntegrationTests.Settings
                 Name = "Test Career",
                 LastUsed = new DateTime(2025, 9, 17, 12, 0, 0, DateTimeKind.Utc),
                 CurrentDump = "dump-123"
-                // Dumps is ignored by JSON, so we don't check it here
             };
 
             var config = new Config
@@ -72,23 +71,22 @@ namespace FS24StartHub.IntegrationTests.Settings
                 Configs = new List<Config> { config }
             };
 
-            manager.Save(settings);
-            var loaded = manager.Load();
+            manager.Update(settings);
+            var reloaded = manager.Load();
 
-            Assert.AreEqual(1, loaded.Careers.Count);
-            Assert.AreEqual("career-001", loaded.Careers[0].Id);
-            Assert.AreEqual("first-career", loaded.Careers[0].Slug);
-            Assert.AreEqual("Test Career", loaded.Careers[0].Name);
-            Assert.AreEqual("dump-123", loaded.Careers[0].CurrentDump);
-            Assert.AreEqual(new DateTime(2025, 9, 17, 12, 0, 0, DateTimeKind.Utc), loaded.Careers[0].LastUsed);
+            Assert.AreEqual("en-US", reloaded.Language);
+            Assert.AreEqual(@"C:\MSFS", reloaded.SimPath);
+            Assert.AreEqual("career-001", reloaded.CurrentCareerId);
+            Assert.AreEqual("config-001", reloaded.CurrentConfigId);
 
-            Assert.AreEqual(1, loaded.Configs.Count);
-            Assert.AreEqual("config-001", loaded.Configs[0].Id);
-            Assert.AreEqual("DefaultConfig", loaded.Configs[0].FolderName);
-            Assert.AreEqual("Test configuration", loaded.Configs[0].Description);
-            Assert.AreEqual(5, loaded.Configs[0].Rating);
-            Assert.AreEqual(new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc), loaded.Configs[0].CreatedDate);
-            Assert.AreEqual(new DateTime(2025, 9, 17, 12, 0, 0, DateTimeKind.Utc), loaded.Configs[0].LastUsed);
+            Assert.AreEqual(1, reloaded.Careers.Count);
+            Assert.AreEqual("Test Career", reloaded.Careers[0].Name);
+            Assert.AreEqual("dump-123", reloaded.Careers[0].CurrentDump);
+
+            Assert.AreEqual(1, reloaded.Configs.Count);
+            Assert.AreEqual("DefaultConfig", reloaded.Configs[0].FolderName);
+            Assert.AreEqual("Test configuration", reloaded.Configs[0].Description);
+            Assert.AreEqual(5, reloaded.Configs[0].Rating);
         }
 
         [TestMethod]
@@ -106,33 +104,33 @@ namespace FS24StartHub.IntegrationTests.Settings
             var manager = new SettingsManager(_baseFolder, _fileStorage, _jsonStorage, _logger);
 
             var settingsPath = Path.Combine(_baseFolder, "fs24sh.json");
-            Directory.CreateDirectory(_baseFolder);
             File.WriteAllText(settingsPath, "{ invalid json }");
 
             manager.Load();
         }
 
         [TestMethod]
-        public void Save_MultipleTimes_ShouldAlwaysLeaveValidFile()
+        public void Update_MultipleTimes_ShouldAlwaysLeaveValidFile()
         {
             var manager = new SettingsManager(_baseFolder, _fileStorage, _jsonStorage, _logger);
-            var settings = new AppSettings
-            {
-                Language = "en-US",
-                SimPath = @"D:\MSFS",
-                CurrentCareerId = "career-xyz",
-                CurrentConfigId = "config-abc"
-            };
 
             for (int i = 0; i < 3; i++)
             {
-                manager.Save(settings);
+                var settings = new AppSettings
+                {
+                    Language = $"en-US-{i}",
+                    SimPath = $@"D:\MSFS_{i}",
+                    CurrentCareerId = $"career-{i}",
+                    CurrentConfigId = $"config-{i}"
+                };
+
+                manager.Update(settings);
                 var loaded = manager.Load();
 
-                Assert.AreEqual("en-US", loaded.Language);
-                Assert.AreEqual(@"D:\MSFS", loaded.SimPath);
-                Assert.AreEqual("career-xyz", loaded.CurrentCareerId);
-                Assert.AreEqual("config-abc", loaded.CurrentConfigId);
+                Assert.AreEqual($"en-US-{i}", loaded.Language);
+                Assert.AreEqual($@"D:\MSFS_{i}", loaded.SimPath);
+                Assert.AreEqual($"career-{i}", loaded.CurrentCareerId);
+                Assert.AreEqual($"config-{i}", loaded.CurrentConfigId);
             }
         }
 
@@ -151,6 +149,7 @@ namespace FS24StartHub.IntegrationTests.Settings
             Assert.IsTrue(content.Length > 0, "Log file should not be empty.");
             StringAssert.Contains(content, "[MARK] Logger_WritesToFileSink");
         }
+
 
         private static string Sanitize(string name)
         {

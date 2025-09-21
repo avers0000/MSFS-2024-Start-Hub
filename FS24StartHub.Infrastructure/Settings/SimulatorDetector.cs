@@ -44,7 +44,7 @@ namespace FS24StartHub.Infrastructure.Settings
                 SimType: SimType.Steam,
                 SimPath: installedPath!,
                 PackageFamilyName: null,
-                SimExePath: Path.Combine(installedPath!, "FlightSimulator.exe")
+                SimExePath: null // Steam uses AppId, not direct exe path
             );
         }
 
