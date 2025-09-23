@@ -1,5 +1,4 @@
-﻿using FS24StartHub.Core.Storage;
-using FS24StartHub.Infrastructure.Storage;
+﻿using FS24StartHub.Infrastructure.Storage;
 
 namespace FS24StartHub.Tests.Storage
 {
@@ -97,5 +96,80 @@ namespace FS24StartHub.Tests.Storage
             CollectionAssert.AreEqual(new[] { "OfficialContent" }, result);
         }
 
+        [TestMethod]
+        public void WriteAllText_ShouldReplaceExistingFile()
+        {
+            var path = Path.Combine(_tempDir, "replace.txt");
+            File.WriteAllText(path, "old");
+
+            _fileStorage.WriteAllText(path, "new");
+            var read = File.ReadAllText(path);
+
+            Assert.AreEqual("new", read);
+            Assert.IsFalse(File.Exists(path + ".tmp"), "Temp file should not remain");
+        }
+
+        [TestMethod]
+        public void AppendAllText_ShouldAppendContent()
+        {
+            var path = Path.Combine(_tempDir, "append.txt");
+            _fileStorage.WriteAllText(path, "line1\n");
+            _fileStorage.AppendAllText(path, "line2\n");
+
+            var lines = File.ReadAllLines(path);
+            CollectionAssert.AreEqual(new[] { "line1", "line2" }, lines);
+        }
+
+        [TestMethod]
+        public void DirectoryExists_ShouldReturnTrue_WhenDirectoryExists()
+        {
+            var dir = Path.Combine(_tempDir, "subdir");
+            Directory.CreateDirectory(dir);
+
+            Assert.IsTrue(_fileStorage.DirectoryExists(dir));
+        }
+
+        [TestMethod]
+        public void EnumerateFiles_ShouldReturnFiles()
+        {
+            var f1 = Path.Combine(_tempDir, "a.txt");
+            var f2 = Path.Combine(_tempDir, "b.log");
+            File.WriteAllText(f1, "x");
+            File.WriteAllText(f2, "y");
+
+            var all = _fileStorage.EnumerateFiles(_tempDir).Select(Path.GetFileName).ToArray();
+            CollectionAssert.AreEquivalent(new[] { "a.txt", "b.log" }, all);
+
+            var txtOnly = _fileStorage.EnumerateFiles(_tempDir, "*.txt").Select(Path.GetFileName).ToArray();
+            CollectionAssert.AreEqual(new[] { "a.txt" }, txtOnly);
+        }
+
+        [TestMethod]
+        public void Delete_ShouldRemoveFile()
+        {
+            var path = Path.Combine(_tempDir, "delete.txt");
+            File.WriteAllText(path, "to delete");
+
+            _fileStorage.Delete(path);
+
+            Assert.IsFalse(File.Exists(path));
+        }
+
+        [TestMethod]
+        public void Move_ShouldMoveFileAndReplaceIfExists()
+        {
+            var src = Path.Combine(_tempDir, "src.txt");
+            var destDir = Path.Combine(_tempDir, "dest");
+            var dest = Path.Combine(destDir, "dest.txt");
+
+            File.WriteAllText(src, "original");
+            Directory.CreateDirectory(destDir);
+            File.WriteAllText(dest, "old");
+
+            _fileStorage.Move(src, dest);
+
+            Assert.IsFalse(File.Exists(src));
+            Assert.AreEqual("original", File.ReadAllText(dest));
+        }
     }
 }

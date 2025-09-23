@@ -1,6 +1,6 @@
 ﻿using FS24StartHub.Core.Storage;
 using FS24StartHub.Infrastructure.Storage;
-using FS24StartHub.Core.Domain; // where AppSettings, CleanupSettings, etc. are defined
+using FS24StartHub.Core.Domain;
 using Moq;
 using System.Text.Json;
 

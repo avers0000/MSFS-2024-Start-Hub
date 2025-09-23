@@ -5,6 +5,7 @@ using FS24StartHub.Infrastructure.Logging;
 using FS24StartHub.Infrastructure.Settings;
 using FS24StartHub.Infrastructure.Storage;
 using FS24StartHub.IntegrationTests.Helpers;
+using System.Text.Json;
 
 namespace FS24StartHub.IntegrationTests.Settings
 {
@@ -14,13 +15,13 @@ namespace FS24StartHub.IntegrationTests.Settings
         private string _baseFolder = null!;
         private IFileStorage _fileStorage = null!;
         private IJsonStorage _jsonStorage = null!;
-        private ILogger _logger = null!;
+        private ILogManager _logManager = null!;
+        private string _logsFolder = null!;
         public TestContext TestContext { get; set; } = null!;
 
         [TestInitialize]
         public void Setup()
         {
-            // Create a unique folder for each test run
             var root = TestPathHelper.GetExternalTestDataRoot();
             var runFolderName = $"{DateTime.UtcNow:yyyyMMdd_HHmmssfff}_{Sanitize(TestContext.TestName!)}";
             _baseFolder = Path.Combine(root, "Integration", "Settings", runFolderName);
@@ -28,19 +29,18 @@ namespace FS24StartHub.IntegrationTests.Settings
 
             _fileStorage = new FileStorage();
             _jsonStorage = new JsonStorage(_fileStorage);
+            _logsFolder = Path.Combine(_baseFolder, "Logs");
 
-            // Use the real logger with FileLogSink and ConsoleLogSink
-            ILogSink fileSink = new FileLogSink(_baseFolder);
-            ILogSink consoleSink = new ConsoleLogSink();
-            _logger = new Logger(new[] { fileSink, consoleSink });
+            var logSink = new JsonFileLogSink(_fileStorage, _baseFolder);
+            _logManager = new LogManager(new[] { logSink });
 
-            _logger.Info($"[SETUP] BaseFolder = {_baseFolder}");
+            _logManager.Info("[SETUP] BaseFolder initialized", "SettingsManagerTests");
         }
 
         [TestMethod]
         public void UpdateAndLoad_ShouldPersistCareersAndConfigs()
         {
-            var manager = new SettingsManager(_baseFolder, _fileStorage, _jsonStorage, _logger);
+            var manager = new SettingsManager(_baseFolder, _fileStorage, _jsonStorage, _logManager);
 
             var career = new Career
             {
@@ -93,7 +93,7 @@ namespace FS24StartHub.IntegrationTests.Settings
         [ExpectedException(typeof(FileNotFoundException))]
         public void Load_WhenFileMissing_ShouldThrow()
         {
-            var manager = new SettingsManager(_baseFolder, _fileStorage, _jsonStorage, _logger);
+            var manager = new SettingsManager(_baseFolder, _fileStorage, _jsonStorage, _logManager);
             manager.Load();
         }
 
@@ -101,8 +101,7 @@ namespace FS24StartHub.IntegrationTests.Settings
         [ExpectedException(typeof(InvalidDataException))]
         public void Load_WhenFileCorrupted_ShouldThrow()
         {
-            var manager = new SettingsManager(_baseFolder, _fileStorage, _jsonStorage, _logger);
-
+            var manager = new SettingsManager(_baseFolder, _fileStorage, _jsonStorage, _logManager);
             var settingsPath = Path.Combine(_baseFolder, "fs24sh.json");
             File.WriteAllText(settingsPath, "{ invalid json }");
 
@@ -112,7 +111,7 @@ namespace FS24StartHub.IntegrationTests.Settings
         [TestMethod]
         public void Update_MultipleTimes_ShouldAlwaysLeaveValidFile()
         {
-            var manager = new SettingsManager(_baseFolder, _fileStorage, _jsonStorage, _logger);
+            var manager = new SettingsManager(_baseFolder, _fileStorage, _jsonStorage, _logManager);
 
             for (int i = 0; i < 3; i++)
             {
@@ -135,21 +134,20 @@ namespace FS24StartHub.IntegrationTests.Settings
         }
 
         [TestMethod]
-        public void Logger_WritesToFileSink()
+        public void LogManager_WritesStructuredLogFile()
         {
-            _logger.Info("[MARK] Logger_WritesToFileSink");
+            _logManager.Info("[MARK] LogManager_WritesStructuredLogFile", "SettingsManagerTests");
 
-            var logsDir = Path.Combine(_baseFolder, "Logs");
-            Assert.IsTrue(Directory.Exists(logsDir), "Logs directory should exist.");
+            var logFile = Directory.GetFiles(_logsFolder, "log_*.jsonl").Single();
+            var lines = File.ReadAllLines(logFile);
+            var events = lines.Select(line => JsonSerializer.Deserialize<LogEvent>(line, LogJsonDefaults.Options)).ToArray();
 
-            var todayFile = Path.Combine(logsDir, $"log-{DateTime.UtcNow:yyyyMMdd}.txt");
-            Assert.IsTrue(File.Exists(todayFile), $"Expected log file: {todayFile}");
-
-            var content = File.ReadAllText(todayFile);
-            Assert.IsTrue(content.Length > 0, "Log file should not be empty.");
-            StringAssert.Contains(content, "[MARK] Logger_WritesToFileSink");
+            Assert.IsTrue(events.Any(e =>
+                e!.Message.Contains("[MARK] LogManager_WritesStructuredLogFile")
+                && e.Module == "SettingsManagerTests"
+                && e.Level == LogLevel.Info
+            ), "Expected structured log entry not found.");
         }
-
 
         private static string Sanitize(string name)
         {

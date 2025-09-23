@@ -33,6 +33,17 @@ namespace FS24StartHub.Infrastructure.Storage
             }
         }
 
+        public void AppendAllText(string path, string contents)
+        {
+            var dir = Path.GetDirectoryName(path);
+            if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+
+            File.AppendAllText(path, contents);
+        }
+
         public void CreateDirectory(string path) => Directory.CreateDirectory(path);
 
         public IEnumerable<string> EnumerateFiles(string path, string searchPattern = "*.*")

@@ -8,6 +8,6 @@ namespace FS24StartHub.Core.Logging
 {
     public interface ILogSink
     {
-        void Write(string level, string message);
+        void Write(string line);
     }
 }

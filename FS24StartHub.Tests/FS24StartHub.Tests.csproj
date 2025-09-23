@@ -17,8 +17,4 @@
     <ProjectReference Include="..\FS24StartHub.Infrastructure\FS24StartHub.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Initialization\" />
-  </ItemGroup>
-
 </Project>

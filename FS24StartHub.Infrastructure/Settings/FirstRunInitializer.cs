@@ -9,69 +9,53 @@ namespace FS24StartHub.Infrastructure.Settings
     {
         private readonly IFileStorage _fileStorage;
         private readonly IJsonStorage _jsonStorage;
-        private readonly ILogger _logger;
+        private readonly ILogManager _logManager;
         private readonly string _baseFolderPath;
         private readonly string _settingsFilePath;
 
-        public FirstRunInitializer(IFileStorage fileStorage, IJsonStorage jsonStorage, ILogger logger, string baseFolderPath)
+        public FirstRunInitializer(IFileStorage fileStorage, IJsonStorage jsonStorage, ILogManager logManager, string baseFolderPath)
         {
             _fileStorage = fileStorage;
             _jsonStorage = jsonStorage;
-            _logger = logger;
+            _logManager = logManager;
             _baseFolderPath = baseFolderPath;
             _settingsFilePath = Path.Combine(_baseFolderPath, "fs24sh.json");
         }
 
-        /// <summary>
-        /// Performs first run initialization:
-        /// - Prepares backup folder and (TODO) Backups original simulator files
-        /// - Creates and saves default fs24sh.json
-        /// </summary>
         public bool Initialize()
         {
-            var settingsFile = Path.Combine(_baseFolderPath, "fs24sh.json");
-            if (_fileStorage.FileExists(settingsFile))
+            if (_fileStorage.FileExists(_settingsFilePath))
             {
-                _logger.Info("Initialization skipped: settings file already exists.");
+                _logManager.Info("Initialization skipped: settings file already exists.", "FirstRun", "InitializationSkipped");
                 return true;
             }
 
-            _logger.Info("First run detected. Initializing environment...");
+            _logManager.Info("First run detected. Initializing environment...", "FirstRun", "FirstRunDetected");
 
             var detector = new SimulatorDetector(_fileStorage);
             var detection = detector.Detect();
 
             if (detection == null)
             {
-                _logger.Error("Simulator not found. Update configuration manually in fs24sh.json and restart application.");
+                _logManager.Error("Simulator not found. Update configuration manually in fs24sh.json and restart application.", "FirstRun");
                 return false;
             }
 
             BackupOriginalFiles(detection.SimPath);
-
             SaveDefaultSettings(detection);
 
-            _logger.Info("First run initialization completed (modules will handle domain-specific setup).");
+            _logManager.Info("First run initialization completed (modules will handle domain-specific setup).", "FirstRun", "InitializationComplete");
             return true;
         }
 
-        /// <summary>
-        /// Creates BackupOriginal folder and (later) copies original simulator files into it.
-        /// Currently only prepares the folder.
-        /// </summary>
         private void BackupOriginalFiles(string simPath)
         {
             var backupPath = Path.Combine(_baseFolderPath, "BackupOriginal");
             _fileStorage.CreateDirectory(backupPath);
 
-            // TODO: define which simulator files should be backed up from simPath
-            _logger.Info($"Backup folder prepared at {backupPath} (copy logic not implemented yet).");
+            _logManager.Info($"Backup folder prepared at {backupPath} (copy logic not implemented yet).", "FirstRun", "BackupPrepared");
         }
 
-        /// <summary>
-        /// Creates a default AppSettings object and saves it to fs24sh.json.
-        /// Careers and Configs are empty until proper backup/initialization is implemented.
-        /// </summary>
         private void SaveDefaultSettings(SimulatorDetectionResult detection)
         {
             var settings = new AppSettings
@@ -94,7 +78,8 @@ namespace FS24StartHub.Infrastructure.Settings
             };
 
             _jsonStorage.Save(_settingsFilePath, settings);
-            _logger.Info($"Default settings saved to: {_settingsFilePath}");
+
+            _logManager.Info($"Default settings saved to: {_settingsFilePath}", "FirstRun", "DefaultSettingsSaved");
         }
     }
 }

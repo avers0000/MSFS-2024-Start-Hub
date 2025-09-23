@@ -10,8 +10,4 @@
     <ProjectReference Include="..\FS24StartHub.Core\FS24StartHub.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Initialization\" />
-  </ItemGroup>
-
 </Project>

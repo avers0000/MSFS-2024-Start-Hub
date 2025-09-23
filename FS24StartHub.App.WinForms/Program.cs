@@ -5,34 +5,36 @@ using FS24StartHub.Infrastructure.Helpers;
 using FS24StartHub.Infrastructure.Logging;
 using FS24StartHub.Infrastructure.Settings;
 using FS24StartHub.Infrastructure.Storage;
+using System.Collections.Generic;
 
 namespace FS24StartHub.App.WinForms
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            // 1. Initialize WinForms configuration (DPI, fonts, etc.)
             ApplicationConfiguration.Initialize();
 
-            // 2. Resolve base folder for application data
-            string baseFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FS24StartHub");
+            string baseFolderPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "FS24StartHub");
 
-            // 3. Create logger (FileLogSink сам создаёт Logs и файл)
-            ILogSink fileSink = new FileLogSink(baseFolderPath);
-            ILogSink consoleSink = new ConsoleLogSink();
+            IFileStorage fileStorage = new FileStorage();
+            IJsonStorage jsonStorage = new JsonStorage(fileStorage);
 
-            ILogger logger = new Logger([fileSink, consoleSink]);
+            ILogSink fileSink = new JsonFileLogSink(fileStorage, baseFolderPath);
+
+            var sinks = new List<ILogSink> { fileSink };
+#if DEBUG
+            sinks.Add(new ConsoleLogSink());
+#endif
+
+            ILogManager logManager = new LogManager(sinks);
 
             if (Utility.IsSimulatorRunning())
             {
-                logger.Warn("Simulator already running. Application aborted.");
+                logManager.Warn("Simulator already running. Application aborted.", "Program", "SimulatorAlreadyRunning");
 
                 MessageBox.Show(
                     "Microsoft Flight Simulator 2024 is already running.\nPlease close it before starting FS24StartHub.",
@@ -43,14 +45,9 @@ namespace FS24StartHub.App.WinForms
                 return;
             }
 
-            logger.Info("Application starting...");
+            logManager.Info("Application starting...", "Program", "Startup");
 
-            // 4. Create storage services
-            IFileStorage fileStorage = new FileStorage();
-            IJsonStorage jsonStorage = new JsonStorage(fileStorage);
-
-            // 5. First run initialization
-            var firstRun = new FirstRunInitializer(fileStorage, jsonStorage, logger, baseFolderPath);
+            var firstRun = new FirstRunInitializer(fileStorage, jsonStorage, logManager, baseFolderPath);
             bool initialized;
             try
             {
@@ -58,7 +55,7 @@ namespace FS24StartHub.App.WinForms
             }
             catch (IOException ex)
             {
-                logger.Error("Failed to initialize configuration: " + ex.Message);
+                logManager.Error("Failed to initialize configuration", "Program", ex);
                 MessageBox.Show(
                     "Could not initialize configuration.\nCheck file system permissions and restart.",
                     "FS24StartHub",
@@ -77,8 +74,7 @@ namespace FS24StartHub.App.WinForms
                 return;
             }
 
-            // 6. TODO: SettingsManager (load settings here later)
-            var settingsManager = new SettingsManager(baseFolderPath, fileStorage, jsonStorage, logger);
+            var settingsManager = new SettingsManager(baseFolderPath, fileStorage, jsonStorage, logManager);
             AppSettings settings;
             try
             {
@@ -86,7 +82,7 @@ namespace FS24StartHub.App.WinForms
             }
             catch (FileNotFoundException ex)
             {
-                logger.Error("Settings file missing: " + ex.FileName);
+                logManager.Error("Settings file missing", "Program", ex);
                 MessageBox.Show(
                     "Settings file not found.\nFS24StartHub cannot start without configuration.",
                     "FS24StartHub",
@@ -96,7 +92,7 @@ namespace FS24StartHub.App.WinForms
             }
             catch (InvalidDataException ex)
             {
-                logger.Error("Settings file corrupted: " + ex.Message);
+                logManager.Error("Settings file corrupted", "Program", ex);
                 MessageBox.Show(
                     "Settings file is corrupted.\nPlease fix fs24sh.json manually.",
                     "FS24StartHub",
@@ -107,7 +103,8 @@ namespace FS24StartHub.App.WinForms
 
             if (!settingsManager.ValidateSimConfiguration(settings))
             {
-                logger.Warn("Simulator configuration is invalid.");
+                logManager.Warn("Simulator configuration is invalid.", "Program", "InvalidSimConfig");
+
                 MessageBox.Show(
                     "Simulator configuration is invalid.\nYou can manually re-run simulator detection later.\nCheck fs24sh.json or use the upcoming recovery feature.",
                     "FS24StartHub",
@@ -116,7 +113,6 @@ namespace FS24StartHub.App.WinForms
                 return;
             }
 
-            // 7. Start UI
             Application.Run(new MainForm(settingsManager));
         }
     }

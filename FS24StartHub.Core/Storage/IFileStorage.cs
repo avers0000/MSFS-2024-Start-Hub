@@ -9,6 +9,7 @@
         string[] ReadAllLines(string path);
 
         void WriteAllText(string path, string contents);
+        void AppendAllText(string path, string contents);
 
         void CreateDirectory(string path);
 
