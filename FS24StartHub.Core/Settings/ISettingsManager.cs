@@ -4,8 +4,24 @@ namespace FS24StartHub.Core.Settings
 {
     public interface ISettingsManager
     {
+        /// <summary>
+        /// Returns the currently loaded application settings, or null if not loaded yet.
+        /// </summary>
+        AppSettings? CurrentSettings { get; }
+
+        /// <summary>
+        /// Loads settings from disk (fs24sh.json).
+        /// </summary>
         AppSettings Load();
+
+        /// <summary>
+        /// Updates and saves settings to disk.
+        /// </summary>
         void Update(AppSettings settings);
+
+        /// <summary>
+        /// Validates simulator-related configuration.
+        /// </summary>
         bool ValidateSimConfiguration(AppSettings settings);
     }
 }

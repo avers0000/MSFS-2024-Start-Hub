@@ -11,6 +11,8 @@
         public SimType? SimType { get; set; }
         public string? PackageFamilyName { get; set; }
         public string? SimExePath { get; set; }
+        public int LaunchTimeoutSeconds { get; set; } = 30;
+
 
         public string CurrentCareerId { get; set; } = string.Empty;
         public string CurrentConfigId { get; set; } = string.Empty;

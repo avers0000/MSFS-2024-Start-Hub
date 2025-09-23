@@ -65,6 +65,8 @@ namespace FS24StartHub.Infrastructure.Settings
                 SimPath = detection.SimPath,
                 PackageFamilyName = detection.PackageFamilyName,
                 SimExePath = detection.SimExePath,
+                LaunchTimeoutSeconds = 30,
+
                 CurrentCareerId = "",
                 CurrentConfigId = "",
                 CleanupSettings = new CleanupSettings

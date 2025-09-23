@@ -2,6 +2,7 @@
 using FS24StartHub.Core.Launcher.Progress;
 using FS24StartHub.Core.Launcher.Tasks;
 using FS24StartHub.Core.Logging;
+using FS24StartHub.Core.Settings;
 using FS24StartHub.Infrastructure.Helpers;
 using FS24StartHub.Infrastructure.Launcher.Tasks;
 
@@ -16,13 +17,13 @@ namespace FS24StartHub.Infrastructure.Launcher
         private readonly IReadOnlyList<ILaunchTask> _tasks;
         private readonly ILogManager _logManager;
 
-        public SimLauncherManager(ILogManager logManager)
+        public SimLauncherManager(ILogManager logManager, ISettingsManager settingsManager)
         {
             _logManager = logManager;
 
             _tasks = new List<ILaunchTask>
             {
-                new LaunchSimulatorTask(logManager)
+                new LaunchSimulatorTask(logManager, settingsManager)
             };
         }
 
