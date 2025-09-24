@@ -113,7 +113,7 @@ namespace FS24StartHub.App.WinForms
                 return;
             }
 
-            Application.Run(new MainForm(settingsManager));
+            Application.Run(new MainForm(settingsManager, logManager));
         }
     }
 }

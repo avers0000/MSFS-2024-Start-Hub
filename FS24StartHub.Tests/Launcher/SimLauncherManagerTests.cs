@@ -1,5 +1,7 @@
-﻿using FS24StartHub.Core.Launcher;
+﻿using FS24StartHub.Core.Domain;
+using FS24StartHub.Core.Launcher;
 using FS24StartHub.Core.Logging;
+using FS24StartHub.Core.Settings;
 using FS24StartHub.Infrastructure.Launcher;
 using FS24StartHub.Infrastructure.Logging;
 using Moq;
@@ -10,27 +12,29 @@ namespace FS24StartHub.Tests.Launcher
     public class SimLauncherManagerTests
     {
         [TestMethod]
-        public async Task LaunchAsync_ReturnsSuccessResult()
+        public async Task LaunchAsync_CancelledBeforeStart_ThrowsOperationCanceled()
         {
             // Arrange
             var sinkMock = new Mock<ILogSink>();
             var logManager = new LogManager(new[] { sinkMock.Object });
 
-            var manager = new SimLauncherManager(logManager);
+            var settingsManagerMock = new Mock<ISettingsManager>();
+            settingsManagerMock.Setup(s => s.CurrentSettings).Returns(new AppSettings
+            {
+                SimType = SimType.Custom,
+                SimExePath = "dummy.exe",
+                LaunchTimeoutSeconds = 1
+            });
+
+            var manager = new SimLauncherManager(logManager, settingsManagerMock.Object);
             var request = new LaunchRequest();
 
-            // Act
-            var result = await manager.LaunchAsync(request, null, CancellationToken.None);
+            using var cts = new CancellationTokenSource();
+            cts.Cancel(); // token is already cancelled
 
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Success, "LaunchResult should indicate success");
-            Assert.AreEqual(ExitIntent.None, result.ExitIntent, "ExitIntent should be None");
-            Assert.IsTrue(result.Steps.Count > 0, "LaunchResult should contain steps");
-            Assert.IsTrue(result.Steps.All(s => s.Success), "All steps should be successful");
-
-            // Optional
-            sinkMock.Verify(s => s.Write(It.IsAny<string>()), Times.AtLeastOnce);
+            // Act + Assert
+            await Assert.ThrowsExceptionAsync<OperationCanceledException>(
+                () => manager.LaunchAsync(request, null, cts.Token));
         }
     }
 }

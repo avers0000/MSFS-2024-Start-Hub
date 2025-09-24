@@ -46,6 +46,8 @@ namespace FS24StartHub.Infrastructure.Launcher
 
             foreach (var task in _tasks)
             {
+                ct.ThrowIfCancellationRequested();
+
                 _logManager.Info($"Task '{task.Name}' started.", "SimLauncherManager");
                 progress?.Report(new StepProgress(task.Name, ProgressType.StepStarted, "Started"));
 

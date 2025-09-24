@@ -28,12 +28,50 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            btnStart = new Button();
+            btnExit = new Button();
+            SuspendLayout();
+            // 
+            // btnStart
+            // 
+            btnStart.Font = new Font("Segoe UI", 28F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnStart.Location = new Point(149, 106);
+            btnStart.Name = "btnStart";
+            btnStart.Size = new Size(320, 141);
+            btnStart.TabIndex = 0;
+            btnStart.Text = "START";
+            btnStart.UseVisualStyleBackColor = true;
+            btnStart.Click += btnStart_Click;
+            // 
+            // btnExit
+            // 
+            btnExit.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnExit.Location = new Point(149, 281);
+            btnExit.Name = "btnExit";
+            btnExit.Size = new Size(320, 40);
+            btnExit.TabIndex = 1;
+            btnExit.Text = "Exit";
+            btnExit.UseVisualStyleBackColor = true;
+            btnExit.Click += btnExit_Click;
+            // 
+            // MainForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(624, 441);
+            Controls.Add(btnExit);
+            Controls.Add(btnStart);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "MSFS 2024 Start Hub";
+            ResumeLayout(false);
         }
 
         #endregion
+
+        private Button btnStart;
+        private Button btnExit;
     }
 }
