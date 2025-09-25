@@ -30,6 +30,7 @@ namespace FS24StartHub.Infrastructure.Launcher
         public async Task<LaunchResult> LaunchAsync(LaunchRequest request, IProgress<StepProgress>? progress, CancellationToken ct)
         {
             var steps = new List<StepProgress>();
+            bool simulatorLaunched = false;
 
             _logManager.Info("Launch pipeline started.", "SimLauncherManager");
 
@@ -55,7 +56,13 @@ namespace FS24StartHub.Infrastructure.Launcher
                 progress?.Report(step);
 
                 steps.Add(step);
-                if (!step.Success && !task.IsOptional)
+
+                if (task is LaunchSimulatorTask && step.Success)
+                {
+                    simulatorLaunched = true;
+                }
+                
+                if (!step.Success && !task.IsOptional && !simulatorLaunched)
                 {
                     _logManager.Error($"Task '{task.Name}' failed: {step.Error}", "SimLauncherManager");
                     return new LaunchResult

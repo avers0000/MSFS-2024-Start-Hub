@@ -24,7 +24,7 @@ namespace FS24StartHub.App.WinForms
             var simLauncherManager = new SimLauncherManager(_logManager, _settingsManager);
 
             using var startForm = new StartForm(simLauncherManager, _logManager, request);
-            var result = startForm.ShowDialog(this);
+            var result = startForm.ShowDialog();
 
             if (result == DialogResult.OK)
             {

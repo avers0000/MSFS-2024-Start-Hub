@@ -20,7 +20,7 @@ namespace FS24StartHub.Core.Launcher
         /// <summary>
         /// What should happen with the app after launch.
         /// </summary>
-        public ExitIntent ExitIntent { get; init; } = ExitIntent.None;
+        public ExitIntent ExitIntent { get; init; } = ExitIntent.ShutdownAfterLaunch;
 
         /// <summary>
         /// List of executed steps with their results.

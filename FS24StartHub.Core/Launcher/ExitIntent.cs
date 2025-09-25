@@ -5,7 +5,8 @@
     /// </summary>
     public enum ExitIntent
     {
-        None = 0,
-        ShutdownAfterLaunch = 1
+        ShutdownAfterLaunch = 0,
+        WaitForSimExit = 1,
+        UnlockUi = 2
     }
 }

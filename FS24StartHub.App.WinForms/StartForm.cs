@@ -1,6 +1,7 @@
 ﻿using FS24StartHub.Core.Launcher;
 using FS24StartHub.Core.Launcher.Progress;
 using FS24StartHub.Core.Logging;
+using FS24StartHub.Infrastructure.Helpers;
 
 namespace FS24StartHub.App.WinForms
 {
@@ -34,12 +35,10 @@ namespace FS24StartHub.App.WinForms
 
                 if (result.Success)
                 {
-                    lblStatus.Text = "Completed successfully";
-                    DialogResult = DialogResult.OK;
+                    DialogResult = _request.KeepAppOpen ? DialogResult.Cancel : DialogResult.OK;
                 }
                 else
                 {
-                    lblStatus.Text = $"Failed: {result.ErrorMessage}";
                     DialogResult = DialogResult.Abort;
                 }
             }
@@ -48,14 +47,14 @@ namespace FS24StartHub.App.WinForms
                 _logManager.Warn("Launch aborted by user.", "StartForm", "Cancellation");
                 MessageBox.Show("Launch aborted by user.", "Aborted",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DialogResult = DialogResult.Cancel;
+                DialogResult = Utility.IsSimulatorRunning() ? DialogResult.OK : DialogResult.Cancel;
             }
             catch (Exception ex)
             {
                 _logManager.Error("Unhandled exception in StartForm", "StartForm", ex);
                 MessageBox.Show("Unexpected error occurred.", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-                DialogResult = DialogResult.Abort;
+                DialogResult = Utility.IsSimulatorRunning() ? DialogResult.OK : DialogResult.Abort;
             }
             finally
             {
