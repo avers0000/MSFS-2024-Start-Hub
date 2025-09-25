@@ -62,14 +62,18 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(400, 120);
+            ClientSize = new Size(396, 116);
+            ControlBox = false;
             Controls.Add(progressBar);
             Controls.Add(lblStatus);
             Controls.Add(btnAbort);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "StartForm";
+            ShowIcon = false;
+            ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
-            Text = "StartForm";
             Load += StartForm_Load;
             ResumeLayout(false);
         }
