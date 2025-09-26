@@ -6,6 +6,18 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Title>MSFS2024 Start Hub</Title>
+    <Version>0.0.0-dev</Version>
+    <Authors>AVErs</Authors>
+    <Product>MSFS2024 Start Hub</Product>
+    <Description>Advanced Launcher for Microsoft Flight Simulator 2024
+</Description>
+    <Copyright>©2025 AVErs</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>MSFS2024 launcher winforms</PackageTags>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
