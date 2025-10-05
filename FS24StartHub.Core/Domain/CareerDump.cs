@@ -11,5 +11,10 @@
         public bool IsAutoSave { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? Description { get; set; }
+
+        public CareerDump Clone()
+        {
+            return (CareerDump)MemberwiseClone();
+        }
     }
 }

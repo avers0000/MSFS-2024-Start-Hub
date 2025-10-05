@@ -9,14 +9,11 @@ namespace FS24StartHub.Infrastructure.Apps
     {
         private readonly ISettingsManager _settingsManager;
         private readonly ILogManager _logManager;
-        //private readonly List<StartupItem> _beforeStartupItems;
-        //private readonly List<StartupItem> _afterStartupItems;
-        private List<StartupItem> _beforeStartupItems;
-        private List<StartupItem> _afterStartupItems;
+        private readonly List<StartupItem> _beforeStartupItems = [];
+        private readonly List<StartupItem> _afterStartupItems = [];
 
         public bool IsDirty { get; private set; }
 
-        // Single event for both lists
         public event Action? StartupItemsChanged;
 
         public AppsManager(ISettingsManager settingsManager, ILogManager logManager)
@@ -24,7 +21,10 @@ namespace FS24StartHub.Infrastructure.Apps
             _settingsManager = settingsManager;
             _logManager = logManager;
 
-            // Split items into two groups upon initialization
+            // Subscribe to SettingsManager events
+            _settingsManager.SettingsReloaded += LoadData;
+
+            // Initialize data
             LoadData();
             _logManager.Info("AppsManager initialized with startup items.", "AppsManager");
             IsDirty = false;
@@ -216,25 +216,21 @@ namespace FS24StartHub.Infrastructure.Apps
             StartupItemsChanged?.Invoke();
         }
 
-        private void LoadData() {
-            var allItems = _settingsManager.CurrentSettings?.StartupItems ?? new List<StartupItem>();
-            _beforeStartupItems = allItems
-                .Where(i => i.RunOption == RunOption.BeforeSimStarts)
-                .OrderBy(i => i.Order)
-                .Select(i => new StartupItem(i))
-                .ToList();
-
-            _afterStartupItems = allItems
-                .Where(i => i.RunOption == RunOption.AfterSimStarts)
-                .OrderBy(i => i.Order)
-                .Select(i => new StartupItem(i))
-                .ToList();
-        }
-
-        public void Reload()
+        private void LoadData()
         {
-            LoadData();
-            IsDirty = false;
+            _beforeStartupItems.Clear();
+            _afterStartupItems.Clear();
+
+            var allItems = _settingsManager.CurrentSettings?.StartupItems ?? new List<StartupItem>();
+
+            _beforeStartupItems.AddRange([..allItems
+                .Where(i => i.RunOption == RunOption.BeforeSimStarts)
+                .OrderBy(i => i.Order)]);
+
+            _afterStartupItems.AddRange([..allItems
+                .Where(i => i.RunOption == RunOption.AfterSimStarts)
+                .OrderBy(i => i.Order)]);
+
             StartupItemsChanged?.Invoke();
         }
     }

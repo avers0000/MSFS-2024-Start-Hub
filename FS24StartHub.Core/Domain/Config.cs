@@ -11,5 +11,10 @@
         public DateTime CreatedDate { get; set; }
         public DateTime LastUsed { get; set; }
         public int? Rating { get; set; }
+
+        public Config Clone()
+        {
+            return (Config)MemberwiseClone();
+        }
     }
 }

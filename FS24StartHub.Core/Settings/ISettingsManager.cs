@@ -28,5 +28,10 @@ namespace FS24StartHub.Core.Settings
         /// Validates simulator-related configuration.
         /// </summary>
         bool ValidateSimConfiguration(AppSettings settings);
+
+        /// <summary>
+        /// Triggered when settings are reloaded from disk.
+        /// </summary>
+        event Action? SettingsReloaded;
     }
 }

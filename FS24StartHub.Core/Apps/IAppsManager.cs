@@ -54,7 +54,5 @@ namespace FS24StartHub.Core.Apps
         /// <param name="id">The ID of the startup item to update.</param>
         /// <param name="isEnabled">The new Enabled state.</param>
         void SetStartupItemEnabled(string id, bool isEnabled);
-
-        void Reload();
     }
 }

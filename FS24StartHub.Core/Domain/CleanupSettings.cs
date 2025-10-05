@@ -7,5 +7,10 @@
     {
         public int CareerAutosaveLimit { get; set; }
         public int ConfigAutosaveLimit { get; set; }
+
+        public CleanupSettings Clone()
+        {
+            return (CleanupSettings)MemberwiseClone();
+        }
     }
 }

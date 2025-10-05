@@ -15,19 +15,10 @@
         public int? DelayAfterMs { get; set; }
         public string? DisplayName { get; set; }
 
-        public StartupItem() { }
-
-        public StartupItem(StartupItem other)
+        // Clone method
+        public StartupItem Clone()
         {
-            Id = other.Id;
-            Type = other.Type;
-            Path = other.Path;
-            RunOption = other.RunOption;
-            Order = other.Order;
-            Enabled = other.Enabled;
-            DelayBeforeMs = other.DelayBeforeMs;
-            DelayAfterMs = other.DelayAfterMs;
-            DisplayName = other.DisplayName;
+            return (StartupItem)this.MemberwiseClone();
         }
     }
 

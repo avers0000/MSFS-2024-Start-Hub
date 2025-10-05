@@ -15,5 +15,12 @@ namespace FS24StartHub.Core.Domain
 
         [JsonIgnore]
         public List<CareerDump> Dumps { get; set; } = new();
+
+        public Career Clone()
+        {
+            var clone = (Career)MemberwiseClone();
+            clone.Dumps = [.. Dumps.Select(d => d.Clone())];
+            return clone;
+        }
     }
 }

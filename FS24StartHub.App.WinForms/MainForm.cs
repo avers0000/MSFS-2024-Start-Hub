@@ -146,7 +146,7 @@ namespace FS24StartHub.App.WinForms
 
         private void btnAppsReload_Click(object sender, EventArgs e)
         {
-            _appsManager.Reload();
+            _settingsManager.Load();
         }
 
         private void UpdateAppsButtonsStates()

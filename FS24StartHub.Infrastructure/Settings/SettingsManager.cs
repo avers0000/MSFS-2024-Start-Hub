@@ -14,6 +14,9 @@ namespace FS24StartHub.Infrastructure.Settings
 
         private AppSettings? _currentSettings;
 
+        public event Action? SettingsChanged; // Triggered when settings are updated
+        public event Action? SettingsReloaded; // Triggered when settings are reloaded from file
+
         public SettingsManager(string baseFolderPath, IFileStorage fileStorage, IJsonStorage jsonStorage, ILogManager logManager)
         {
             _settingsPath = Path.Combine(baseFolderPath, "fs24sh.json");
@@ -22,7 +25,8 @@ namespace FS24StartHub.Infrastructure.Settings
             _logManager = logManager;
         }
 
-        public AppSettings? CurrentSettings => _currentSettings;
+        // Return a copy of the current settings to prevent external modifications
+        public AppSettings? CurrentSettings => _currentSettings?.Clone();
 
         public AppSettings Load()
         {
@@ -40,6 +44,10 @@ namespace FS24StartHub.Infrastructure.Settings
 
             _logManager.Info("Settings loaded successfully.", "SettingsManager", "SettingsLoaded");
             _currentSettings = settings;
+
+            // Trigger the SettingsReloaded event
+            SettingsReloaded?.Invoke();
+
             return settings;
         }
 
@@ -84,7 +92,7 @@ namespace FS24StartHub.Infrastructure.Settings
 
         public void UpdateStartupItems(IEnumerable<StartupItem> items)
         {
-            _currentSettings!.StartupItems = items.ToList();
+            _currentSettings!.StartupItems = [..items];
             Save();
         }
 
@@ -94,6 +102,9 @@ namespace FS24StartHub.Infrastructure.Settings
             {
                 _jsonStorage.Save(_settingsPath, _currentSettings);
                 _logManager.Info("Settings saved successfully.", "SettingsManager", "SettingsSaved");
+
+                // Trigger the SettingsChanged event
+                SettingsChanged?.Invoke();
             }
             catch (Exception ex)
             {

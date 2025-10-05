@@ -105,17 +105,20 @@ namespace FS24StartHub.Tests.Apps
             // Arrange
             var item1 = new StartupItem { Id = Guid.NewGuid().ToString(), Path = "C:\\item1.exe", RunOption = RunOption.BeforeSimStarts, Order = 1 };
             var item2 = new StartupItem { Id = Guid.NewGuid().ToString(), Path = "C:\\item2.exe", RunOption = RunOption.BeforeSimStarts, Order = 2 };
+            var item3 = new StartupItem { Id = Guid.NewGuid().ToString(), Path = "C:\\item3.exe", RunOption = RunOption.BeforeSimStarts, Order = 3 };
             _appsManager.AddStartupItem(item1);
             _appsManager.AddStartupItem(item2);
+            _appsManager.AddStartupItem(item3);
 
-            // Act
-            _appsManager.MoveStartupItem(item2.Id, 0);
+            // Act: Move item3 up by one position
+            _appsManager.MoveStartupItem(item3.Id, moveDown: false);
 
             // Assert
             var items = _appsManager.GetStartupItems(RunOption.BeforeSimStarts).ToList();
-            Assert.AreEqual(2, items.Count);
-            Assert.AreEqual("C:\\item2.exe", items[0].Path);
-            Assert.AreEqual("C:\\item1.exe", items[1].Path);
+            Assert.AreEqual(3, items.Count);
+            Assert.AreEqual("C:\\item1.exe", items[0].Path); // item1 should remain first
+            Assert.AreEqual("C:\\item3.exe", items[1].Path); // item3 should now be second
+            Assert.AreEqual("C:\\item2.exe", items[2].Path); // item2 should now be third
         }
     }
 }
