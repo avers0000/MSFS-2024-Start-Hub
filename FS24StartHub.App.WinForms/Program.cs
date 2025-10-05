@@ -1,11 +1,12 @@
-﻿using FS24StartHub.Core.Domain;
+﻿using FS24StartHub.Core.Apps;
+using FS24StartHub.Core.Domain;
 using FS24StartHub.Core.Logging;
 using FS24StartHub.Core.Storage;
+using FS24StartHub.Infrastructure.Apps;
 using FS24StartHub.Infrastructure.Helpers;
 using FS24StartHub.Infrastructure.Logging;
 using FS24StartHub.Infrastructure.Settings;
 using FS24StartHub.Infrastructure.Storage;
-using System.Collections.Generic;
 
 namespace FS24StartHub.App.WinForms
 {
@@ -113,7 +114,11 @@ namespace FS24StartHub.App.WinForms
                 return;
             }
 
-            Application.Run(new MainForm(settingsManager, logManager));
+            // Initialize AppsManager
+            IAppsManager appsManager = new AppsManager(settingsManager, logManager);
+
+            // Run the main form
+            Application.Run(new MainForm(settingsManager, appsManager, logManager));
         }
     }
 }

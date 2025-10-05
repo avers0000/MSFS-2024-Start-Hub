@@ -1,21 +1,28 @@
 ﻿using FS24StartHub.Core.Storage;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace FS24StartHub.Infrastructure.Storage
 {
     public class JsonStorage : IJsonStorage
     {
         private readonly IFileStorage _fileStorage;
+        private readonly JsonSerializerOptions _jsonOptions;
 
         public JsonStorage(IFileStorage fileStorage)
         {
             _fileStorage = fileStorage;
+            _jsonOptions = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Converters = { new JsonStringEnumConverter() }
+            };
         }
 
         public T Load<T>(string path)
         {
             var json = _fileStorage.ReadAllText(path);
-            return JsonSerializer.Deserialize<T>(json)!;
+            return JsonSerializer.Deserialize<T>(json, _jsonOptions)!;
         }
 
         public bool TryLoad<T>(string path, out T? result)
@@ -34,11 +41,7 @@ namespace FS24StartHub.Infrastructure.Storage
 
         public void Save<T>(string path, T data)
         {
-            var json = JsonSerializer.Serialize(data, new JsonSerializerOptions
-            {
-                WriteIndented = true
-            });
-
+            var json = JsonSerializer.Serialize(data, _jsonOptions);
             _fileStorage.WriteAllText(path, json);
         }
     }

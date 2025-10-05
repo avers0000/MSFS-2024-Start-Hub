@@ -20,6 +20,11 @@ namespace FS24StartHub.Core.Settings
         void Update(AppSettings settings);
 
         /// <summary>
+        /// Updates the list of startup items and saves to disk.
+        /// </summary>
+        void UpdateStartupItems(IEnumerable<StartupItem> items);
+
+        /// <summary>
         /// Validates simulator-related configuration.
         /// </summary>
         bool ValidateSimConfiguration(AppSettings settings);

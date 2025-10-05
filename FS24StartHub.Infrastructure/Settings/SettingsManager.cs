@@ -82,6 +82,12 @@ namespace FS24StartHub.Infrastructure.Settings
             return true;
         }
 
+        public void UpdateStartupItems(IEnumerable<StartupItem> items)
+        {
+            _currentSettings!.StartupItems = items.ToList();
+            Save();
+        }
+
         private void Save()
         {
             try
