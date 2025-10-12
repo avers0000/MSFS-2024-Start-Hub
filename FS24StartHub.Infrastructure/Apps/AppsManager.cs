@@ -194,6 +194,13 @@ namespace FS24StartHub.Infrastructure.Apps
             }
         }
 
+        public StartupItem? GetStartupItemById(string id)
+        {
+            // Search in both lists and return a clone of the first match
+            return _beforeStartupItems.FirstOrDefault(item => item.Id == id)?.Clone()
+                ?? _afterStartupItems.FirstOrDefault(item => item.Id == id)?.Clone();
+        }
+
         private void ReorderStartupItems()
         {
             for (int i = 0; i < _beforeStartupItems.Count; i++)

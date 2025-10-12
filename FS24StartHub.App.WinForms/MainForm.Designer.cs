@@ -31,11 +31,13 @@
             btnStart = new Button();
             btnExit = new Button();
             gbApps = new GroupBox();
+            btnAppsRemove = new Button();
             btnAppsReload = new Button();
             btnAppsMoveDown = new Button();
             btnAppsMoveUp = new Button();
             clbApps = new FS24StartHub.App.WinForms.Controls.CustomCheckedListBox();
-            btnAppsRemove = new Button();
+            btnAppsAdd = new Button();
+            btnAppsEdit = new Button();
             gbApps.SuspendLayout();
             SuspendLayout();
             // 
@@ -63,6 +65,8 @@
             // 
             // gbApps
             // 
+            gbApps.Controls.Add(btnAppsEdit);
+            gbApps.Controls.Add(btnAppsAdd);
             gbApps.Controls.Add(btnAppsRemove);
             gbApps.Controls.Add(btnAppsReload);
             gbApps.Controls.Add(btnAppsMoveDown);
@@ -75,6 +79,16 @@
             gbApps.TabIndex = 2;
             gbApps.TabStop = false;
             gbApps.Text = "Startup Applications and Scripts";
+            // 
+            // btnAppsRemove
+            // 
+            btnAppsRemove.Location = new Point(356, 83);
+            btnAppsRemove.Name = "btnAppsRemove";
+            btnAppsRemove.Size = new Size(75, 23);
+            btnAppsRemove.TabIndex = 4;
+            btnAppsRemove.Text = "Remove";
+            btnAppsRemove.UseVisualStyleBackColor = true;
+            btnAppsRemove.Click += btnAppsRemove_Click;
             // 
             // btnAppsReload
             // 
@@ -116,15 +130,25 @@
             clbApps.ItemCheck += clbApps_ItemCheck;
             clbApps.SelectedIndexChanged += clbApps_SelectedIndexChanged;
             // 
-            // btnAppsRemove
+            // btnAppsAdd
             // 
-            btnAppsRemove.Location = new Point(356, 81);
-            btnAppsRemove.Name = "btnAppsRemove";
-            btnAppsRemove.Size = new Size(75, 23);
-            btnAppsRemove.TabIndex = 4;
-            btnAppsRemove.Text = "Remove";
-            btnAppsRemove.UseVisualStyleBackColor = true;
-            btnAppsRemove.Click += btnAppsRemove_Click;
+            btnAppsAdd.Location = new Point(356, 25);
+            btnAppsAdd.Name = "btnAppsAdd";
+            btnAppsAdd.Size = new Size(75, 23);
+            btnAppsAdd.TabIndex = 5;
+            btnAppsAdd.Text = "Add...";
+            btnAppsAdd.UseVisualStyleBackColor = true;
+            btnAppsAdd.Click += btnAppsAdd_Click;
+            // 
+            // btnAppsEdit
+            // 
+            btnAppsEdit.Location = new Point(356, 54);
+            btnAppsEdit.Name = "btnAppsEdit";
+            btnAppsEdit.Size = new Size(75, 23);
+            btnAppsEdit.TabIndex = 6;
+            btnAppsEdit.Text = "Edit...";
+            btnAppsEdit.UseVisualStyleBackColor = true;
+            btnAppsEdit.Click += btnAppsEdit_Click;
             // 
             // MainForm
             // 
@@ -153,5 +177,7 @@
         private Button btnAppsMoveDown;
         private Button btnAppsReload;
         private Button btnAppsRemove;
+        private Button btnAppsAdd;
+        private Button btnAppsEdit;
     }
 }

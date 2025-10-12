@@ -6,7 +6,7 @@
     public class StartupItem
     {
         public string Id { get; set; } = string.Empty;
-        public StartupItemType Type { get; set; }
+        public StartupItemType Type { get; set; } = StartupItemType.App;
         public string Path { get; set; } = string.Empty;
         public RunOption RunOption { get; set; } = RunOption.BeforeSimStarts;
         public int Order { get; set; }
@@ -21,5 +21,4 @@
             return (StartupItem)this.MemberwiseClone();
         }
     }
-
 }

@@ -162,6 +162,7 @@ namespace FS24StartHub.App.WinForms
                 btnAppsMoveDown.Enabled = selectedIndex < clbApps.Items.Count - 1;
 
                 btnAppsRemove.Enabled = true;
+                btnAppsEdit.Enabled = true;
             }
             else
             {
@@ -169,6 +170,7 @@ namespace FS24StartHub.App.WinForms
                 btnAppsMoveUp.Enabled = false;
                 btnAppsMoveDown.Enabled = false;
                 btnAppsRemove.Enabled = false;
+                btnAppsEdit.Enabled = false;
             }
         }
 
@@ -196,6 +198,21 @@ namespace FS24StartHub.App.WinForms
 
                 // Remove the selected item
                 _appsManager.RemoveStartupItem(selectedItem.Id);
+            }
+        }
+
+        private void btnAppsAdd_Click(object sender, EventArgs e)
+        {
+            using var form = new StartupItemForm(_appsManager);
+            form.ShowDialog();
+        }
+
+        private void btnAppsEdit_Click(object sender, EventArgs e)
+        {
+            if (clbApps.SelectedItem is CustomCheckedListBoxItem selectedItem && !selectedItem.Readonly)
+            {
+                using var form = new StartupItemForm(_appsManager, selectedItem.Id);
+                form.ShowDialog();
             }
         }
     }
