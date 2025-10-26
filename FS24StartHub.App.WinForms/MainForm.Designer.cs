@@ -31,13 +31,14 @@
             btnStart = new Button();
             btnExit = new Button();
             gbApps = new GroupBox();
+            btnAppsEdit = new Button();
+            btnAppsAdd = new Button();
             btnAppsRemove = new Button();
             btnAppsReload = new Button();
             btnAppsMoveDown = new Button();
             btnAppsMoveUp = new Button();
             clbApps = new FS24StartHub.App.WinForms.Controls.CustomCheckedListBox();
-            btnAppsAdd = new Button();
-            btnAppsEdit = new Button();
+            btnSave = new Button();
             gbApps.SuspendLayout();
             SuspendLayout();
             // 
@@ -55,9 +56,9 @@
             // btnExit
             // 
             btnExit.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnExit.Location = new Point(63, 365);
+            btnExit.Location = new Point(228, 365);
             btnExit.Name = "btnExit";
-            btnExit.Size = new Size(320, 40);
+            btnExit.Size = new Size(155, 40);
             btnExit.TabIndex = 1;
             btnExit.Text = "Exit";
             btnExit.UseVisualStyleBackColor = true;
@@ -79,6 +80,26 @@
             gbApps.TabIndex = 2;
             gbApps.TabStop = false;
             gbApps.Text = "Startup Applications and Scripts";
+            // 
+            // btnAppsEdit
+            // 
+            btnAppsEdit.Location = new Point(356, 54);
+            btnAppsEdit.Name = "btnAppsEdit";
+            btnAppsEdit.Size = new Size(75, 23);
+            btnAppsEdit.TabIndex = 6;
+            btnAppsEdit.Text = "Edit...";
+            btnAppsEdit.UseVisualStyleBackColor = true;
+            btnAppsEdit.Click += btnAppsEdit_Click;
+            // 
+            // btnAppsAdd
+            // 
+            btnAppsAdd.Location = new Point(356, 25);
+            btnAppsAdd.Name = "btnAppsAdd";
+            btnAppsAdd.Size = new Size(75, 23);
+            btnAppsAdd.TabIndex = 5;
+            btnAppsAdd.Text = "Add...";
+            btnAppsAdd.UseVisualStyleBackColor = true;
+            btnAppsAdd.Click += btnAppsAdd_Click;
             // 
             // btnAppsRemove
             // 
@@ -130,31 +151,24 @@
             clbApps.ItemCheck += clbApps_ItemCheck;
             clbApps.SelectedIndexChanged += clbApps_SelectedIndexChanged;
             // 
-            // btnAppsAdd
+            // btnSave
             // 
-            btnAppsAdd.Location = new Point(356, 25);
-            btnAppsAdd.Name = "btnAppsAdd";
-            btnAppsAdd.Size = new Size(75, 23);
-            btnAppsAdd.TabIndex = 5;
-            btnAppsAdd.Text = "Add...";
-            btnAppsAdd.UseVisualStyleBackColor = true;
-            btnAppsAdd.Click += btnAppsAdd_Click;
-            // 
-            // btnAppsEdit
-            // 
-            btnAppsEdit.Location = new Point(356, 54);
-            btnAppsEdit.Name = "btnAppsEdit";
-            btnAppsEdit.Size = new Size(75, 23);
-            btnAppsEdit.TabIndex = 6;
-            btnAppsEdit.Text = "Edit...";
-            btnAppsEdit.UseVisualStyleBackColor = true;
-            btnAppsEdit.Click += btnAppsEdit_Click;
+            btnSave.Enabled = false;
+            btnSave.Font = new Font("Segoe UI", 14.25F);
+            btnSave.Location = new Point(63, 365);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(155, 40);
+            btnSave.TabIndex = 3;
+            btnSave.Text = "Save";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(464, 415);
+            Controls.Add(btnSave);
             Controls.Add(gbApps);
             Controls.Add(btnExit);
             Controls.Add(btnStart);
@@ -179,5 +193,6 @@
         private Button btnAppsRemove;
         private Button btnAppsAdd;
         private Button btnAppsEdit;
+        private Button btnSave;
     }
 }

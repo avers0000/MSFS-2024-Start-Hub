@@ -1,4 +1,6 @@
-﻿using FS24StartHub.Core.Launcher;
+﻿using FS24StartHub.Core.Apps;
+using FS24StartHub.Core.Domain;
+using FS24StartHub.Core.Launcher;
 using FS24StartHub.Core.Launcher.Progress;
 using FS24StartHub.Core.Launcher.Tasks;
 using FS24StartHub.Core.Logging;
@@ -17,14 +19,25 @@ namespace FS24StartHub.Infrastructure.Launcher
         private readonly IReadOnlyList<ILaunchTask> _tasks;
         private readonly ILogManager _logManager;
 
-        public SimLauncherManager(ILogManager logManager, ISettingsManager settingsManager)
+        public SimLauncherManager(ILogManager logManager, ISettingsManager settingsManager, IAppsManager appsManager)
         {
             _logManager = logManager;
 
-            _tasks = new List<ILaunchTask>
-            {
-                new LaunchSimulatorTask(logManager, settingsManager)
-            };
+            var tasks = new List<ILaunchTask>();
+
+            // Add the save task from AppsManager
+            tasks.Add(appsManager.GetSaveTask());
+
+            // Add tasks with RunOption.BeforeSimStarts
+            tasks.AddRange(appsManager.GetTasks(RunOption.BeforeSimStarts));
+
+            // Add the simulator launch task
+            tasks.Add(new LaunchSimulatorTask(logManager, settingsManager));
+
+            // Add tasks with RunOption.AfterSimStarts
+            tasks.AddRange(appsManager.GetTasks(RunOption.AfterSimStarts));
+
+            _tasks = tasks;
         }
 
         public async Task<LaunchResult> LaunchAsync(LaunchRequest request, IProgress<StepProgress>? progress, CancellationToken ct)

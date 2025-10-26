@@ -28,7 +28,7 @@ namespace FS24StartHub.App.WinForms
             LoadStartupItems();
 
             // Subscribe to changes in AppsManager
-            _appsManager.StartupItemsChanged += OnStartupItemsChanged;
+            _appsManager.DataChanged += OnStartupItemsChanged;
         }
 
         private void LoadStartupItems()
@@ -90,15 +90,25 @@ namespace FS24StartHub.App.WinForms
 
         private void OnStartupItemsChanged()
         {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(OnStartupItemsChanged));
+                return;
+            }
+
             if (isUpdating) return;
 
+            // Update the list of startup items
             LoadStartupItems();
+
+            // Call OnServiceDataChanged to enable the Save button
+            OnServiceDataChanged();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
             var request = new LaunchRequest();
-            var simLauncherManager = new SimLauncherManager(_logManager, _settingsManager);
+            var simLauncherManager = new SimLauncherManager(_logManager, _settingsManager, _appsManager);
 
             using var startForm = new StartForm(simLauncherManager, _logManager, request);
             var result = startForm.ShowDialog();
@@ -214,6 +224,31 @@ namespace FS24StartHub.App.WinForms
                 using var form = new StartupItemForm(_appsManager, selectedItem.Id);
                 form.ShowDialog();
             }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _settingsManager.Save([_appsManager]); 
+                MessageBox.Show("Settings saved successfully.", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                btnSave.Enabled = false; // Disable the button after saving
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to save settings: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnServiceDataChanged()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(OnServiceDataChanged));
+                return;
+            }
+
+            btnSave.Enabled = true; // Enable the Save button when settings change
         }
     }
 }

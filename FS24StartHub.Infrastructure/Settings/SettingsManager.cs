@@ -14,6 +14,8 @@ namespace FS24StartHub.Infrastructure.Settings
 
         private AppSettings? _currentSettings;
 
+        private bool _suppressChangeEvents = false;
+
         public event Action? SettingsChanged; // Triggered when settings are updated
         public event Action? SettingsReloaded; // Triggered when settings are reloaded from file
 
@@ -57,7 +59,12 @@ namespace FS24StartHub.Infrastructure.Settings
                 throw new ArgumentNullException(nameof(updatedSettings));
 
             _currentSettings = updatedSettings;
-            Save();
+
+            // Notify subscribers about the change
+            SettingsChanged?.Invoke();
+
+            // Call Save with an empty list of ISaveable
+            Save([]);
         }
 
         public bool ValidateSimConfiguration(AppSettings settings)
@@ -93,23 +100,91 @@ namespace FS24StartHub.Infrastructure.Settings
         public void UpdateStartupItems(IEnumerable<StartupItem> items)
         {
             _currentSettings!.StartupItems = [..items];
-            Save();
+            _logManager.Info("Startup items updated in memory.", "SettingsManager", "StartupItemsUpdated");
+
+            // Notify subscribers about the change only if events are not suppressed
+            if (!_suppressChangeEvents)
+            {
+                SettingsChanged?.Invoke();
+            }
         }
 
-        private void Save()
+        public void SaveStartupItems(IEnumerable<StartupItem> items)
         {
+            if (_currentSettings == null)
+            {
+                throw new InvalidOperationException("Current settings are not loaded.");
+            }
+
+            _currentSettings.StartupItems = items.ToList();
+
+            try
+            {
+                _jsonStorage.Save(_settingsPath, _currentSettings);
+                _logManager.Info("Startup items saved successfully.", "SettingsManager", "StartupItemsSaved");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logManager.Error("Access denied while saving startup items.", "SettingsManager", ex);
+                throw;
+            }
+            catch (IOException ex)
+            {
+                _logManager.Error("I/O error occurred while saving startup items.", "SettingsManager", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logManager.Error("Unexpected error occurred while saving startup items.", "SettingsManager", ex);
+                throw;
+            }
+        }
+
+        public void Save(IEnumerable<ISaveable> saveableServices)
+        {
+            _suppressChangeEvents = true; // Suppress events during the save process
+            bool anyServiceChanges = false; // Track if any service reported changes
+
+            // Update data from all services
+            foreach (var service in saveableServices)
+            {
+                if (service.HasChanges()) // Check if there are unsaved changes
+                {
+                    service.UpdateChanges(); // Update data in currentSettings through specific methods
+                    anyServiceChanges = true; // Mark that changes were made
+                }
+            }
+
+            // Save the updated currentSettings to the file
             try
             {
                 _jsonStorage.Save(_settingsPath, _currentSettings);
                 _logManager.Info("Settings saved successfully.", "SettingsManager", "SettingsSaved");
-
-                // Trigger the SettingsChanged event
-                SettingsChanged?.Invoke();
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logManager.Error("Access denied while saving settings.", "SettingsManager", ex);
+                throw;
+            }
+            catch (IOException ex)
+            {
+                _logManager.Error("I/O error occurred while saving settings.", "SettingsManager", ex);
+                throw;
             }
             catch (Exception ex)
             {
-                _logManager.Error($"Failed to save settings: {ex.Message}", "SettingsManager", ex);
+                _logManager.Error("Unexpected error occurred while saving settings.", "SettingsManager", ex);
                 throw;
+            }
+            finally
+            {
+                _suppressChangeEvents = false; // Ensure events are re-enabled after saving
+            }
+
+            // Notify subscribers about the change if there were any changes
+            if (anyServiceChanges)
+            {
+                SettingsChanged?.Invoke();
             }
         }
     }

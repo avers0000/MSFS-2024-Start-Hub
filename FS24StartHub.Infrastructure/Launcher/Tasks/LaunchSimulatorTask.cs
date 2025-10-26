@@ -34,6 +34,7 @@ namespace FS24StartHub.Infrastructure.Launcher.Tasks
 
                 if (Utility.IsSimulatorRunning())
                 {
+                    sw.Stop(); // Stop measuring time
                     _logManager.Warn("Simulator already running. Launch aborted.", Module);
                     return new StepProgress(Name, ProgressType.StepCompleted, "Simulator already running", null, sw.Elapsed, false, "Simulator already running");
                 }
@@ -43,6 +44,8 @@ namespace FS24StartHub.Infrastructure.Launcher.Tasks
 
                 var settings = _settingsManager.CurrentSettings!;
                 var success = await TryLaunchSimulatorAsync(settings, ct);
+
+                sw.Stop(); // Stop measuring time
 
                 if (success)
                 {
@@ -57,11 +60,13 @@ namespace FS24StartHub.Infrastructure.Launcher.Tasks
             }
             catch (Win32Exception ex)
             {
+                sw.Stop(); // Stop measuring time
                 _logManager.Error("Failed to start simulator: " + ex.Message, Module);
                 return new StepProgress(Name, ProgressType.StepCompleted, "Failed to start simulator", null, sw.Elapsed, false, ex.Message);
             }
             catch (InvalidOperationException ex)
             {
+                sw.Stop(); // Stop measuring time
                 _logManager.Error("Invalid process configuration: " + ex.Message, Module);
                 return new StepProgress(Name, ProgressType.StepCompleted, "Invalid process configuration", null, sw.Elapsed, false, ex.Message);
             }

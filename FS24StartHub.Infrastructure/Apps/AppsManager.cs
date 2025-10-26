@@ -1,11 +1,14 @@
 ﻿using FS24StartHub.Core.Apps;
 using FS24StartHub.Core.Domain;
+using FS24StartHub.Core.Launcher.Tasks;
 using FS24StartHub.Core.Logging;
 using FS24StartHub.Core.Settings;
+using FS24StartHub.Infrastructure.Apps.Tasks;
+using FS24StartHub.Infrastructure.Launcher.Tasks;
 
 namespace FS24StartHub.Infrastructure.Apps
 {
-    public class AppsManager : IAppsManager
+    public class AppsManager : IAppsManager, ISaveable
     {
         private readonly ISettingsManager _settingsManager;
         private readonly ILogManager _logManager;
@@ -14,7 +17,7 @@ namespace FS24StartHub.Infrastructure.Apps
 
         public bool IsDirty { get; private set; }
 
-        public event Action? StartupItemsChanged;
+        public event Action? DataChanged;
 
         public AppsManager(ISettingsManager settingsManager, ILogManager logManager)
         {
@@ -52,7 +55,7 @@ namespace FS24StartHub.Infrastructure.Apps
 
             _logManager.Info($"Startup item added: {item.DisplayName ?? item.Path}", "AppsManager", "ItemAdded");
             ReorderStartupItems();
-            OnStartupItemsChanged();
+            OnDataChanged();
         }
 
         public void UpdateStartupItem(StartupItem updatedItem)
@@ -83,7 +86,7 @@ namespace FS24StartHub.Infrastructure.Apps
 
                 _logManager.Info($"Startup item updated: {updatedItem.DisplayName ?? updatedItem.Path}", "AppsManager", "ItemUpdated");
                 ReorderStartupItems();
-                OnStartupItemsChanged();
+                OnDataChanged();
             }
         }
 
@@ -96,7 +99,7 @@ namespace FS24StartHub.Infrastructure.Apps
             {
                 item.Enabled = isEnabled;
                 _logManager.Info($"Startup item '{item.DisplayName ?? item.Path}' enabled state set to {isEnabled}.", "AppsManager", "ItemEnabledUpdated");
-                OnStartupItemsChanged();
+                OnDataChanged();
             }
             else
             {
@@ -115,7 +118,7 @@ namespace FS24StartHub.Infrastructure.Apps
                 targetList.Remove(item);
                 _logManager.Info($"Startup item removed: {item.DisplayName ?? item.Path}", "AppsManager", "ItemRemoved");
                 ReorderStartupItems();
-                OnStartupItemsChanged();
+                OnDataChanged();
             }
 
             return item;
@@ -171,27 +174,47 @@ namespace FS24StartHub.Infrastructure.Apps
 
             _logManager.Info($"Startup item '{item.DisplayName ?? item.Path}' moved to index {newIndex} in group {item.RunOption}.", "AppsManager", "ItemMoved");
             ReorderStartupItems();
-            OnStartupItemsChanged();
+            OnDataChanged();
+        }
+
+        public void UpdateChanges()
+        {
+            // Skip update if there are no changes
+            if (!IsDirty)
+            {
+                return;
+            }
+
+            // Combine all startup items from both lists
+            var allStartupItems = _beforeStartupItems.Concat(_afterStartupItems).ToList();
+
+            // Update CurrentSettings in SettingsManager
+            _settingsManager.UpdateStartupItems(allStartupItems);
+
+            // Reset the dirty flag
+            IsDirty = false;
         }
 
         public void SaveChanges()
         {
-            if (IsDirty)
+            if (!IsDirty)
             {
-                try
-                {
-                    // Combine lists before saving
-                    var allItems = _beforeStartupItems.Concat(_afterStartupItems).ToList();
-                    _settingsManager.UpdateStartupItems(allItems);
-                    IsDirty = false;
-                    _logManager.Info("Startup items saved successfully.", "AppsManager", "ItemsSaved");
-                }
-                catch (Exception ex)
-                {
-                    _logManager.Error("Failed to save startup items.", "AppsManager", ex);
-                    throw;
-                }
+                return; // No changes to save
             }
+
+            // Combine all startup items from both lists
+            var allStartupItems = _beforeStartupItems.Concat(_afterStartupItems).ToList();
+
+            // Save startup items to the file
+            _settingsManager.SaveStartupItems(allStartupItems);
+
+            // Reset the dirty flag
+            IsDirty = false;
+        }
+
+        public bool HasChanges()
+        {
+            return IsDirty;
         }
 
         public StartupItem? GetStartupItemById(string id)
@@ -200,6 +223,13 @@ namespace FS24StartHub.Infrastructure.Apps
             return _beforeStartupItems.FirstOrDefault(item => item.Id == id)?.Clone()
                 ?? _afterStartupItems.FirstOrDefault(item => item.Id == id)?.Clone();
         }
+
+        public ILaunchTask GetSaveTask()
+        {
+            return new SaveAppsManagerTask(this, _logManager);
+        }
+
+        public IEnumerable<ILaunchTask> GetTasks(RunOption runOption) => [new StartupItemsGroupTask(this, _logManager, runOption)];
 
         private void ReorderStartupItems()
         {
@@ -217,10 +247,10 @@ namespace FS24StartHub.Infrastructure.Apps
                 : _afterStartupItems;
         }
 
-        private void OnStartupItemsChanged()
+        private void OnDataChanged()
         {
             IsDirty = true;
-            StartupItemsChanged?.Invoke();
+            DataChanged?.Invoke();
         }
 
         private void LoadData()
@@ -238,7 +268,8 @@ namespace FS24StartHub.Infrastructure.Apps
                 .Where(i => i.RunOption == RunOption.AfterSimStarts)
                 .OrderBy(i => i.Order)]);
 
-            StartupItemsChanged?.Invoke();
+            DataChanged?.Invoke();
         }
+
     }
 }

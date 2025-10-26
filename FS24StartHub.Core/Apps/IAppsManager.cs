@@ -1,14 +1,11 @@
 using FS24StartHub.Core.Domain;
+using FS24StartHub.Core.Launcher.Tasks;
+using FS24StartHub.Core.Settings;
 
 namespace FS24StartHub.Core.Apps
 {
-    public interface IAppsManager
+    public interface IAppsManager : ISaveable
     {
-        /// <summary>
-        /// Event triggered when startup items are changed.
-        /// </summary>
-        event Action? StartupItemsChanged;
-
         /// <summary>
         /// Retrieves a copy of all startup items for the specified RunOption group.
         /// </summary>
@@ -44,11 +41,6 @@ namespace FS24StartHub.Core.Apps
         void MoveStartupItem(string id, bool moveDown);
 
         /// <summary>
-        /// Saves all changes to the startup items.
-        /// </summary>
-        void SaveChanges();
-
-        /// <summary>
         /// Updates the Enabled state of a startup item by its ID.
         /// </summary>
         /// <param name="id">The ID of the startup item to update.</param>
@@ -61,5 +53,12 @@ namespace FS24StartHub.Core.Apps
         /// <param name="id">The ID of the startup item to retrieve.</param>
         /// <returns>The startup item, or null if not found.</returns>
         StartupItem? GetStartupItemById(string id);
+
+        /// <summary>
+        /// Retrieves tasks for executing startup items.
+        /// </summary>
+        /// <param name="runOption">The run option for filtering tasks.</param>
+        /// <returns>A list of tasks.</returns>
+        IEnumerable<ILaunchTask> GetTasks(RunOption runOption);
     }
 }

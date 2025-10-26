@@ -2,6 +2,7 @@ using FS24StartHub.Core.Domain;
 using FS24StartHub.Core.Logging;
 using FS24StartHub.Core.Settings;
 using FS24StartHub.Infrastructure.Apps;
+using FS24StartHub.Infrastructure.Launcher.Tasks;
 using Moq;
 
 namespace FS24StartHub.Tests.Apps
@@ -119,6 +120,33 @@ namespace FS24StartHub.Tests.Apps
             Assert.AreEqual("C:\\item1.exe", items[0].Path); // item1 should remain first
             Assert.AreEqual("C:\\item3.exe", items[1].Path); // item3 should now be second
             Assert.AreEqual("C:\\item2.exe", items[2].Path); // item2 should now be third
+        }
+
+        [TestMethod]
+        public void GetTasks_ReturnsCorrectTasksForRunOption()
+        {
+            // Arrange
+            var startupItem1 = new StartupItem
+            {
+                Id = "1",
+                RunOption = RunOption.BeforeSimStarts,
+                Enabled = true
+            };
+            var startupItem2 = new StartupItem
+            {
+                Id = "2",
+                RunOption = RunOption.AfterSimStarts,
+                Enabled = true
+            };
+            _appsManager.AddStartupItem(startupItem1);
+            _appsManager.AddStartupItem(startupItem2);
+
+            // Act
+            var tasks = _appsManager.GetTasks(RunOption.BeforeSimStarts).ToList();
+
+            // Assert
+            Assert.AreEqual(1, tasks.Count, "The number of tasks returned is incorrect.");
+            Assert.IsInstanceOfType(tasks[0], typeof(StartupItemsGroupTask), "The task is not of the expected type.");
         }
     }
 }
