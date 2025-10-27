@@ -41,6 +41,7 @@
             btnAbort.TabIndex = 0;
             btnAbort.Text = "Abort";
             btnAbort.UseVisualStyleBackColor = true;
+            btnAbort.Click += btnAbort_Click;
             // 
             // lblStatus
             // 
@@ -62,7 +63,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(396, 116);
+            ClientSize = new Size(392, 112);
             ControlBox = false;
             Controls.Add(progressBar);
             Controls.Add(lblStatus);

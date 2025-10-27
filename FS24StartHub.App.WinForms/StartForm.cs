@@ -67,6 +67,5 @@ namespace FS24StartHub.App.WinForms
             btnAbort.Enabled = false;
             cts?.Cancel();
         }
-
     }
 }

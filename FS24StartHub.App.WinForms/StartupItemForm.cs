@@ -78,6 +78,47 @@ namespace FS24StartHub.App.WinForms
             StartupItem.DelayBeforeMs = numDelayBefore.Value == 0 ? null : (int?)(numDelayBefore.Value * 1000);
             StartupItem.DelayAfterMs = numDelayAfter.Value == 0 ? null : (int?)(numDelayAfter.Value * 1000);
 
+            // Check for duplicates across the entire list, excluding the current item if updating
+            var allItems = _appsManager.GetStartupItems(RunOption.BeforeSimStarts)
+                .Concat(_appsManager.GetStartupItems(RunOption.AfterSimStarts))
+                .Where(item => item.Id != StartupItem.Id) // Exclude the current item
+                .ToList();
+
+            // Check for duplicate DisplayName
+            if (!string.IsNullOrWhiteSpace(StartupItem.DisplayName))
+            {
+                var duplicateDisplayNameItem = allItems.FirstOrDefault(item =>
+                    !string.IsNullOrWhiteSpace(item.DisplayName) &&
+                    item.DisplayName.Equals(StartupItem.DisplayName, StringComparison.OrdinalIgnoreCase));
+
+                if (duplicateDisplayNameItem != null)
+                {
+                    MessageBox.Show(
+                        "An item with the same display name already exists. Please choose a different name.",
+                        "Duplicate Display Name",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    return; // Cancel the operation
+                }
+            }
+
+            // Check for duplicate Path
+            var duplicatePathItem = allItems.FirstOrDefault(item => item.Path.Equals(StartupItem.Path, StringComparison.OrdinalIgnoreCase));
+            if (duplicatePathItem != null)
+            {
+                var result = MessageBox.Show(
+                    "An item with the same path already exists. Are you sure you want to add a duplicate?",
+                    "Duplicate Path",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result == DialogResult.No)
+                {
+                    return; // Cancel the operation if the user does not confirm
+                }
+            }
+
             if (string.IsNullOrEmpty(StartupItem.Id))
             {
                 StartupItem.Id = Guid.NewGuid().ToString();

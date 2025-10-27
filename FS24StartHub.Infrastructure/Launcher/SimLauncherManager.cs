@@ -16,28 +16,26 @@ namespace FS24StartHub.Infrastructure.Launcher
     /// </summary>
     public sealed class SimLauncherManager : ISimLauncherManager
     {
-        private readonly IReadOnlyList<ILaunchTask> _tasks;
+        private readonly List<ILaunchTask> _tasks;
         private readonly ILogManager _logManager;
 
         public SimLauncherManager(ILogManager logManager, ISettingsManager settingsManager, IAppsManager appsManager)
         {
             _logManager = logManager;
 
-            var tasks = new List<ILaunchTask>();
+            _tasks = new List<ILaunchTask>();
 
             // Add the save task from AppsManager
-            tasks.Add(appsManager.GetSaveTask());
+            _tasks.Add(appsManager.GetSaveTask());
 
             // Add tasks with RunOption.BeforeSimStarts
-            tasks.AddRange(appsManager.GetTasks(RunOption.BeforeSimStarts));
+            _tasks.AddRange(appsManager.GetTasks(RunOption.BeforeSimStarts));
 
             // Add the simulator launch task
-            tasks.Add(new LaunchSimulatorTask(logManager, settingsManager));
+            _tasks.Add(new LaunchSimulatorTask(logManager, settingsManager));
 
             // Add tasks with RunOption.AfterSimStarts
-            tasks.AddRange(appsManager.GetTasks(RunOption.AfterSimStarts));
-
-            _tasks = tasks;
+            _tasks.AddRange(appsManager.GetTasks(RunOption.AfterSimStarts));
         }
 
         public async Task<LaunchResult> LaunchAsync(LaunchRequest request, IProgress<StepProgress>? progress, CancellationToken ct)
@@ -58,6 +56,12 @@ namespace FS24StartHub.Infrastructure.Launcher
                 };
             }
 
+            // Add WaitForSimulatorExitTask if KeepAppOpen is true
+            if (request.KeepAppOpen && !_tasks.Any(task => task is WaitForSimulatorExitTask))
+            {
+                _tasks.Add(new WaitForSimulatorExitTask(_logManager));
+            }
+
             foreach (var task in _tasks)
             {
                 ct.ThrowIfCancellationRequested();
@@ -74,7 +78,7 @@ namespace FS24StartHub.Infrastructure.Launcher
                 {
                     simulatorLaunched = true;
                 }
-                
+
                 if (!step.Success && !task.IsOptional && !simulatorLaunched)
                 {
                     _logManager.Error($"Task '{task.Name}' failed: {step.Error}", "SimLauncherManager");

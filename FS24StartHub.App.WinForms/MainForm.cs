@@ -29,6 +29,12 @@ namespace FS24StartHub.App.WinForms
 
             // Subscribe to changes in AppsManager
             _appsManager.DataChanged += OnStartupItemsChanged;
+
+            // Hide debug buttons in release mode
+#if !DEBUG
+            btnSave.Visible = false;
+            btnAppsReload.Visible = false;
+#endif
         }
 
         private void LoadStartupItems()
@@ -107,7 +113,11 @@ namespace FS24StartHub.App.WinForms
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            var request = new LaunchRequest();
+            var request = new LaunchRequest
+            {
+                KeepAppOpen = chbKeepOpen.Checked
+            };
+
             var simLauncherManager = new SimLauncherManager(_logManager, _settingsManager, _appsManager);
 
             using var startForm = new StartForm(simLauncherManager, _logManager, request);
@@ -230,7 +240,7 @@ namespace FS24StartHub.App.WinForms
         {
             try
             {
-                _settingsManager.Save([_appsManager]); 
+                _settingsManager.Save([_appsManager]);
                 MessageBox.Show("Settings saved successfully.", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 btnSave.Enabled = false; // Disable the button after saving
             }

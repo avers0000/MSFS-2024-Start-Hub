@@ -39,15 +39,16 @@
             btnAppsMoveUp = new Button();
             clbApps = new FS24StartHub.App.WinForms.Controls.CustomCheckedListBox();
             btnSave = new Button();
+            chbKeepOpen = new CheckBox();
             gbApps.SuspendLayout();
             SuspendLayout();
             // 
             // btnStart
             // 
             btnStart.Font = new Font("Segoe UI", 28F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnStart.Location = new Point(63, 218);
+            btnStart.Location = new Point(12, 218);
             btnStart.Name = "btnStart";
-            btnStart.Size = new Size(320, 141);
+            btnStart.Size = new Size(320, 111);
             btnStart.TabIndex = 0;
             btnStart.Text = "START";
             btnStart.UseVisualStyleBackColor = true;
@@ -56,9 +57,9 @@
             // btnExit
             // 
             btnExit.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnExit.Location = new Point(228, 365);
+            btnExit.Location = new Point(338, 289);
             btnExit.Name = "btnExit";
-            btnExit.Size = new Size(155, 40);
+            btnExit.Size = new Size(114, 40);
             btnExit.TabIndex = 1;
             btnExit.Text = "Exit";
             btnExit.UseVisualStyleBackColor = true;
@@ -155,19 +156,30 @@
             // 
             btnSave.Enabled = false;
             btnSave.Font = new Font("Segoe UI", 14.25F);
-            btnSave.Location = new Point(63, 365);
+            btnSave.Location = new Point(338, 243);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(155, 40);
+            btnSave.Size = new Size(114, 40);
             btnSave.TabIndex = 3;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = true;
             btnSave.Click += btnSave_Click;
             // 
+            // chbKeepOpen
+            // 
+            chbKeepOpen.AutoSize = true;
+            chbKeepOpen.Location = new Point(338, 218);
+            chbKeepOpen.Name = "chbKeepOpen";
+            chbKeepOpen.Size = new Size(82, 19);
+            chbKeepOpen.TabIndex = 4;
+            chbKeepOpen.Text = "Keep open";
+            chbKeepOpen.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(464, 415);
+            ClientSize = new Size(464, 339);
+            Controls.Add(chbKeepOpen);
             Controls.Add(btnSave);
             Controls.Add(gbApps);
             Controls.Add(btnExit);
@@ -179,6 +191,7 @@
             Text = "MSFS 2024 Start Hub";
             gbApps.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -194,5 +207,6 @@
         private Button btnAppsAdd;
         private Button btnAppsEdit;
         private Button btnSave;
+        private CheckBox chbKeepOpen;
     }
 }
