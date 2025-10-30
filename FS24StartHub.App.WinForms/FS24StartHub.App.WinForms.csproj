@@ -20,6 +20,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <AssemblyName>FS24StartHub</AssemblyName>
     <PlatformTarget>x64</PlatformTarget>
+    <ApplicationIcon>FS24StartHub.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -29,6 +30,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <IsPublishable>False</IsPublishable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="FS24StartHub.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="FS24StartHub.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FS24StartHub.Core\FS24StartHub.Core.csproj" />
