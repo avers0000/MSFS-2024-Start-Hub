@@ -260,5 +260,12 @@ namespace FS24StartHub.App.WinForms
 
             btnSave.Enabled = true; // Enable the Save button when settings change
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            UIStyler.ApplyStyleToAllButtons(this);
+            UIStyler.StyleCheckBox(chbKeepOpen);
+            UIStyler.StyleCustomCheckedListBox(clbApps);
+        }
     }
 }

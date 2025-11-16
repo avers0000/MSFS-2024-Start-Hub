@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             btnStart = new Button();
             btnExit = new Button();
-            gbApps = new GroupBox();
             btnAppsEdit = new Button();
             btnAppsAdd = new Button();
             btnAppsRemove = new Button();
@@ -41,148 +40,243 @@
             clbApps = new FS24StartHub.App.WinForms.Controls.CustomCheckedListBox();
             btnSave = new Button();
             chbKeepOpen = new CheckBox();
-            gbApps.SuspendLayout();
+            lblApps = new Label();
+            pnApps = new Panel();
+            pnApps.SuspendLayout();
             SuspendLayout();
             // 
             // btnStart
             // 
-            btnStart.Font = new Font("Segoe UI", 28F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnStart.Location = new Point(12, 218);
+            btnStart.BackColor = Color.Blue;
+            btnStart.FlatAppearance.BorderSize = 0;
+            btnStart.FlatStyle = FlatStyle.Flat;
+            btnStart.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnStart.ForeColor = Color.White;
+            btnStart.Location = new Point(430, 328);
             btnStart.Name = "btnStart";
+            btnStart.Padding = new Padding(10, 5, 0, 0);
             btnStart.Size = new Size(320, 111);
             btnStart.TabIndex = 0;
-            btnStart.Text = "START";
-            btnStart.UseVisualStyleBackColor = true;
+            btnStart.Tag = "Start";
+            btnStart.Text = "Start";
+            btnStart.TextAlign = ContentAlignment.TopLeft;
+            btnStart.UseVisualStyleBackColor = false;
             btnStart.Click += btnStart_Click;
             // 
             // btnExit
             // 
-            btnExit.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnExit.Location = new Point(338, 289);
+            btnExit.BackColor = Color.Transparent;
+            btnExit.FlatAppearance.BorderSize = 0;
+            btnExit.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
+            btnExit.FlatAppearance.MouseOverBackColor = Color.White;
+            btnExit.FlatStyle = FlatStyle.Flat;
+            btnExit.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnExit.ForeColor = Color.White;
+            btnExit.Location = new Point(21, 399);
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(114, 40);
-            btnExit.TabIndex = 1;
+            btnExit.TabIndex = 3;
             btnExit.Text = "Exit";
-            btnExit.UseVisualStyleBackColor = true;
+            btnExit.UseVisualStyleBackColor = false;
             btnExit.Click += btnExit_Click;
-            // 
-            // gbApps
-            // 
-            gbApps.Controls.Add(btnAppsEdit);
-            gbApps.Controls.Add(btnAppsAdd);
-            gbApps.Controls.Add(btnAppsRemove);
-            gbApps.Controls.Add(btnAppsReload);
-            gbApps.Controls.Add(btnAppsMoveDown);
-            gbApps.Controls.Add(btnAppsMoveUp);
-            gbApps.Controls.Add(clbApps);
-            gbApps.Location = new Point(12, 12);
-            gbApps.Name = "gbApps";
-            gbApps.Padding = new Padding(6);
-            gbApps.Size = new Size(440, 200);
-            gbApps.TabIndex = 2;
-            gbApps.TabStop = false;
-            gbApps.Text = "Startup Applications and Scripts";
             // 
             // btnAppsEdit
             // 
-            btnAppsEdit.Location = new Point(356, 54);
+            btnAppsEdit.BackColor = Color.Black;
+            btnAppsEdit.FlatAppearance.BorderSize = 0;
+            btnAppsEdit.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
+            btnAppsEdit.FlatAppearance.MouseOverBackColor = Color.White;
+            btnAppsEdit.FlatStyle = FlatStyle.Flat;
+            btnAppsEdit.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsEdit.ForeColor = Color.White;
+            btnAppsEdit.Location = new Point(375, 70);
             btnAppsEdit.Name = "btnAppsEdit";
-            btnAppsEdit.Size = new Size(75, 23);
-            btnAppsEdit.TabIndex = 6;
+            btnAppsEdit.Size = new Size(90, 30);
+            btnAppsEdit.TabIndex = 2;
             btnAppsEdit.Text = "Edit...";
-            btnAppsEdit.UseVisualStyleBackColor = true;
+            btnAppsEdit.UseVisualStyleBackColor = false;
             btnAppsEdit.Click += btnAppsEdit_Click;
             // 
             // btnAppsAdd
             // 
-            btnAppsAdd.Location = new Point(356, 25);
+            btnAppsAdd.BackColor = Color.Black;
+            btnAppsAdd.FlatAppearance.BorderSize = 0;
+            btnAppsAdd.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
+            btnAppsAdd.FlatAppearance.MouseOverBackColor = Color.White;
+            btnAppsAdd.FlatStyle = FlatStyle.Flat;
+            btnAppsAdd.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsAdd.ForeColor = Color.White;
+            btnAppsAdd.Location = new Point(375, 35);
             btnAppsAdd.Name = "btnAppsAdd";
-            btnAppsAdd.Size = new Size(75, 23);
-            btnAppsAdd.TabIndex = 5;
+            btnAppsAdd.Size = new Size(90, 30);
+            btnAppsAdd.TabIndex = 1;
             btnAppsAdd.Text = "Add...";
-            btnAppsAdd.UseVisualStyleBackColor = true;
+            btnAppsAdd.UseVisualStyleBackColor = false;
             btnAppsAdd.Click += btnAppsAdd_Click;
             // 
             // btnAppsRemove
             // 
-            btnAppsRemove.Location = new Point(356, 83);
+            btnAppsRemove.BackColor = Color.Black;
+            btnAppsRemove.FlatAppearance.BorderSize = 0;
+            btnAppsRemove.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
+            btnAppsRemove.FlatAppearance.MouseOverBackColor = Color.White;
+            btnAppsRemove.FlatStyle = FlatStyle.Flat;
+            btnAppsRemove.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsRemove.ForeColor = Color.White;
+            btnAppsRemove.Location = new Point(375, 105);
             btnAppsRemove.Name = "btnAppsRemove";
-            btnAppsRemove.Size = new Size(75, 23);
-            btnAppsRemove.TabIndex = 4;
+            btnAppsRemove.Size = new Size(90, 30);
+            btnAppsRemove.TabIndex = 3;
             btnAppsRemove.Text = "Remove";
-            btnAppsRemove.UseVisualStyleBackColor = true;
+            btnAppsRemove.UseVisualStyleBackColor = false;
             btnAppsRemove.Click += btnAppsRemove_Click;
             // 
             // btnAppsReload
             // 
-            btnAppsReload.Location = new Point(356, 110);
+            btnAppsReload.BackColor = Color.Black;
+            btnAppsReload.FlatAppearance.BorderSize = 0;
+            btnAppsReload.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
+            btnAppsReload.FlatAppearance.MouseOverBackColor = Color.White;
+            btnAppsReload.FlatStyle = FlatStyle.Flat;
+            btnAppsReload.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsReload.ForeColor = Color.White;
+            btnAppsReload.Location = new Point(375, 140);
             btnAppsReload.Name = "btnAppsReload";
-            btnAppsReload.Size = new Size(75, 23);
-            btnAppsReload.TabIndex = 3;
+            btnAppsReload.Size = new Size(90, 30);
+            btnAppsReload.TabIndex = 4;
             btnAppsReload.Text = "Reload";
-            btnAppsReload.UseVisualStyleBackColor = true;
+            btnAppsReload.UseVisualStyleBackColor = false;
             btnAppsReload.Click += btnAppsReload_Click;
             // 
             // btnAppsMoveDown
             // 
-            btnAppsMoveDown.Location = new Point(356, 168);
+            btnAppsMoveDown.BackColor = Color.Black;
+            btnAppsMoveDown.FlatAppearance.BorderSize = 0;
+            btnAppsMoveDown.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
+            btnAppsMoveDown.FlatAppearance.MouseOverBackColor = Color.White;
+            btnAppsMoveDown.FlatStyle = FlatStyle.Flat;
+            btnAppsMoveDown.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsMoveDown.ForeColor = Color.White;
+            btnAppsMoveDown.Location = new Point(375, 210);
             btnAppsMoveDown.Name = "btnAppsMoveDown";
-            btnAppsMoveDown.Size = new Size(75, 23);
-            btnAppsMoveDown.TabIndex = 2;
+            btnAppsMoveDown.Size = new Size(90, 30);
+            btnAppsMoveDown.TabIndex = 6;
             btnAppsMoveDown.Text = "Down";
-            btnAppsMoveDown.UseVisualStyleBackColor = true;
+            btnAppsMoveDown.UseVisualStyleBackColor = false;
             btnAppsMoveDown.Click += btnAppsMoveDown_Click;
             // 
             // btnAppsMoveUp
             // 
-            btnAppsMoveUp.Location = new Point(356, 139);
+            btnAppsMoveUp.BackColor = Color.Black;
+            btnAppsMoveUp.FlatAppearance.BorderSize = 0;
+            btnAppsMoveUp.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
+            btnAppsMoveUp.FlatAppearance.MouseOverBackColor = Color.White;
+            btnAppsMoveUp.FlatStyle = FlatStyle.Flat;
+            btnAppsMoveUp.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsMoveUp.ForeColor = Color.White;
+            btnAppsMoveUp.Location = new Point(375, 175);
             btnAppsMoveUp.Name = "btnAppsMoveUp";
-            btnAppsMoveUp.Size = new Size(75, 23);
-            btnAppsMoveUp.TabIndex = 1;
+            btnAppsMoveUp.Size = new Size(90, 30);
+            btnAppsMoveUp.TabIndex = 5;
             btnAppsMoveUp.Text = "Up";
-            btnAppsMoveUp.UseVisualStyleBackColor = true;
+            btnAppsMoveUp.UseVisualStyleBackColor = false;
             btnAppsMoveUp.Click += btnAppsMoveUp_Click;
             // 
             // clbApps
             // 
+            clbApps.BackColor = Color.DimGray;
+            clbApps.BorderStyle = BorderStyle.None;
+            clbApps.CustomCheckBoxBackColor = Color.FromArgb(0, 120, 215);
+            clbApps.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            clbApps.ForeColor = Color.White;
             clbApps.FormattingEnabled = true;
-            clbApps.Location = new Point(9, 25);
+            clbApps.IntegralHeight = false;
+            clbApps.ItemBackColor = Color.DimGray;
+            clbApps.ItemSelectedColor = Color.Empty;
+            clbApps.ItemSelectedForeColor = Color.Empty;
+            clbApps.Location = new Point(0, 35);
             clbApps.Name = "clbApps";
-            clbApps.Size = new Size(341, 166);
+            clbApps.ReadonlyForeColor = Color.Empty;
+            clbApps.ReadonlySelectedForeColor = Color.Empty;
+            clbApps.Size = new Size(350, 205);
             clbApps.TabIndex = 0;
+            clbApps.ToolTipBackColor = Color.SteelBlue;
+            clbApps.ToolTipForeColor = Color.White;
             clbApps.ItemCheck += clbApps_ItemCheck;
             clbApps.SelectedIndexChanged += clbApps_SelectedIndexChanged;
             // 
             // btnSave
             // 
+            btnSave.BackColor = Color.Transparent;
             btnSave.Enabled = false;
-            btnSave.Font = new Font("Segoe UI", 14.25F);
-            btnSave.Location = new Point(338, 243);
+            btnSave.FlatAppearance.BorderSize = 0;
+            btnSave.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
+            btnSave.FlatAppearance.MouseOverBackColor = Color.White;
+            btnSave.FlatStyle = FlatStyle.Flat;
+            btnSave.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold);
+            btnSave.ForeColor = Color.White;
+            btnSave.Location = new Point(141, 399);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(114, 40);
-            btnSave.TabIndex = 3;
+            btnSave.TabIndex = 4;
             btnSave.Text = "Save";
-            btnSave.UseVisualStyleBackColor = true;
+            btnSave.UseVisualStyleBackColor = false;
             btnSave.Click += btnSave_Click;
             // 
             // chbKeepOpen
             // 
             chbKeepOpen.AutoSize = true;
-            chbKeepOpen.Location = new Point(338, 218);
+            chbKeepOpen.BackColor = Color.Transparent;
+            chbKeepOpen.FlatAppearance.BorderColor = Color.Red;
+            chbKeepOpen.FlatAppearance.BorderSize = 3;
+            chbKeepOpen.FlatAppearance.CheckedBackColor = Color.White;
+            chbKeepOpen.FlatStyle = FlatStyle.Flat;
+            chbKeepOpen.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            chbKeepOpen.ForeColor = Color.White;
+            chbKeepOpen.Location = new Point(651, 292);
             chbKeepOpen.Name = "chbKeepOpen";
-            chbKeepOpen.Size = new Size(82, 19);
-            chbKeepOpen.TabIndex = 4;
+            chbKeepOpen.Size = new Size(89, 21);
+            chbKeepOpen.TabIndex = 2;
             chbKeepOpen.Text = "Keep open";
-            chbKeepOpen.UseVisualStyleBackColor = true;
+            chbKeepOpen.UseVisualStyleBackColor = false;
+            // 
+            // lblApps
+            // 
+            lblApps.AutoSize = true;
+            lblApps.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblApps.ForeColor = Color.White;
+            lblApps.Location = new Point(0, 7);
+            lblApps.Name = "lblApps";
+            lblApps.Size = new Size(228, 21);
+            lblApps.TabIndex = 7;
+            lblApps.Text = "Startup Applications && Scripts";
+            // 
+            // pnApps
+            // 
+            pnApps.BackColor = Color.Transparent;
+            pnApps.Controls.Add(lblApps);
+            pnApps.Controls.Add(btnAppsEdit);
+            pnApps.Controls.Add(btnAppsMoveUp);
+            pnApps.Controls.Add(btnAppsReload);
+            pnApps.Controls.Add(btnAppsRemove);
+            pnApps.Controls.Add(clbApps);
+            pnApps.Controls.Add(btnAppsAdd);
+            pnApps.Controls.Add(btnAppsMoveDown);
+            pnApps.Location = new Point(168, 37);
+            pnApps.Name = "pnApps";
+            pnApps.Size = new Size(465, 245);
+            pnApps.TabIndex = 1;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(464, 339);
+            BackgroundImage = Resources.bg_fs24sh;
+            BackgroundImageLayout = ImageLayout.Center;
+            ClientSize = new Size(784, 461);
+            Controls.Add(pnApps);
             Controls.Add(chbKeepOpen);
             Controls.Add(btnSave);
-            Controls.Add(gbApps);
             Controls.Add(btnExit);
             Controls.Add(btnStart);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -191,7 +285,9 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MSFS 2024 Start Hub";
-            gbApps.ResumeLayout(false);
+            Load += MainForm_Load;
+            pnApps.ResumeLayout(false);
+            pnApps.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -200,7 +296,6 @@
 
         private Button btnStart;
         private Button btnExit;
-        private GroupBox gbApps;
         private Controls.CustomCheckedListBox clbApps;
         private Button btnAppsMoveUp;
         private Button btnAppsMoveDown;
@@ -210,5 +305,7 @@
         private Button btnAppsEdit;
         private Button btnSave;
         private CheckBox chbKeepOpen;
+        private Label lblApps;
+        private Panel pnApps;
     }
 }
