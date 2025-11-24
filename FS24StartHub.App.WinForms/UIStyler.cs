@@ -1,7 +1,7 @@
 ﻿using FS24StartHub.App.WinForms.Controls;
 using Svg;
 using System.Drawing.Drawing2D;
-using System.IO;
+using System.Media;
 
 public static class UIStyler
 {
@@ -18,7 +18,13 @@ public static class UIStyler
         btn.MouseEnter += (s, e) =>
         {
             if (btn.Enabled)
+            {
                 btn.ForeColor = Color.Black;
+
+                var stream = FS24StartHub.App.WinForms.Resources.ResourceManager.GetStream("fs24sh-hover");
+                if (stream != null)
+                    new SoundPlayer(stream).Play();
+            }
         };
 
         btn.MouseLeave += (s, e) =>
@@ -27,6 +33,51 @@ public static class UIStyler
                 btn.ForeColor = Color.White;
         };
         
+        btn.Paint += (s, e) =>
+        {
+            if (!btn.Enabled)
+            {
+                TextRenderer.DrawText(
+                    e.Graphics,
+                    btn.Text,
+                    btn.Font,
+                    btn.ClientRectangle,
+                    Color.Gray,
+                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter
+                );
+            }
+        };
+    }
+
+    public static void StyleAccentButton(Button btn)
+    {
+        btn.FlatStyle = FlatStyle.Flat;
+        btn.FlatAppearance.BorderSize = 0;
+
+        // те же цвета, что и в StyleStartButton
+        btn.BackColor = Color.FromArgb(20, 72, 147);   // тёмно‑синий фон
+        btn.ForeColor = Color.White;
+
+        btn.FlatAppearance.MouseOverBackColor = Color.White;
+        btn.FlatAppearance.MouseDownBackColor = Color.LightGray;
+
+        btn.MouseEnter += (s, e) =>
+        {
+            if (btn.Enabled)
+            {
+                btn.ForeColor = Color.Black;
+                var stream = FS24StartHub.App.WinForms.Resources.ResourceManager.GetStream("fs24sh-hover");
+                if (stream != null)
+                    new SoundPlayer(stream).Play();
+            }
+        };
+
+        btn.MouseLeave += (s, e) =>
+        {
+            if (btn.Enabled)
+                btn.ForeColor = Color.White;
+        };
+
         btn.Paint += (s, e) =>
         {
             if (!btn.Enabled)
@@ -68,6 +119,9 @@ public static class UIStyler
 
             btn.ForeColor = hoverColor;
             svgColor = hoverColor;
+            var stream = FS24StartHub.App.WinForms.Resources.ResourceManager.GetStream("fs24sh-hover");
+            if (stream != null)
+                new SoundPlayer(stream).Play();
             btn.Invalidate();
         };
 
@@ -93,22 +147,33 @@ public static class UIStyler
 
             try
             {
-                string svgPath = Path.Combine(Application.StartupPath, "Resources", "FS24SH-arrow.svg");
-                var svgDoc = SvgDocument.Open(svgPath);
-
-                // Allow strokes to render outside viewBox
-                svgDoc.Overflow = SvgOverflow.Visible;
-
-                foreach (var path in svgDoc.Children.OfType<SvgPath>())
+                var obj = FS24StartHub.App.WinForms.Resources.FS24SH_arrow;
+                if (obj is byte[] bytes)
                 {
-                    path.Stroke = new SvgColourServer(svgColor);
-                    path.StrokeWidth = strokeWidth;
+                    string svgXml = System.Text.Encoding.UTF8.GetString(bytes);
+                    // дальше работа с SvgDocument
+
+                    var svgDoc = SvgDocument.FromSvg<SvgDocument>(svgXml);
+
+                    // Allow strokes to render outside viewBox
+                    svgDoc.Overflow = SvgOverflow.Visible;
+
+                    foreach (var path in svgDoc.Children.OfType<SvgPath>())
+                    {
+                        path.Stroke = new SvgColourServer(svgColor);
+                        path.StrokeWidth = strokeWidth;
+                    }
+
+                    using (var bmp = svgDoc.Draw(iconRect.Width, iconRect.Height))
+                    {
+                        e.Graphics.DrawImage(bmp, iconRect);
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("Resource 'FS24SH_arrow' is missing or wrong type");
                 }
 
-                using (var bmp = svgDoc.Draw(iconRect.Width, iconRect.Height))
-                {
-                    e.Graphics.DrawImage(bmp, iconRect);
-                }
             }
             catch (Exception ex)
             {
@@ -127,6 +192,9 @@ public static class UIStyler
                 {
                     case "Start":
                         StyleStartButton(btn);
+                        break;
+                    case "Accent":
+                        StyleAccentButton(btn);
                         break;
                     default:
                         StyleButton(btn);
@@ -215,5 +283,49 @@ public static class UIStyler
         listBox.ItemBackColor = Color.FromArgb(24, 36, 54);
         listBox.ItemSelectedColor = Color.FromArgb(64, 96, 128);
         listBox.ReadonlyForeColor = Color.SkyBlue;
+    }
+
+    public static void ApplyStyleToAllComboBoxes(Control parent)
+    {
+        foreach (Control control in parent.Controls)
+        {
+            if (control is ComboBox combo)
+            {
+                // Просто задаём цвета и стиль
+                combo.BackColor = Color.FromArgb(20, 72, 147);
+                combo.ForeColor = Color.White;
+                combo.FlatStyle = FlatStyle.Flat;
+            }
+
+            if (control.HasChildren)
+                ApplyStyleToAllComboBoxes(control);
+        }
+    }
+
+    public static void StyleTextBox(TextBox tb)
+    {
+        if (tb == null) return;
+
+        tb.BorderStyle = BorderStyle.None;
+        tb.AutoSize = false;   // иначе высота сбрасывается на "по шрифту"
+        tb.Height = 24;        // подгоняем под SideButtonsNumeric
+
+        tb.BackColor = Color.Black;
+        tb.ForeColor = Color.White;
+
+        // Дополнительно можно убрать лишние отступы
+        tb.Margin = new Padding(0, 2, 0, 2);
+    }
+
+    public static void ApplyStyleToAllTextBoxes(Control parent)
+    {
+        foreach (Control ctrl in parent.Controls)
+        {
+            if (ctrl is TextBox tb)
+                StyleTextBox(tb);
+
+            if (ctrl.HasChildren)
+                ApplyStyleToAllTextBoxes(ctrl);
+        }
     }
 }

@@ -33,15 +33,11 @@
 
   <ItemGroup>
     <None Remove="FS24StartHub.ico" />
-    <None Remove="Resources\FS24SH-arrow.svg" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="FS24StartHub.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\FS24SH-arrow.svg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -52,6 +48,27 @@
   <ItemGroup>
     <ProjectReference Include="..\FS24StartHub.Core\FS24StartHub.Core.csproj" />
     <ProjectReference Include="..\FS24StartHub.Infrastructure\FS24StartHub.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\FS24SH-arrow.svg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

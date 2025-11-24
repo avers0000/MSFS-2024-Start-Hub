@@ -70,7 +70,7 @@
             btnExit.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnExit.FlatAppearance.MouseOverBackColor = Color.White;
             btnExit.FlatStyle = FlatStyle.Flat;
-            btnExit.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnExit.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnExit.ForeColor = Color.White;
             btnExit.Location = new Point(21, 399);
             btnExit.Name = "btnExit";
@@ -140,7 +140,7 @@
             btnAppsReload.FlatStyle = FlatStyle.Flat;
             btnAppsReload.Font = new Font("Segoe UI Semibold", 9.75F);
             btnAppsReload.ForeColor = Color.White;
-            btnAppsReload.Location = new Point(375, 140);
+            btnAppsReload.Location = new Point(375, 175);
             btnAppsReload.Name = "btnAppsReload";
             btnAppsReload.Size = new Size(90, 30);
             btnAppsReload.TabIndex = 4;
@@ -157,7 +157,7 @@
             btnAppsMoveDown.FlatStyle = FlatStyle.Flat;
             btnAppsMoveDown.Font = new Font("Segoe UI Semibold", 9.75F);
             btnAppsMoveDown.ForeColor = Color.White;
-            btnAppsMoveDown.Location = new Point(375, 210);
+            btnAppsMoveDown.Location = new Point(375, 245);
             btnAppsMoveDown.Name = "btnAppsMoveDown";
             btnAppsMoveDown.Size = new Size(90, 30);
             btnAppsMoveDown.TabIndex = 6;
@@ -174,7 +174,7 @@
             btnAppsMoveUp.FlatStyle = FlatStyle.Flat;
             btnAppsMoveUp.Font = new Font("Segoe UI Semibold", 9.75F);
             btnAppsMoveUp.ForeColor = Color.White;
-            btnAppsMoveUp.Location = new Point(375, 175);
+            btnAppsMoveUp.Location = new Point(375, 210);
             btnAppsMoveUp.Name = "btnAppsMoveUp";
             btnAppsMoveUp.Size = new Size(90, 30);
             btnAppsMoveUp.TabIndex = 5;
@@ -198,7 +198,7 @@
             clbApps.Name = "clbApps";
             clbApps.ReadonlyForeColor = Color.Empty;
             clbApps.ReadonlySelectedForeColor = Color.Empty;
-            clbApps.Size = new Size(350, 205);
+            clbApps.Size = new Size(350, 240);
             clbApps.TabIndex = 0;
             clbApps.ToolTipBackColor = Color.SteelBlue;
             clbApps.ToolTipForeColor = Color.White;
@@ -213,7 +213,7 @@
             btnSave.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnSave.FlatAppearance.MouseOverBackColor = Color.White;
             btnSave.FlatStyle = FlatStyle.Flat;
-            btnSave.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold);
+            btnSave.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
             btnSave.ForeColor = Color.White;
             btnSave.Location = new Point(141, 399);
             btnSave.Name = "btnSave";
@@ -262,9 +262,9 @@
             pnApps.Controls.Add(clbApps);
             pnApps.Controls.Add(btnAppsAdd);
             pnApps.Controls.Add(btnAppsMoveDown);
-            pnApps.Location = new Point(168, 37);
+            pnApps.Location = new Point(21, 12);
             pnApps.Name = "pnApps";
-            pnApps.Size = new Size(465, 245);
+            pnApps.Size = new Size(465, 275);
             pnApps.TabIndex = 1;
             // 
             // MainForm
@@ -272,7 +272,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Resources.bg_fs24sh;
-            BackgroundImageLayout = ImageLayout.Center;
+            BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(784, 461);
             Controls.Add(pnApps);
             Controls.Add(chbKeepOpen);

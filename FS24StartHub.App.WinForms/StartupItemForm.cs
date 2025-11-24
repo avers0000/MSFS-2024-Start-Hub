@@ -203,5 +203,15 @@ namespace FS24StartHub.App.WinForms
 
             return true;
         }
+
+        private void StartupItemForm_Load(object sender, EventArgs e)
+        {
+            BackColor = ColorTranslator.FromHtml("#2f3439"); //ColorTranslator.FromHtml("#434b5a");
+            ForeColor = Color.White;
+            tlpStartupItem.BackColor = ColorTranslator.FromHtml("#262a2e"); //ColorTranslator.FromHtml("#3a3e44");
+            UIStyler.ApplyStyleToAllButtons(this);
+            UIStyler.ApplyStyleToAllComboBoxes(this);
+            //UIStyler.ApplyStyleToAllTextBoxes(this);
+        }
     }
 }
