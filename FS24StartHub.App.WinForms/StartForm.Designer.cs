@@ -35,27 +35,33 @@
             // 
             // btnAbort
             // 
-            btnAbort.Location = new Point(313, 85);
+            btnAbort.BackColor = Color.Black;
+            btnAbort.FlatAppearance.BorderSize = 0;
+            btnAbort.FlatStyle = FlatStyle.Flat;
+            btnAbort.Font = new Font("Segoe UI Semibold", 12F);
+            btnAbort.Location = new Point(344, 112);
             btnAbort.Name = "btnAbort";
-            btnAbort.Size = new Size(75, 23);
+            btnAbort.Size = new Size(96, 30);
             btnAbort.TabIndex = 0;
+            btnAbort.Tag = "Accent";
             btnAbort.Text = "Abort";
-            btnAbort.UseVisualStyleBackColor = true;
+            btnAbort.UseVisualStyleBackColor = false;
             btnAbort.Click += btnAbort_Click;
             // 
             // lblStatus
             // 
-            lblStatus.Location = new Point(12, 9);
+            lblStatus.Font = new Font("Segoe UI", 10F);
+            lblStatus.Location = new Point(20, 20);
             lblStatus.Name = "lblStatus";
-            lblStatus.Size = new Size(376, 64);
+            lblStatus.Size = new Size(420, 72);
             lblStatus.TabIndex = 1;
             lblStatus.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // progressBar
             // 
-            progressBar.Location = new Point(12, 85);
+            progressBar.Location = new Point(20, 129);
             progressBar.Name = "progressBar";
-            progressBar.Size = new Size(295, 23);
+            progressBar.Size = new Size(304, 10);
             progressBar.Style = ProgressBarStyle.Marquee;
             progressBar.TabIndex = 2;
             // 
@@ -63,15 +69,19 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(392, 112);
+            BackColor = Color.FromArgb(64, 64, 64);
+            CancelButton = btnAbort;
+            ClientSize = new Size(460, 162);
             ControlBox = false;
             Controls.Add(progressBar);
             Controls.Add(lblStatus);
             Controls.Add(btnAbort);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            ForeColor = Color.White;
+            FormBorderStyle = FormBorderStyle.None;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "StartForm";
+            Opacity = 0.92D;
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;

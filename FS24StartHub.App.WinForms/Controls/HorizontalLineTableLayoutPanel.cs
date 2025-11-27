@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
 
 namespace FS24StartHub.App.WinForms.Controls
 {
@@ -23,17 +20,17 @@ namespace FS24StartHub.App.WinForms.Controls
         {
             base.OnPaint(e);
 
-            if (this.ColumnCount < 3) return; // минимум 3 колонки
+            if (ColumnCount < 3) return; // at least 3 columns are required
 
-            var rowHeights = this.GetRowHeights();
-            var colWidths = this.GetColumnWidths();
+            var rowHeights = GetRowHeights();
+            var colWidths = GetColumnWidths();
 
-            // вычисляем X‑координаты: от второй до предпоследней колонки
+            // Calculate X-coordinates: from the second to the second-to-last column
             int xStart = 0;
             for (int i = 0; i < 1; i++) xStart += colWidths[i];
 
             int xEnd = xStart;
-            for (int i = 1; i < this.ColumnCount - 1; i++) xEnd += colWidths[i];
+            for (int i = 1; i < ColumnCount - 1; i++) xEnd += colWidths[i];
 
             using var pen = new Pen(LineColor, LineThickness);
 

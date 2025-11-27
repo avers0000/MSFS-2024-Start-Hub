@@ -60,7 +60,7 @@ namespace FS24StartHub.App.WinForms
             lblType.Margin = new Padding(0, 0, 3, 0);
             lblType.Name = "lblType";
             lblType.Size = new Size(38, 19);
-            lblType.TabIndex = 0;
+            lblType.TabIndex = 2;
             lblType.Text = "Type";
             // 
             // cmbType
@@ -76,7 +76,7 @@ namespace FS24StartHub.App.WinForms
             cmbType.Location = new Point(128, 9);
             cmbType.Name = "cmbType";
             cmbType.Size = new Size(224, 26);
-            cmbType.TabIndex = 1;
+            cmbType.TabIndex = 3;
             cmbType.SelectedIndexChanged += cmbType_SelectedIndexChanged;
             // 
             // btnOK
@@ -91,7 +91,7 @@ namespace FS24StartHub.App.WinForms
             btnOK.Margin = new Padding(0);
             btnOK.Name = "btnOK";
             btnOK.Size = new Size(96, 30);
-            btnOK.TabIndex = 2;
+            btnOK.TabIndex = 0;
             btnOK.Tag = "Accent";
             btnOK.Text = "OK";
             btnOK.UseVisualStyleBackColor = false;
@@ -109,7 +109,7 @@ namespace FS24StartHub.App.WinForms
             btnCancel.Margin = new Padding(0);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(96, 30);
-            btnCancel.TabIndex = 3;
+            btnCancel.TabIndex = 1;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = false;
             btnCancel.Click += btnCancel_Click;
@@ -128,7 +128,7 @@ namespace FS24StartHub.App.WinForms
             txtPath.PasswordChar = '\0';
             txtPath.ReadOnly = false;
             txtPath.Size = new Size(358, 24);
-            txtPath.TabIndex = 4;
+            txtPath.TabIndex = 5;
             txtPath.TextAlign = HorizontalAlignment.Left;
             // 
             // lblPath
@@ -139,7 +139,7 @@ namespace FS24StartHub.App.WinForms
             lblPath.Margin = new Padding(0, 0, 3, 0);
             lblPath.Name = "lblPath";
             lblPath.Size = new Size(37, 19);
-            lblPath.TabIndex = 5;
+            lblPath.TabIndex = 4;
             lblPath.Text = "Path";
             // 
             // btnBrowse
@@ -177,7 +177,7 @@ namespace FS24StartHub.App.WinForms
             cmbRunOption.Location = new Point(128, 79);
             cmbRunOption.Name = "cmbRunOption";
             cmbRunOption.Size = new Size(224, 26);
-            cmbRunOption.TabIndex = 7;
+            cmbRunOption.TabIndex = 8;
             // 
             // lblRunOption
             // 
@@ -187,7 +187,7 @@ namespace FS24StartHub.App.WinForms
             lblRunOption.Margin = new Padding(0, 0, 3, 0);
             lblRunOption.Name = "lblRunOption";
             lblRunOption.Size = new Size(82, 19);
-            lblRunOption.TabIndex = 8;
+            lblRunOption.TabIndex = 7;
             lblRunOption.Text = "Run Option";
             // 
             // txtDisplayName
@@ -203,7 +203,7 @@ namespace FS24StartHub.App.WinForms
             txtDisplayName.PasswordChar = '\0';
             txtDisplayName.ReadOnly = false;
             txtDisplayName.Size = new Size(224, 24);
-            txtDisplayName.TabIndex = 9;
+            txtDisplayName.TabIndex = 12;
             txtDisplayName.TextAlign = HorizontalAlignment.Left;
             // 
             // lblDisplayName
@@ -214,7 +214,7 @@ namespace FS24StartHub.App.WinForms
             lblDisplayName.Margin = new Padding(0, 0, 3, 0);
             lblDisplayName.Name = "lblDisplayName";
             lblDisplayName.Size = new Size(96, 19);
-            lblDisplayName.TabIndex = 10;
+            lblDisplayName.TabIndex = 11;
             lblDisplayName.Text = "Display Name";
             // 
             // lblDelayBefore
@@ -225,7 +225,7 @@ namespace FS24StartHub.App.WinForms
             lblDelayBefore.Margin = new Padding(15, 0, 3, 0);
             lblDelayBefore.Name = "lblDelayBefore";
             lblDelayBefore.Size = new Size(120, 19);
-            lblDelayBefore.TabIndex = 11;
+            lblDelayBefore.TabIndex = 9;
             lblDelayBefore.Text = "Delay Before (ms)";
             // 
             // lblDelayAfter
@@ -236,7 +236,7 @@ namespace FS24StartHub.App.WinForms
             lblDelayAfter.Margin = new Padding(15, 0, 3, 0);
             lblDelayAfter.Name = "lblDelayAfter";
             lblDelayAfter.Size = new Size(111, 19);
-            lblDelayAfter.TabIndex = 12;
+            lblDelayAfter.TabIndex = 13;
             lblDelayAfter.Text = "Delay After (ms)";
             // 
             // numDelayBefore
@@ -252,7 +252,7 @@ namespace FS24StartHub.App.WinForms
             numDelayBefore.Maximum = new decimal(new int[] { 86400, 0, 0, 0 });
             numDelayBefore.Name = "numDelayBefore";
             numDelayBefore.Size = new Size(86, 24);
-            numDelayBefore.TabIndex = 13;
+            numDelayBefore.TabIndex = 10;
             numDelayBefore.TextBoxBackColor = Color.Empty;
             numDelayBefore.TextBoxForeColor = Color.Empty;
             // 

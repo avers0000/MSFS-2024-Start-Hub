@@ -26,7 +26,7 @@ namespace FS24StartHub.Infrastructure.Launcher.Tasks
             while (Utility.IsSimulatorRunning())
             {
                 ct.ThrowIfCancellationRequested();
-                await Task.Delay(1000, ct); // Check every second
+                await Task.Delay(10000, ct); // Check every second
             }
 
             _logManager.Info("Simulator has exited.", "WaitForSimulatorExitTask");

@@ -52,7 +52,7 @@
             btnStart.FlatStyle = FlatStyle.Flat;
             btnStart.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnStart.ForeColor = Color.White;
-            btnStart.Location = new Point(430, 328);
+            btnStart.Location = new Point(440, 328);
             btnStart.Name = "btnStart";
             btnStart.Padding = new Padding(10, 5, 0, 0);
             btnStart.Size = new Size(320, 111);
@@ -233,7 +233,7 @@
             chbKeepOpen.FlatStyle = FlatStyle.Flat;
             chbKeepOpen.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chbKeepOpen.ForeColor = Color.White;
-            chbKeepOpen.Location = new Point(651, 292);
+            chbKeepOpen.Location = new Point(661, 292);
             chbKeepOpen.Name = "chbKeepOpen";
             chbKeepOpen.Size = new Size(89, 21);
             chbKeepOpen.TabIndex = 2;

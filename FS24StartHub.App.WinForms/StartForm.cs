@@ -22,6 +22,11 @@ namespace FS24StartHub.App.WinForms
 
         private async void StartForm_Load(object sender, EventArgs e)
         {
+            BackColor = ColorTranslator.FromHtml("#2f3439");
+            ForeColor = Color.White;
+            lblStatus.BackColor = ColorTranslator.FromHtml("#262a2e");
+            UIStyler.ApplyStyleToAllButtons(this);
+
             cts = new CancellationTokenSource();
 
             var progress = new Progress<StepProgress>(step =>

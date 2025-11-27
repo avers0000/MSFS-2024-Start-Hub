@@ -301,31 +301,4 @@ public static class UIStyler
                 ApplyStyleToAllComboBoxes(control);
         }
     }
-
-    public static void StyleTextBox(TextBox tb)
-    {
-        if (tb == null) return;
-
-        tb.BorderStyle = BorderStyle.None;
-        tb.AutoSize = false;   // иначе высота сбрасывается на "по шрифту"
-        tb.Height = 24;        // подгоняем под SideButtonsNumeric
-
-        tb.BackColor = Color.Black;
-        tb.ForeColor = Color.White;
-
-        // Дополнительно можно убрать лишние отступы
-        tb.Margin = new Padding(0, 2, 0, 2);
-    }
-
-    public static void ApplyStyleToAllTextBoxes(Control parent)
-    {
-        foreach (Control ctrl in parent.Controls)
-        {
-            if (ctrl is TextBox tb)
-                StyleTextBox(tb);
-
-            if (ctrl.HasChildren)
-                ApplyStyleToAllTextBoxes(ctrl);
-        }
-    }
 }

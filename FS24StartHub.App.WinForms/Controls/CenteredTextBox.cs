@@ -1,7 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
 
 namespace FS24StartHub.App.WinForms.Controls
 {
@@ -12,7 +9,7 @@ namespace FS24StartHub.App.WinForms.Controls
             InitializeComponent();
 
             CenterInnerTextBox();
-            this.Resize += (s, e) => CenterInnerTextBox();
+            Resize += (s, e) => CenterInnerTextBox();
 
             // Forward inner events to outer control
             txtText.TextChanged += (s, e) => base.OnTextChanged(e);

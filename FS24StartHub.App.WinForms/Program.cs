@@ -12,9 +12,26 @@ namespace FS24StartHub.App.WinForms
 {
     internal static class Program
     {
+        private static Mutex? appMutex;
+
         [STAThread]
         static void Main()
         {
+            const string mutexName = "FS24StartHub.App.WinForms.UniqueInstance";
+
+            bool createdNew;
+            appMutex = new Mutex(true, mutexName, out createdNew);
+
+            if (!createdNew)
+            {
+                MessageBox.Show(
+                    "FS24StartHub is already running.",
+                    "FS24StartHub",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
             ApplicationConfiguration.Initialize();
 
             string baseFolderPath = Path.Combine(

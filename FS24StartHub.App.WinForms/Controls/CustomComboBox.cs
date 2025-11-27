@@ -4,29 +4,31 @@
     {
         public CustomComboBox()
         {
-            this.SetStyle(ControlStyles.UserPaint, true);
-            this.DrawMode = DrawMode.OwnerDrawFixed;
-            this.FlatStyle = FlatStyle.Flat;
+            SetStyle(ControlStyles.UserPaint, true);
+            DrawMode = DrawMode.OwnerDrawFixed;
+            FlatStyle = FlatStyle.Flat;
         }
 
         protected override void OnDrawItem(DrawItemEventArgs e)
         {
             if (e.Index < 0) return;
 
-            var item = this.Items[e.Index];
-            string text = this.GetItemText(item); // учитывает DisplayMember
+            var item = Items[e.Index];
+            string? text = GetItemText(item); // Considers DisplayMember
 
             Color backColor = (e.State & DrawItemState.Selected) == DrawItemState.Selected
-                ? ControlPaint.Light(this.BackColor)
-                : this.BackColor;
+                ? ControlPaint.Light(BackColor)
+                : BackColor;
 
             using (var backBrush = new SolidBrush(backColor))
                 e.Graphics.FillRectangle(backBrush, e.Bounds);
 
-            using (var textBrush = new SolidBrush(this.ForeColor))
+            using (var textBrush = new SolidBrush(ForeColor))
             {
                 var sf = new StringFormat { LineAlignment = StringAlignment.Center };
-                e.Graphics.DrawString(text, e.Font, textBrush, e.Bounds, sf);
+                // Ensure e.Font is not null before using it
+                var font = e.Font ?? Font ?? SystemFonts.DefaultFont;
+                e.Graphics.DrawString(text ?? string.Empty, font, textBrush, e.Bounds, sf);
             }
 
             e.DrawFocusRectangle();
@@ -34,31 +36,31 @@
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            // фон
-            using (var backBrush = new SolidBrush(this.BackColor))
-                e.Graphics.FillRectangle(backBrush, this.ClientRectangle);
+            // Background
+            using (var backBrush = new SolidBrush(BackColor))
+                e.Graphics.FillRectangle(backBrush, ClientRectangle);
 
-            // рамка (цветом фона)
-            using (var pen = new Pen(this.BackColor, 1))
-                e.Graphics.DrawRectangle(pen, 0, 0, this.Width - 1, this.Height - 1);
+            // Border (using background color)
+            using (var pen = new Pen(BackColor, 1))
+                e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
 
-            // стрелка
-            int arrowX = this.Width - 15;
-            int arrowY = this.Height / 2 - 2;
+            // Arrow
+            int arrowX = Width - 15;
+            int arrowY = Height / 2 - 2;
             Point[] arrowPoints = {
                 new Point(arrowX, arrowY),
                 new Point(arrowX + 8, arrowY),
                 new Point(arrowX + 4, arrowY + 5)
             };
-            using (var brush = new SolidBrush(this.ForeColor))
+            using (var brush = new SolidBrush(ForeColor))
                 e.Graphics.FillPolygon(brush, arrowPoints);
 
-            // текст выбранного элемента
-            using (var textBrush = new SolidBrush(this.ForeColor))
+            // Text of the selected item
+            using (var textBrush = new SolidBrush(ForeColor))
             {
-                var rect = new Rectangle(2, 2, this.Width - 20, this.Height - 4);
+                var rect = new Rectangle(2, 2, Width - 20, Height - 4);
                 var sf = new StringFormat { LineAlignment = StringAlignment.Center };
-                e.Graphics.DrawString(this.Text, this.Font, textBrush, rect, sf);
+                e.Graphics.DrawString(Text, Font, textBrush, rect, sf);
             }
         }
     }

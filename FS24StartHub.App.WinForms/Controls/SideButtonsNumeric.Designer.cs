@@ -55,7 +55,7 @@
             btnRight.Location = new Point(127, 0);
             btnRight.Name = "btnRight";
             btnRight.Size = new Size(23, 25);
-            btnRight.TabIndex = 1;
+            btnRight.TabIndex = 2;
             btnRight.Tag = "Accent";
             btnRight.UseVisualStyleBackColor = false;
             // 
@@ -68,7 +68,7 @@
             txtValue.Location = new Point(23, 0);
             txtValue.Name = "txtValue";
             txtValue.Size = new Size(104, 18);
-            txtValue.TabIndex = 2;
+            txtValue.TabIndex = 1;
             txtValue.TextAlign = HorizontalAlignment.Center;
             // 
             // SideButtonsNumeric
