@@ -263,6 +263,10 @@ namespace FS24StartHub.App.WinForms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            var version = Application.ProductVersion;
+            if (!version.Contains("dev"))
+                lblVersion.Text = $"v{version}";
+
             UIStyler.ApplyStyleToAllButtons(this);
             UIStyler.StyleCheckBox(chbKeepOpen);
             UIStyler.StyleCustomCheckedListBox(clbApps);

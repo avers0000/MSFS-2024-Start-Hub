@@ -42,6 +42,7 @@
             chbKeepOpen = new CheckBox();
             lblApps = new Label();
             pnApps = new Panel();
+            lblVersion = new Label();
             pnApps.SuspendLayout();
             SuspendLayout();
             // 
@@ -191,7 +192,7 @@
             clbApps.ForeColor = Color.White;
             clbApps.FormattingEnabled = true;
             clbApps.IntegralHeight = false;
-            clbApps.ItemBackColor = Color.DimGray;
+            clbApps.ItemBackColor = Color.Empty;
             clbApps.ItemSelectedColor = Color.Empty;
             clbApps.ItemSelectedForeColor = Color.Empty;
             clbApps.Location = new Point(0, 35);
@@ -200,8 +201,8 @@
             clbApps.ReadonlySelectedForeColor = Color.Empty;
             clbApps.Size = new Size(350, 240);
             clbApps.TabIndex = 0;
-            clbApps.ToolTipBackColor = Color.SteelBlue;
-            clbApps.ToolTipForeColor = Color.White;
+            clbApps.ToolTipBackColor = Color.Empty;
+            clbApps.ToolTipForeColor = Color.Empty;
             clbApps.ItemCheck += clbApps_ItemCheck;
             clbApps.SelectedIndexChanged += clbApps_SelectedIndexChanged;
             // 
@@ -267,6 +268,18 @@
             pnApps.Size = new Size(465, 275);
             pnApps.TabIndex = 1;
             // 
+            // lblVersion
+            // 
+            lblVersion.BackColor = Color.Transparent;
+            lblVersion.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblVersion.ForeColor = Color.Yellow;
+            lblVersion.Location = new Point(693, 9);
+            lblVersion.Name = "lblVersion";
+            lblVersion.Size = new Size(80, 17);
+            lblVersion.TabIndex = 5;
+            lblVersion.Text = "v0.0.0-dev";
+            lblVersion.TextAlign = ContentAlignment.TopRight;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -274,6 +287,7 @@
             BackgroundImage = Resources.bg_fs24sh;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(784, 461);
+            Controls.Add(lblVersion);
             Controls.Add(pnApps);
             Controls.Add(chbKeepOpen);
             Controls.Add(btnSave);
@@ -307,5 +321,6 @@
         private CheckBox chbKeepOpen;
         private Label lblApps;
         private Panel pnApps;
+        private Label lblVersion;
     }
 }

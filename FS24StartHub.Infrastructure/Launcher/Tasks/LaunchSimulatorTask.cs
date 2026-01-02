@@ -55,6 +55,7 @@ namespace FS24StartHub.Infrastructure.Launcher.Tasks
                 else
                 {
                     _logManager.Error("Simulator did not start within timeout.", Module);
+                    //Todo: add check if simulator is updating or some other starting simulator process is running
                     return new StepProgress(Name, ProgressType.StepCompleted, "Simulator did not start within timeout", null, sw.Elapsed, false, "Timeout expired");
                 }
             }
