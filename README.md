@@ -18,7 +18,7 @@
 
 ## 📸 Screenshot
 
-*(Insert screenshot here, e.g. `screenshot.png`)*
+![Screenshot](screenshot.png)
 
 ---
 
