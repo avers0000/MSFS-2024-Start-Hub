@@ -361,3 +361,14 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Inno Setup: ignore build artifacts but keep folder structure
+
+FS24StartHub.Setup/Files/*
+!FS24StartHub.Setup/Files/.keep
+
+FS24StartHub.Setup/Output/*
+!FS24StartHub.Setup/Output/.keep
+
+FS24StartHub.Setup/Redist/*
+!FS24StartHub.Setup/Redist/.keep
