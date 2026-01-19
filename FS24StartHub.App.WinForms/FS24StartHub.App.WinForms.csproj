@@ -76,7 +76,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)PostBuild.ps1&quot;" />
+    <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)PostBuild.ps1&quot; -TargetPath &quot;$(TargetPath)&quot;" />
   </Target>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

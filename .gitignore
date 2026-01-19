@@ -372,3 +372,7 @@ FS24StartHub.Setup/Output/*
 
 FS24StartHub.Setup/Redist/*
 !FS24StartHub.Setup/Redist/.keep
+
+# Signing (sensitive)
+FS24StartHub.App.WinForms/Build/Signing/*
+!FS24StartHub.App.WinForms/Build/Signing/.keep
