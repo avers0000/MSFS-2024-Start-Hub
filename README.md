@@ -24,14 +24,8 @@
 
 ## 🚀 Installation
 
-### **Recommended — Installer**
-A simple installer is available in the **Releases** section.  
-It provides a quick setup process and can create shortcuts if needed.
-
-### **Alternative — ZIP version**
-1. Download the ZIP archive from the **Releases** section  
-2. Extract it to any folder  
-3. Run `FS24StartHub.exe`
+1. Download the latest installer in the **Releases** section.  
+2. Run the installer and follow the on-screen instructions.
 
 ---
 
