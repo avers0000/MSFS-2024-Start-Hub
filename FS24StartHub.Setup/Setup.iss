@@ -1,7 +1,8 @@
 ﻿[Setup]
 AppId={{C6ABB831-C2EC-431B-B5D2-1FA95E670D57}}
 AppName=MSFS 2024 Start Hub
-AppVersion=0.0.0-dev
+AppVersion=0.7.0
+Publisher=AVErs
 VersionInfoCompany=AVErs
 DefaultDirName={autopf}\AVErs\FS24StartHub
 ArchitecturesInstallIn64BitMode=x64os
