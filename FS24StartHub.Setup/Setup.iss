@@ -15,6 +15,8 @@ Compression=lzma2
 SolidCompression=yes
 CloseApplications=yes
 RestartApplications=no
+UninstallDisplayName=MSFS 2024 Start Hub
+UninstallDisplayIcon={app}\FS24StartHub.exe
 
 [Tasks]
 Name: "startmenuicon"; Description: "Create Start Menu shortcut"
@@ -25,8 +27,8 @@ Source: "Files\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createa
 Source: "Redist\windowsdesktop-runtime-9.0.12-win-x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 [Icons]
-Name: "{autoprograms}\FS24StartHub"; Filename: "{app}\FS24StartHub.exe"; Tasks: startmenuicon
-Name: "{autodesktop}\FS24StartHub"; Filename: "{app}\FS24StartHub.exe"; Tasks: desktopicon
+Name: "{autoprograms}\MSFS 2024 Start Hub"; Filename: "{app}\FS24StartHub.exe"
+Name: "{autodesktop}\MSFS 2024 Start Hub"; Filename: "{app}\FS24StartHub.exe"; Tasks: desktopicon
 
 [Run]
 Filename: "{tmp}\windowsdesktop-runtime-9.0.12-win-x64.exe"; \
