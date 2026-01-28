@@ -70,3 +70,11 @@ See the LICENSE file for details.
 ## 🤝 Contributions
 External pull requests are not accepted.
 If you want to report a problem or suggest an improvement, please open an Issue.
+
+---
+
+## Support
+
+If you'd like to support MSFS 2024 Start Hub, you can do so here:
+
+👉 [Donate via PayPal](https://www.paypal.com/donate/?hosted_button_id=KZFTHJEKN639N)
