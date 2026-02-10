@@ -52,7 +52,6 @@
 - MSFS startup time varies significantly depending on system performance; if the simulator takes longer to appear, the launch timeout can be adjusted in the configuration file  
 - When MSFS performs an update before launching, the simulator process may not appear for an extended period; increasing the timeout may help, although it is not recommended since such cases are rare  
 - Some antivirus software may warn about launching scripts (BAT, CMD, PS1)
-- When both MSFS 2020 and MSFS 2024 are installed, the launcher may detect the wrong version; this will be fixed in the next update
 
 ---
 
