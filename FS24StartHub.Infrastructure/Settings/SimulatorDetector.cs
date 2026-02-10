@@ -57,7 +57,13 @@ namespace FS24StartHub.Infrastructure.Settings
             if (!_fileStorage.DirectoryExists(basePath))
                 return null;
 
-            foreach (var dir in _fileStorage.EnumerateDirectories(basePath))
+            var candidateDirs = _fileStorage
+                .EnumerateDirectories(basePath)
+                .Where(dir =>
+                    dir.Contains("Microsoft.Limitless", StringComparison.OrdinalIgnoreCase) || 
+                    dir.Contains("2024", StringComparison.OrdinalIgnoreCase));
+
+            foreach (var dir in candidateDirs)
             {
                 var cfgPath = Path.Combine(dir, "LocalCache", "UserCfg.opt");
                 if (!_fileStorage.FileExists(cfgPath))

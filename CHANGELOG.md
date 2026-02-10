@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## [0.7.1]
+### Fixed
+- Improved detection of Microsoft Flight Simulator 2024 (Store version) to prevent incorrect identification when multiple simulator versions are installed.
+
 ## [0.7.0]
 ### Added
 - Initial public release of MSFS 2024 Start Hub.
