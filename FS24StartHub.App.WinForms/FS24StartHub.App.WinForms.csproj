@@ -7,7 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Title>MSFS2024 Start Hub</Title>
-    <Version>0.0.0-dev</Version>
+    <Version>0.7.1</Version>
     <Authors>AVErs</Authors>
     <Product>MSFS2024 Start Hub</Product>
     <Description>Advanced Launcher for Microsoft Flight Simulator 2024
