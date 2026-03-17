@@ -54,8 +54,8 @@ public static class UIStyler
         btn.FlatStyle = FlatStyle.Flat;
         btn.FlatAppearance.BorderSize = 0;
 
-        // те же цвета, что и в StyleStartButton
-        btn.BackColor = Color.FromArgb(20, 72, 147);   // тёмно‑синий фон
+        // same colors as in StyleStartButton
+        btn.BackColor = Color.FromArgb(20, 72, 147);   // dark blue background
         btn.ForeColor = Color.White;
 
         btn.FlatAppearance.MouseOverBackColor = Color.White;
@@ -114,8 +114,8 @@ public static class UIStyler
         {
             if (!btn.Enabled) return;
 
-            // единый цвет для текста и иконки
-            Color hoverColor = Color.FromArgb(200, 80, 80, 80); // тёмно‑серый, но не чёрный
+            // unified color for text and icon
+            Color hoverColor = Color.FromArgb(200, 80, 80, 80); // dark gray, but not black
 
             btn.ForeColor = hoverColor;
             svgColor = hoverColor;
@@ -130,7 +130,7 @@ public static class UIStyler
             if (!btn.Enabled) return;
 
             btn.ForeColor = Color.White;
-            svgColor = Color.FromArgb(80, 255, 255, 255); // исходный светлый цвет
+            svgColor = Color.FromArgb(80, 255, 255, 255); // original light color
             btn.Invalidate();
         };
 
@@ -151,7 +151,7 @@ public static class UIStyler
                 if (obj is byte[] bytes)
                 {
                     string svgXml = System.Text.Encoding.UTF8.GetString(bytes);
-                    // дальше работа с SvgDocument
+                    // further work with SvgDocument
 
                     var svgDoc = SvgDocument.FromSvg<SvgDocument>(svgXml);
 
@@ -182,6 +182,67 @@ public static class UIStyler
         };
     }
 
+    public static void StyleSettingsButton(Button btn)
+    {
+        btn.FlatStyle = FlatStyle.Flat;
+        btn.FlatAppearance.BorderSize = 0;
+        btn.BackColor = Color.FromArgb(20, 72, 147);
+        btn.ForeColor = Color.White;
+        btn.Text = string.Empty;
+
+        btn.FlatAppearance.MouseOverBackColor = Color.White;
+        btn.FlatAppearance.MouseDownBackColor = Color.LightGray;
+
+        Color svgColor = Color.White;
+
+        btn.MouseEnter += (s, e) =>
+        {
+            if (!btn.Enabled) return;
+            svgColor = Color.Black;
+            var stream = FS24StartHub.App.WinForms.Resources.ResourceManager.GetStream("fs24sh-hover");
+            if (stream != null) new SoundPlayer(stream).Play();
+            btn.Invalidate();
+        };
+
+        btn.MouseLeave += (s, e) =>
+        {
+            if (!btn.Enabled) return;
+            svgColor = Color.White;
+            btn.Invalidate();
+        };
+
+        btn.Paint += (s, e) =>
+        {
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            int padding = 6;
+            var iconRect = new Rectangle(padding, padding, btn.Width - padding * 2, btn.Height - padding * 2);
+
+            try
+            {
+                var obj = FS24StartHub.App.WinForms.Resources.FS24SH_settings;
+                if (obj is byte[] bytes)
+                {
+                    string svgXml = System.Text.Encoding.UTF8.GetString(bytes);
+                    var svgDoc = SvgDocument.FromSvg<SvgDocument>(svgXml);
+
+                    foreach (var path in svgDoc.Descendants().OfType<SvgPath>())
+                    {
+                        path.Fill = new SvgColourServer(svgColor);
+                        path.Stroke = SvgPaintServer.None;
+                    }
+
+                    using var bmp = svgDoc.Draw(iconRect.Width, iconRect.Height);
+                    e.Graphics.DrawImage(bmp, iconRect);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("SVG load error: " + ex.Message);
+            }
+        };
+    }
+
     public static void ApplyStyleToAllButtons(Control parent)
     {
         foreach (Control ctrl in parent.Controls)
@@ -195,6 +256,9 @@ public static class UIStyler
                         break;
                     case "Accent":
                         StyleAccentButton(btn);
+                        break;
+                    case "Settings":
+                        StyleSettingsButton(btn);
                         break;
                     default:
                         StyleButton(btn);
@@ -225,7 +289,7 @@ public static class UIStyler
         {
             if (s == null) return;
             var b = (CheckBox)s;
-            e.Graphics.Clear(Color.Transparent);
+            e.Graphics.Clear(b.Parent?.BackColor ?? Color.Transparent);
 
             var boxSize = 18;
             var boxRect = new Rectangle(4, (b.Height - boxSize) / 2, boxSize, boxSize);
@@ -291,7 +355,7 @@ public static class UIStyler
         {
             if (control is ComboBox combo)
             {
-                // Просто задаём цвета и стиль
+                // Just set colors and style
                 combo.BackColor = Color.FromArgb(20, 72, 147);
                 combo.ForeColor = Color.White;
                 combo.FlatStyle = FlatStyle.Flat;

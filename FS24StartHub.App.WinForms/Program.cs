@@ -1,6 +1,7 @@
 ﻿using FS24StartHub.Core.Apps;
 using FS24StartHub.Core.Domain;
 using FS24StartHub.Core.Logging;
+using FS24StartHub.Core.Settings;
 using FS24StartHub.Core.Storage;
 using FS24StartHub.Infrastructure.Apps;
 using FS24StartHub.Infrastructure.Helpers;
@@ -53,17 +54,17 @@ namespace FS24StartHub.App.WinForms
             if (Utility.IsSimulatorRunning())
             {
                 logManager.Warn("Simulator already running. Application aborted.", "Program", "SimulatorAlreadyRunning");
-
                 MessageBox.Show(
                     "Microsoft Flight Simulator 2024 is already running.\nPlease close it before starting FS24StartHub.",
                     "FS24StartHub",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-
                 return;
             }
 
             logManager.Info("Application starting...", "Program", "Startup");
+
+            var settingsManager = new SettingsManager(baseFolderPath, fileStorage, jsonStorage, logManager);
 
             var firstRun = new FirstRunInitializer(fileStorage, jsonStorage, logManager, baseFolderPath);
             bool initialized;
@@ -82,17 +83,8 @@ namespace FS24StartHub.App.WinForms
                 return;
             }
 
-            if (!initialized)
-            {
-                MessageBox.Show(
-                    "Simulator not found.\nUpdate configuration manually in fs24sh.json and restart application.",
-                    "FS24StartHub",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return;
-            }
+            if (!initialized && !ShowSettingsForm(settingsManager, logManager)) return;
 
-            var settingsManager = new SettingsManager(baseFolderPath, fileStorage, jsonStorage, logManager);
             AppSettings settings;
             try
             {
@@ -123,12 +115,17 @@ namespace FS24StartHub.App.WinForms
             {
                 logManager.Warn("Simulator configuration is invalid.", "Program", "InvalidSimConfig");
 
-                MessageBox.Show(
-                    "Simulator configuration is invalid.\nYou can manually re-run simulator detection later.\nCheck fs24sh.json or use the upcoming recovery feature.",
-                    "FS24StartHub",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return;
+                if (!ShowSettingsForm(settingsManager, logManager))
+                    return;
+
+                try
+                {
+                    settings = settingsManager.Load();
+                }
+                catch
+                {
+                    return;
+                }
             }
 
             // Initialize AppsManager
@@ -136,6 +133,12 @@ namespace FS24StartHub.App.WinForms
 
             // Run the main form
             Application.Run(new MainForm(settingsManager, appsManager, logManager));
+        }
+
+        private static bool ShowSettingsForm(ISettingsManager settingsManager, ILogManager logManager)
+        {
+            using var settingsForm = new SettingsForm(settingsManager, logManager, firstRunMode: true);
+            return settingsForm.ShowDialog() == DialogResult.OK;
         }
     }
 }
