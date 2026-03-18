@@ -24,14 +24,14 @@ Name: "desktopicon"; Description: "Create Desktop shortcut"
 
 [Files]
 Source: "Files\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: ".keep"
-Source: "Redist\windowsdesktop-runtime-9.0.12-win-x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: "Redist\windowsdesktop-runtime-10.0.5-win-x64.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 [Icons]
 Name: "{autoprograms}\MSFS 2024 Start Hub"; Filename: "{app}\FS24StartHub.exe"
 Name: "{autodesktop}\MSFS 2024 Start Hub"; Filename: "{app}\FS24StartHub.exe"; Tasks: desktopicon
 
 [Run]
-Filename: "{tmp}\windowsdesktop-runtime-9.0.12-win-x64.exe"; \
+Filename: "{tmp}\windowsdesktop-runtime-10.0.5-win-x64.exe"; \
     Parameters: "/install /quiet /norestart"; \
     StatusMsg: "Installing .NET Desktop Runtime..."; \
     Check: NeedsDotNet
@@ -54,5 +54,5 @@ end;
 
 function NeedsDotNet(): Boolean;
 begin
-  Result := not (HasDesktopRuntime('8') or HasDesktopRuntime('9'));
+  Result := not HasDesktopRuntime('10');
 end;

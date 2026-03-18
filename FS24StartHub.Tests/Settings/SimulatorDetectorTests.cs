@@ -53,7 +53,7 @@ namespace FS24StartHub.Tests.Settings
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "Packages");
 
-            var packageDir = Path.Combine(basePath, "SomePackage");
+            var packageDir = Path.Combine(basePath, "Microsoft.Limitless_8wekyb3d8bbwe");
             var cfgPath = Path.Combine(packageDir, "LocalCache", "UserCfg.opt");
 
             _fileStorage.Setup(fs => fs.DirectoryExists(basePath)).Returns(true);
@@ -75,7 +75,7 @@ namespace FS24StartHub.Tests.Settings
             Assert.AreEqual(SimType.Store, result!.SimType);
             Assert.AreEqual(@"D:\SimStore", result.SimPath);
             Assert.IsNull(result.SimExePath);
-            Assert.AreEqual("SomePackage", result.PackageFamilyName);
+            Assert.AreEqual("Microsoft.Limitless_8wekyb3d8bbwe", result.PackageFamilyName);
         }
 
         [TestMethod]
@@ -101,7 +101,7 @@ namespace FS24StartHub.Tests.Settings
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "Packages");
 
-            var storeDir = Path.Combine(storeBase, "StorePackage");
+            var storeDir = Path.Combine(storeBase, "Microsoft.Limitless_8wekyb3d8bbwe");
             var storeCfg = Path.Combine(storeDir, "LocalCache", "UserCfg.opt");
 
             // Steam setup

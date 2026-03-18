@@ -224,9 +224,9 @@ namespace FS24StartHub.App.WinForms
             lblDelayBefore.Location = new Point(370, 83);
             lblDelayBefore.Margin = new Padding(15, 0, 3, 0);
             lblDelayBefore.Name = "lblDelayBefore";
-            lblDelayBefore.Size = new Size(120, 19);
+            lblDelayBefore.Size = new Size(122, 19);
             lblDelayBefore.TabIndex = 9;
-            lblDelayBefore.Text = "Delay Before (ms)";
+            lblDelayBefore.Text = "Delay Before (sec)";
             // 
             // lblDelayAfter
             // 
@@ -235,9 +235,9 @@ namespace FS24StartHub.App.WinForms
             lblDelayAfter.Location = new Point(370, 118);
             lblDelayAfter.Margin = new Padding(15, 0, 3, 0);
             lblDelayAfter.Name = "lblDelayAfter";
-            lblDelayAfter.Size = new Size(111, 19);
+            lblDelayAfter.Size = new Size(113, 19);
             lblDelayAfter.TabIndex = 13;
-            lblDelayAfter.Text = "Delay After (ms)";
+            lblDelayAfter.Text = "Delay After (sec)";
             // 
             // numDelayBefore
             // 

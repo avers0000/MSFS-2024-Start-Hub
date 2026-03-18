@@ -269,5 +269,11 @@ namespace FS24StartHub.App.WinForms
             UIStyler.StyleCheckBox(chbKeepOpen);
             UIStyler.StyleCustomCheckedListBox(clbApps);
         }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            using var form = new SettingsForm(_settingsManager, _logManager);
+            form.ShowDialog();
+        }
     }
 }

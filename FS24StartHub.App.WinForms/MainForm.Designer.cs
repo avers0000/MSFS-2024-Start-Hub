@@ -43,6 +43,7 @@
             lblApps = new Label();
             pnApps = new Panel();
             lblVersion = new Label();
+            btnSettings = new Button();
             pnApps.SuspendLayout();
             SuspendLayout();
             // 
@@ -234,7 +235,7 @@
             chbKeepOpen.FlatStyle = FlatStyle.Flat;
             chbKeepOpen.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chbKeepOpen.ForeColor = Color.White;
-            chbKeepOpen.Location = new Point(661, 292);
+            chbKeepOpen.Location = new Point(659, 290);
             chbKeepOpen.Name = "chbKeepOpen";
             chbKeepOpen.Size = new Size(89, 21);
             chbKeepOpen.TabIndex = 2;
@@ -270,23 +271,43 @@
             // 
             // lblVersion
             // 
-            lblVersion.BackColor = Color.Transparent;
-            lblVersion.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblVersion.ForeColor = Color.Yellow;
-            lblVersion.Location = new Point(693, 9);
+            lblVersion.BackColor = Color.FromArgb(20, 72, 147);
+            lblVersion.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblVersion.ForeColor = Color.White;
+            lblVersion.Location = new Point(642, 10);
             lblVersion.Name = "lblVersion";
-            lblVersion.Size = new Size(80, 17);
+            lblVersion.Size = new Size(100, 30);
             lblVersion.TabIndex = 5;
             lblVersion.Text = "v0.0.0-dev";
-            lblVersion.TextAlign = ContentAlignment.TopRight;
+            lblVersion.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // btnSettings
+            // 
+            btnSettings.BackColor = Color.FromArgb(20, 72, 147);
+            btnSettings.FlatAppearance.BorderSize = 0;
+            btnSettings.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
+            btnSettings.FlatAppearance.MouseOverBackColor = Color.White;
+            btnSettings.FlatStyle = FlatStyle.Flat;
+            btnSettings.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
+            btnSettings.ForeColor = Color.White;
+            btnSettings.Location = new Point(742, 10);
+            btnSettings.Name = "btnSettings";
+            btnSettings.Size = new Size(30, 30);
+            btnSettings.TabIndex = 6;
+            btnSettings.Tag = "Settings";
+            btnSettings.Text = "Settings";
+            btnSettings.UseVisualStyleBackColor = false;
+            btnSettings.Click += btnSettings_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Black;
             BackgroundImage = Resources.bg_fs24sh;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(784, 461);
+            Controls.Add(btnSettings);
             Controls.Add(lblVersion);
             Controls.Add(pnApps);
             Controls.Add(chbKeepOpen);
@@ -298,6 +319,7 @@
             MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
+            Tag = "Settings";
             Text = "MSFS 2024 Start Hub";
             Load += MainForm_Load;
             pnApps.ResumeLayout(false);
@@ -322,5 +344,6 @@
         private Label lblApps;
         private Panel pnApps;
         private Label lblVersion;
+        private Button btnSettings;
     }
 }
