@@ -72,7 +72,7 @@ namespace FS24StartHub.App.WinForms
             }
 
             StartupItem.Type = cmbType.SelectedValue as StartupItemType? ?? StartupItemType.App;
-            StartupItem.Path = txtPath.Text;
+            StartupItem.Path = txtPath.Text!;
             StartupItem.RunOption = cmbRunOption.SelectedValue as RunOption? ?? RunOption.BeforeSimStarts;
             StartupItem.DisplayName = string.IsNullOrWhiteSpace(txtDisplayName.Text) ? null : txtDisplayName.Text;
             StartupItem.DelayBeforeMs = numDelayBefore.Value == 0 ? null : (int?)(numDelayBefore.Value * 1000);
