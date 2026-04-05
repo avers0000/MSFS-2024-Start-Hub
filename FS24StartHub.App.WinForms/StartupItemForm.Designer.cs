@@ -47,6 +47,12 @@ namespace FS24StartHub.App.WinForms
             numDelayBefore = new SideButtonsNumeric();
             numDelayAfter = new SideButtonsNumeric();
             tlpStartupItem = new HorizontalLineTableLayoutPanel();
+            lblCheckProcess = new Label();
+            chbSkipIfRunning = new CheckBox();
+            chbWarnIfRunning = new CheckBox();
+            lblProcessName = new Label();
+            txtProcessName = new CenteredTextBox();
+            lblProcessNameNote = new Label();
             ((System.ComponentModel.ISupportInitialize)numDelayBefore).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numDelayAfter).BeginInit();
             tlpStartupItem.SuspendLayout();
@@ -87,7 +93,7 @@ namespace FS24StartHub.App.WinForms
             btnOK.FlatAppearance.MouseOverBackColor = Color.White;
             btnOK.FlatStyle = FlatStyle.Flat;
             btnOK.Font = new Font("Segoe UI Semibold", 12F);
-            btnOK.Location = new Point(420, 188);
+            btnOK.Location = new Point(420, 258);
             btnOK.Margin = new Padding(0);
             btnOK.Name = "btnOK";
             btnOK.Size = new Size(96, 30);
@@ -105,7 +111,7 @@ namespace FS24StartHub.App.WinForms
             btnCancel.FlatAppearance.MouseOverBackColor = Color.White;
             btnCancel.FlatStyle = FlatStyle.Flat;
             btnCancel.Font = new Font("Segoe UI Semibold", 12F);
-            btnCancel.Location = new Point(516, 188);
+            btnCancel.Location = new Point(516, 258);
             btnCancel.Margin = new Padding(0);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(96, 30);
@@ -296,19 +302,100 @@ namespace FS24StartHub.App.WinForms
             tlpStartupItem.Controls.Add(lblPath, 1, 2);
             tlpStartupItem.Controls.Add(lblType, 1, 1);
             tlpStartupItem.Controls.Add(cmbType, 2, 1);
+            tlpStartupItem.Controls.Add(lblCheckProcess, 1, 5);
+            tlpStartupItem.Controls.Add(chbSkipIfRunning, 2, 5);
+            tlpStartupItem.Controls.Add(chbWarnIfRunning, 3, 5);
+            tlpStartupItem.Controls.Add(lblProcessName, 1, 6);
+            tlpStartupItem.Controls.Add(txtProcessName, 2, 6);
+            tlpStartupItem.Controls.Add(lblProcessNameNote, 3, 6);
             tlpStartupItem.LineColor = Color.DimGray;
             tlpStartupItem.LineThickness = 2;
             tlpStartupItem.Location = new Point(20, 20);
             tlpStartupItem.Name = "tlpStartupItem";
-            tlpStartupItem.RowCount = 6;
+            tlpStartupItem.RowCount = 8;
             tlpStartupItem.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
             tlpStartupItem.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             tlpStartupItem.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             tlpStartupItem.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             tlpStartupItem.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+            tlpStartupItem.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+            tlpStartupItem.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             tlpStartupItem.RowStyles.Add(new RowStyle(SizeType.Absolute, 5F));
-            tlpStartupItem.Size = new Size(592, 152);
+            tlpStartupItem.Size = new Size(592, 222);
             tlpStartupItem.TabIndex = 15;
+            // 
+            // lblCheckProcess
+            // 
+            lblCheckProcess.Anchor = AnchorStyles.Left;
+            lblCheckProcess.AutoSize = true;
+            lblCheckProcess.Location = new Point(8, 153);
+            lblCheckProcess.Name = "lblCheckProcess";
+            lblCheckProcess.Size = new Size(98, 19);
+            lblCheckProcess.TabIndex = 15;
+            lblCheckProcess.Text = "Check Process";
+            // 
+            // chbSkipIfRunning
+            // 
+            chbSkipIfRunning.Anchor = AnchorStyles.Left;
+            chbSkipIfRunning.AutoSize = true;
+            chbSkipIfRunning.Location = new Point(128, 151);
+            chbSkipIfRunning.Name = "chbSkipIfRunning";
+            chbSkipIfRunning.Size = new Size(125, 23);
+            chbSkipIfRunning.TabIndex = 16;
+            chbSkipIfRunning.Text = "Skip If Running";
+            chbSkipIfRunning.UseVisualStyleBackColor = true;
+            chbSkipIfRunning.CheckedChanged += chbSkipIfRunning_CheckedChanged;
+            // 
+            // chbWarnIfRunning
+            // 
+            chbWarnIfRunning.Anchor = AnchorStyles.Left;
+            chbWarnIfRunning.AutoSize = true;
+            tlpStartupItem.SetColumnSpan(chbWarnIfRunning, 2);
+            chbWarnIfRunning.Location = new Point(358, 151);
+            chbWarnIfRunning.Name = "chbWarnIfRunning";
+            chbWarnIfRunning.Size = new Size(131, 23);
+            chbWarnIfRunning.TabIndex = 17;
+            chbWarnIfRunning.Text = "Warn If Running";
+            chbWarnIfRunning.UseVisualStyleBackColor = true;
+            chbWarnIfRunning.CheckedChanged += chbWarnIfRunning_CheckedChanged;
+            // 
+            // lblProcessName
+            // 
+            lblProcessName.Anchor = AnchorStyles.Left;
+            lblProcessName.AutoSize = true;
+            lblProcessName.Location = new Point(8, 188);
+            lblProcessName.Name = "lblProcessName";
+            lblProcessName.Size = new Size(97, 19);
+            lblProcessName.TabIndex = 18;
+            lblProcessName.Text = "Process Name";
+            // 
+            // txtProcessName
+            // 
+            txtProcessName.Anchor = AnchorStyles.Left;
+            txtProcessName.BackColor = Color.Black;
+            txtProcessName.ForeColor = Color.White;
+            txtProcessName.Location = new Point(128, 185);
+            txtProcessName.MaxLength = 32767;
+            txtProcessName.Name = "txtProcessName";
+            txtProcessName.Padding = new Padding(5, 0, 5, 0);
+            txtProcessName.PasswordChar = '\0';
+            txtProcessName.ReadOnly = false;
+            txtProcessName.Size = new Size(224, 25);
+            txtProcessName.TabIndex = 19;
+            txtProcessName.TextAlign = HorizontalAlignment.Left;
+            // 
+            // lblProcessNameNote
+            // 
+            lblProcessNameNote.Anchor = AnchorStyles.Left;
+            lblProcessNameNote.AutoSize = true;
+            tlpStartupItem.SetColumnSpan(lblProcessNameNote, 2);
+            lblProcessNameNote.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblProcessNameNote.ForeColor = Color.FromArgb(255, 255, 192);
+            lblProcessNameNote.Location = new Point(358, 189);
+            lblProcessNameNote.Name = "lblProcessNameNote";
+            lblProcessNameNote.Size = new Size(162, 17);
+            lblProcessNameNote.TabIndex = 20;
+            lblProcessNameNote.Text = "⚠ Verify in Task Manager";
             // 
             // StartupItemForm
             // 
@@ -317,7 +404,7 @@ namespace FS24StartHub.App.WinForms
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(64, 64, 64);
             CancelButton = btnCancel;
-            ClientSize = new Size(631, 240);
+            ClientSize = new Size(631, 300);
             Controls.Add(tlpStartupItem);
             Controls.Add(btnCancel);
             Controls.Add(btnOK);
@@ -358,5 +445,11 @@ namespace FS24StartHub.App.WinForms
         private SideButtonsNumeric numDelayBefore;
         private SideButtonsNumeric numDelayAfter;
         private HorizontalLineTableLayoutPanel tlpStartupItem;
+        private Label lblCheckProcess;
+        private CheckBox chbSkipIfRunning;
+        private CheckBox chbWarnIfRunning;
+        private Label lblProcessName;
+        private CenteredTextBox txtProcessName;
+        private Label lblProcessNameNote;
     }
 }

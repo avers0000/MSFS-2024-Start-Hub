@@ -14,6 +14,14 @@ namespace FS24StartHub.Infrastructure.Helpers
             return Process.GetProcessesByName("FlightSimulator2024").Any();
         }
 
+        public static bool IsProcessRunning(string processName)
+        {
+            if (string.IsNullOrWhiteSpace(processName))
+                return false;
+
+            return Process.GetProcessesByName(processName).Any();
+        }
+
         /// <summary>
         /// Retrieves the description attribute of an enum value, or its name if no description is provided.
         /// </summary>

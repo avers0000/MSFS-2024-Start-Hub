@@ -62,6 +62,11 @@ namespace FS24StartHub.App.WinForms
 
             // Add event handler for Type change
             cmbType.SelectedIndexChanged += cmbType_SelectedIndexChanged;
+
+            chbSkipIfRunning.Checked = StartupItem.SkipIfRunning;
+            chbWarnIfRunning.Checked = StartupItem.WarnIfRunning;
+            txtProcessName.Text = StartupItem.ProcessName ?? string.Empty;
+            UpdateProcessNameState();
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -77,6 +82,9 @@ namespace FS24StartHub.App.WinForms
             StartupItem.DisplayName = string.IsNullOrWhiteSpace(txtDisplayName.Text) ? null : txtDisplayName.Text;
             StartupItem.DelayBeforeMs = numDelayBefore.Value == 0 ? null : (int?)(numDelayBefore.Value * 1000);
             StartupItem.DelayAfterMs = numDelayAfter.Value == 0 ? null : (int?)(numDelayAfter.Value * 1000);
+            StartupItem.SkipIfRunning = chbSkipIfRunning.Checked;
+            StartupItem.WarnIfRunning = chbWarnIfRunning.Checked;
+            StartupItem.ProcessName = txtProcessName.Text?.Trim() ?? string.Empty;
 
             // Check for duplicates across the entire list, excluding the current item if updating
             var allItems = _appsManager.GetStartupItems(RunOption.BeforeSimStarts)
@@ -167,22 +175,18 @@ namespace FS24StartHub.App.WinForms
             {
                 txtPath.Text = ofdPath.FileName;
 
-                // Automatically pre-fill DisplayName only for new items
-                if (string.IsNullOrEmpty(StartupItem.Id))
+                if (Path.GetExtension(ofdPath.FileName).Equals(".exe", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (Path.GetExtension(ofdPath.FileName).Equals(".exe", StringComparison.OrdinalIgnoreCase))
-                    {
-                        // Try to get the ProductName
-                        var fileInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(ofdPath.FileName);
-                        txtDisplayName.Text = !string.IsNullOrWhiteSpace(fileInfo.ProductName)
-                            ? fileInfo.ProductName
-                            : Path.GetFileName(ofdPath.FileName); // Fallback to file name with extension
-                    }
-                    else
-                    {
-                        // Use the file name with extension for other file types
-                        txtDisplayName.Text = Path.GetFileName(ofdPath.FileName);
-                    }
+                    var fileInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(ofdPath.FileName);
+                    txtDisplayName.Text = !string.IsNullOrWhiteSpace(fileInfo.ProductName)
+                        ? fileInfo.ProductName
+                        : Path.GetFileName(ofdPath.FileName);
+
+                    txtProcessName.Text = Path.GetFileNameWithoutExtension(ofdPath.FileName);
+                }
+                else
+                {
+                    txtDisplayName.Text = Path.GetFileName(ofdPath.FileName);
                 }
             }
         }
@@ -200,6 +204,15 @@ namespace FS24StartHub.App.WinForms
                 MessageBox.Show("The specified file does not exist.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
+            if (chbSkipIfRunning.Checked || chbWarnIfRunning.Checked)
+            {
+                if (string.IsNullOrWhiteSpace(txtProcessName.Text))
+                {
+                    MessageBox.Show("Process Name cannot be empty when Skip or Warn is enabled.",
+                        "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
 
             return true;
         }
@@ -211,6 +224,22 @@ namespace FS24StartHub.App.WinForms
             tlpStartupItem.BackColor = ColorTranslator.FromHtml("#262a2e");
             UIStyler.ApplyStyleToAllButtons(this);
             UIStyler.ApplyStyleToAllComboBoxes(this);
+            UIStyler.ApplyStyleToAllCheckBoxes(this);
+        }
+
+        private void UpdateProcessNameState()
+        {
+            txtProcessName.Enabled = chbSkipIfRunning.Checked || chbWarnIfRunning.Checked;
+        }
+
+        private void chbSkipIfRunning_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateProcessNameState();
+        }
+
+        private void chbWarnIfRunning_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateProcessNameState();
         }
     }
 }
