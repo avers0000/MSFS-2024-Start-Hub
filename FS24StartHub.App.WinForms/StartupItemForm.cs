@@ -171,6 +171,16 @@ namespace FS24StartHub.App.WinForms
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
+            if (!string.IsNullOrWhiteSpace(txtPath.Text))
+            {
+                var dir = Path.GetDirectoryName(txtPath.Text);
+                if (Directory.Exists(dir))
+                    ofdPath.InitialDirectory = dir;
+            }
+
+            if (File.Exists(txtPath.Text))
+                ofdPath.FileName = Path.GetFileName(txtPath.Text);
+
             if (ofdPath.ShowDialog() == DialogResult.OK)
             {
                 txtPath.Text = ofdPath.FileName;
