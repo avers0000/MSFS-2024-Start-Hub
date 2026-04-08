@@ -365,4 +365,16 @@ public static class UIStyler
                 ApplyStyleToAllComboBoxes(control);
         }
     }
+
+    public static void ApplyStyleToAllCheckBoxes(Control parent)
+    {
+        foreach (Control ctrl in parent.Controls)
+        {
+            if (ctrl is CheckBox cb)
+                StyleCheckBox(cb);
+
+            if (ctrl.HasChildren)
+                ApplyStyleToAllCheckBoxes(ctrl);
+        }
+    }
 }

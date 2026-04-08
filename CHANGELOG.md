@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## [0.7.3]
+### Added
+- Process check for startup items: optional skip and/or warning if a process is already running before launch.
+- New fields in startup item configuration: Process Name, Skip If Running, Warn If Running.
+- Pre-launch warning dialog listing all already-running processes marked for warning.
+- Process Name is automatically pre-filled from the executable file name when browsing for an `.exe` file.
+
+### Fixed
+- Log file now displays special characters (quotes, dashes) without Unicode escaping.
+- Ampersand symbol now displays correctly in launch status label.
+
 ## [0.7.2]
 ### Added
 - Settings form for viewing and managing simulator configuration.

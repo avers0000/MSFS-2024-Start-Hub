@@ -56,6 +56,7 @@
             lblStatus.Size = new Size(420, 72);
             lblStatus.TabIndex = 1;
             lblStatus.TextAlign = ContentAlignment.MiddleLeft;
+            lblStatus.UseMnemonic = false;
             // 
             // progressBar
             // 

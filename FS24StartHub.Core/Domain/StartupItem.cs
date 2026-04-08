@@ -14,6 +14,9 @@
         public int? DelayBeforeMs { get; set; }
         public int? DelayAfterMs { get; set; }
         public string? DisplayName { get; set; }
+        public bool SkipIfRunning { get; set; } = false;
+        public bool WarnIfRunning { get; set; } = false;
+        public string ProcessName { get; set; } = string.Empty;
 
         // Clone method
         public StartupItem Clone()

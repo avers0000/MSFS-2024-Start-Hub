@@ -4,6 +4,7 @@ using FS24StartHub.Core.Domain;
 using FS24StartHub.Core.Launcher;
 using FS24StartHub.Core.Logging;
 using FS24StartHub.Core.Settings;
+using FS24StartHub.Infrastructure.Helpers;
 using FS24StartHub.Infrastructure.Launcher;
 
 namespace FS24StartHub.App.WinForms
@@ -111,8 +112,31 @@ namespace FS24StartHub.App.WinForms
             OnServiceDataChanged();
         }
 
+        private bool CheckRunningProcessesAndWarn()
+        {
+            var runningItems = _appsManager.GetStartupItems(RunOption.BeforeSimStarts)
+                .Concat(_appsManager.GetStartupItems(RunOption.AfterSimStarts))
+                .Where(item => item.Enabled && item.WarnIfRunning && Utility.IsProcessRunning(item.ProcessName))
+                .ToList();
+
+            if (!runningItems.Any())
+                return true;
+
+            var names = string.Join("\n", runningItems.Select(item => $"  • {item.DisplayName ?? item.ProcessName}"));
+            var result = MessageBox.Show(
+                $"The following applications are already running:\n\n{names}\n\nContinue anyway?",
+                "Processes Already Running",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            return result == DialogResult.Yes;
+        }
+
         private void btnStart_Click(object sender, EventArgs e)
         {
+            if (!CheckRunningProcessesAndWarn())
+                return;
+
             var request = new LaunchRequest
             {
                 KeepAppOpen = chbKeepOpen.Checked

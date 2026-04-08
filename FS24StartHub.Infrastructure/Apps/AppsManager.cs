@@ -72,6 +72,9 @@ namespace FS24StartHub.Infrastructure.Apps
                 existingItem.DelayBeforeMs = updatedItem.DelayBeforeMs;
                 existingItem.DelayAfterMs = updatedItem.DelayAfterMs;
                 existingItem.DisplayName = updatedItem.DisplayName;
+                existingItem.SkipIfRunning = updatedItem.SkipIfRunning;
+                existingItem.WarnIfRunning = updatedItem.WarnIfRunning;
+                existingItem.ProcessName = updatedItem.ProcessName;
 
                 // If RunOption changed, move the item to the new list
                 if (existingItem.RunOption != updatedItem.RunOption)

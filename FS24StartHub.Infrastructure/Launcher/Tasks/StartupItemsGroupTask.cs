@@ -4,6 +4,7 @@ using FS24StartHub.Core.Launcher;
 using FS24StartHub.Core.Launcher.Progress;
 using FS24StartHub.Core.Launcher.Tasks;
 using FS24StartHub.Core.Logging;
+using FS24StartHub.Infrastructure.Helpers;
 using System.Diagnostics;
 
 namespace FS24StartHub.Infrastructure.Launcher.Tasks
@@ -36,6 +37,12 @@ namespace FS24StartHub.Infrastructure.Launcher.Tasks
                 ct.ThrowIfCancellationRequested();
 
                 progress?.Report(new StepProgress(Name, ProgressType.Info, $"Executing: {item.DisplayName ?? item.Path}"));
+
+                if (item.SkipIfRunning && Utility.IsProcessRunning(item.ProcessName))
+                {
+                    _logManager.Info($"Skipped '{item.DisplayName ?? item.Path}' — process '{item.ProcessName}' is already running.", "StartupItemsGroupTask");
+                    continue;
+                }
 
                 if (item.DelayBeforeMs.HasValue)
                 {
