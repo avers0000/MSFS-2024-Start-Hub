@@ -10,6 +10,10 @@ The format is based on Keep a Changelog, and this project adheres to Semantic Ve
 - Pre-launch warning dialog listing all already-running processes marked for warning.
 - Process Name is automatically pre-filled from the executable file name when browsing for an `.exe` file.
 
+### Fixed
+- Log file now displays special characters (quotes, dashes) without Unicode escaping.
+- Ampersand symbol now displays correctly in launch status label.
+
 ## [0.7.2]
 ### Added
 - Settings form for viewing and managing simulator configuration.
