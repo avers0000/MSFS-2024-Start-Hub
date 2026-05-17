@@ -1,0 +1,18 @@
+﻿using FS24StartHub.Core.Domain;
+using FS24StartHub.Core.Settings;
+
+namespace FS24StartHub.Core.Configs
+{
+    public interface IConfigManager : ISaveable
+    {
+        /// <summary>
+        /// Returns the id of the currently applied config.
+        /// </summary>
+        string? CurrentConfigId { get; }
+
+        /// <summary>
+        /// Returns all saved config snapshots.
+        /// </summary>
+        IEnumerable<Config> GetConfigs();
+    }
+}

@@ -349,6 +349,15 @@ public static class UIStyler
         listBox.ReadonlyForeColor = Color.SkyBlue;
     }
 
+    public static void StyleDataGridView(DataGridView dataGridView)
+    {
+        if (dataGridView == null) return;
+
+        dataGridView.BackgroundColor = Color.FromArgb(24, 36, 54);
+
+    }
+
+
     public static void ApplyStyleToAllComboBoxes(Control parent)
     {
         foreach (Control control in parent.Controls)

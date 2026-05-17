@@ -1,9 +1,11 @@
 ﻿using FS24StartHub.Core.Apps;
+using FS24StartHub.Core.Configs;
 using FS24StartHub.Core.Domain;
 using FS24StartHub.Core.Logging;
 using FS24StartHub.Core.Settings;
 using FS24StartHub.Core.Storage;
 using FS24StartHub.Infrastructure.Apps;
+using FS24StartHub.Infrastructure.Configs;
 using FS24StartHub.Infrastructure.Helpers;
 using FS24StartHub.Infrastructure.Logging;
 using FS24StartHub.Infrastructure.Settings;
@@ -130,9 +132,9 @@ namespace FS24StartHub.App.WinForms
 
             // Initialize AppsManager
             IAppsManager appsManager = new AppsManager(settingsManager, logManager);
-
+            IConfigManager configManager = new ConfigManager(settingsManager, logManager);
             // Run the main form
-            Application.Run(new MainForm(settingsManager, appsManager, logManager));
+            Application.Run(new MainForm(settingsManager, appsManager, configManager, logManager));
         }
 
         private static bool ShowSettingsForm(ISettingsManager settingsManager, ILogManager logManager)

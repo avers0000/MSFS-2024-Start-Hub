@@ -1,5 +1,6 @@
 ﻿using FS24StartHub.App.WinForms.Controls;
 using FS24StartHub.Core.Apps;
+using FS24StartHub.Core.Configs;
 using FS24StartHub.Core.Domain;
 using FS24StartHub.Core.Launcher;
 using FS24StartHub.Core.Logging;
@@ -14,13 +15,15 @@ namespace FS24StartHub.App.WinForms
         private readonly ISettingsManager _settingsManager;
         private readonly IAppsManager _appsManager;
         private readonly ILogManager _logManager;
+        private readonly IConfigManager _configManager;
 
         private bool isUpdating = false;
 
-        public MainForm(ISettingsManager settingsManager, IAppsManager appsManager, ILogManager logManager)
+        public MainForm(ISettingsManager settingsManager, IAppsManager appsManager, IConfigManager configManager, ILogManager logManager)
         {
             _settingsManager = settingsManager;
             _appsManager = appsManager;
+            _configManager = configManager;
             _logManager = logManager;
 
             InitializeComponent();
@@ -292,6 +295,7 @@ namespace FS24StartHub.App.WinForms
             UIStyler.ApplyStyleToAllButtons(this);
             UIStyler.StyleCheckBox(chbKeepOpen);
             UIStyler.StyleCustomCheckedListBox(clbApps);
+            UIStyler.StyleDataGridView(dgvConfigs);
         }
 
         private void btnSettings_Click(object sender, EventArgs e)

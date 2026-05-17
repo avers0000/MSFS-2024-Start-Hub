@@ -44,7 +44,12 @@
             pnApps = new Panel();
             lblVersion = new Label();
             btnSettings = new Button();
+            pnConfigs = new Panel();
+            dgvConfigs = new DataGridView();
+            lblConfigs = new Label();
             pnApps.SuspendLayout();
+            pnConfigs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvConfigs).BeginInit();
             SuspendLayout();
             // 
             // btnStart
@@ -89,13 +94,13 @@
             btnAppsEdit.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsEdit.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsEdit.FlatStyle = FlatStyle.Flat;
-            btnAppsEdit.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsEdit.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAppsEdit.ForeColor = Color.White;
-            btnAppsEdit.Location = new Point(375, 70);
+            btnAppsEdit.Location = new Point(330, 70);
             btnAppsEdit.Name = "btnAppsEdit";
-            btnAppsEdit.Size = new Size(90, 30);
+            btnAppsEdit.Size = new Size(30, 30);
             btnAppsEdit.TabIndex = 2;
-            btnAppsEdit.Text = "Edit...";
+            btnAppsEdit.Text = "";
             btnAppsEdit.UseVisualStyleBackColor = false;
             btnAppsEdit.Click += btnAppsEdit_Click;
             // 
@@ -106,13 +111,13 @@
             btnAppsAdd.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsAdd.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsAdd.FlatStyle = FlatStyle.Flat;
-            btnAppsAdd.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsAdd.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAppsAdd.ForeColor = Color.White;
-            btnAppsAdd.Location = new Point(375, 35);
+            btnAppsAdd.Location = new Point(330, 35);
             btnAppsAdd.Name = "btnAppsAdd";
-            btnAppsAdd.Size = new Size(90, 30);
+            btnAppsAdd.Size = new Size(30, 30);
             btnAppsAdd.TabIndex = 1;
-            btnAppsAdd.Text = "Add...";
+            btnAppsAdd.Text = "";
             btnAppsAdd.UseVisualStyleBackColor = false;
             btnAppsAdd.Click += btnAppsAdd_Click;
             // 
@@ -123,13 +128,13 @@
             btnAppsRemove.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsRemove.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsRemove.FlatStyle = FlatStyle.Flat;
-            btnAppsRemove.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsRemove.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold);
             btnAppsRemove.ForeColor = Color.White;
-            btnAppsRemove.Location = new Point(375, 105);
+            btnAppsRemove.Location = new Point(330, 105);
             btnAppsRemove.Name = "btnAppsRemove";
-            btnAppsRemove.Size = new Size(90, 30);
+            btnAppsRemove.Size = new Size(30, 30);
             btnAppsRemove.TabIndex = 3;
-            btnAppsRemove.Text = "Remove";
+            btnAppsRemove.Text = "";
             btnAppsRemove.UseVisualStyleBackColor = false;
             btnAppsRemove.Click += btnAppsRemove_Click;
             // 
@@ -140,13 +145,13 @@
             btnAppsReload.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsReload.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsReload.FlatStyle = FlatStyle.Flat;
-            btnAppsReload.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsReload.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold);
             btnAppsReload.ForeColor = Color.White;
-            btnAppsReload.Location = new Point(375, 175);
+            btnAppsReload.Location = new Point(330, 175);
             btnAppsReload.Name = "btnAppsReload";
-            btnAppsReload.Size = new Size(90, 30);
+            btnAppsReload.Size = new Size(30, 30);
             btnAppsReload.TabIndex = 4;
-            btnAppsReload.Text = "Reload";
+            btnAppsReload.Text = "";
             btnAppsReload.UseVisualStyleBackColor = false;
             btnAppsReload.Click += btnAppsReload_Click;
             // 
@@ -157,13 +162,13 @@
             btnAppsMoveDown.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsMoveDown.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsMoveDown.FlatStyle = FlatStyle.Flat;
-            btnAppsMoveDown.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsMoveDown.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold);
             btnAppsMoveDown.ForeColor = Color.White;
-            btnAppsMoveDown.Location = new Point(375, 245);
+            btnAppsMoveDown.Location = new Point(330, 245);
             btnAppsMoveDown.Name = "btnAppsMoveDown";
-            btnAppsMoveDown.Size = new Size(90, 30);
+            btnAppsMoveDown.Size = new Size(30, 30);
             btnAppsMoveDown.TabIndex = 6;
-            btnAppsMoveDown.Text = "Down";
+            btnAppsMoveDown.Text = "";
             btnAppsMoveDown.UseVisualStyleBackColor = false;
             btnAppsMoveDown.Click += btnAppsMoveDown_Click;
             // 
@@ -174,13 +179,13 @@
             btnAppsMoveUp.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsMoveUp.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsMoveUp.FlatStyle = FlatStyle.Flat;
-            btnAppsMoveUp.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsMoveUp.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold);
             btnAppsMoveUp.ForeColor = Color.White;
-            btnAppsMoveUp.Location = new Point(375, 210);
+            btnAppsMoveUp.Location = new Point(330, 210);
             btnAppsMoveUp.Name = "btnAppsMoveUp";
-            btnAppsMoveUp.Size = new Size(90, 30);
+            btnAppsMoveUp.Size = new Size(30, 30);
             btnAppsMoveUp.TabIndex = 5;
-            btnAppsMoveUp.Text = "Up";
+            btnAppsMoveUp.Text = "";
             btnAppsMoveUp.UseVisualStyleBackColor = false;
             btnAppsMoveUp.Click += btnAppsMoveUp_Click;
             // 
@@ -200,7 +205,7 @@
             clbApps.Name = "clbApps";
             clbApps.ReadonlyForeColor = Color.Empty;
             clbApps.ReadonlySelectedForeColor = Color.Empty;
-            clbApps.Size = new Size(350, 240);
+            clbApps.Size = new Size(324, 240);
             clbApps.TabIndex = 0;
             clbApps.ToolTipBackColor = Color.Empty;
             clbApps.ToolTipForeColor = Color.Empty;
@@ -266,7 +271,7 @@
             pnApps.Controls.Add(btnAppsMoveDown);
             pnApps.Location = new Point(21, 12);
             pnApps.Name = "pnApps";
-            pnApps.Size = new Size(465, 275);
+            pnApps.Size = new Size(360, 275);
             pnApps.TabIndex = 1;
             // 
             // lblVersion
@@ -274,7 +279,7 @@
             lblVersion.BackColor = Color.FromArgb(20, 72, 147);
             lblVersion.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblVersion.ForeColor = Color.White;
-            lblVersion.Location = new Point(642, 10);
+            lblVersion.Location = new Point(250, 6);
             lblVersion.Name = "lblVersion";
             lblVersion.Size = new Size(100, 30);
             lblVersion.TabIndex = 5;
@@ -290,7 +295,7 @@
             btnSettings.FlatStyle = FlatStyle.Flat;
             btnSettings.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
             btnSettings.ForeColor = Color.White;
-            btnSettings.Location = new Point(742, 10);
+            btnSettings.Location = new Point(350, 6);
             btnSettings.Name = "btnSettings";
             btnSettings.Size = new Size(30, 30);
             btnSettings.TabIndex = 6;
@@ -298,6 +303,41 @@
             btnSettings.Text = "Settings";
             btnSettings.UseVisualStyleBackColor = false;
             btnSettings.Click += btnSettings_Click;
+            // 
+            // pnConfigs
+            // 
+            pnConfigs.BackColor = Color.Transparent;
+            pnConfigs.Controls.Add(dgvConfigs);
+            pnConfigs.Controls.Add(lblConfigs);
+            pnConfigs.Controls.Add(lblVersion);
+            pnConfigs.Controls.Add(btnSettings);
+            pnConfigs.Location = new Point(400, 0);
+            pnConfigs.Name = "pnConfigs";
+            pnConfigs.Size = new Size(380, 287);
+            pnConfigs.TabIndex = 7;
+            // 
+            // dgvConfigs
+            // 
+            dgvConfigs.AllowUserToAddRows = false;
+            dgvConfigs.BackgroundColor = Color.DimGray;
+            dgvConfigs.BorderStyle = BorderStyle.None;
+            dgvConfigs.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvConfigs.Location = new Point(0, 47);
+            dgvConfigs.Name = "dgvConfigs";
+            dgvConfigs.ReadOnly = true;
+            dgvConfigs.Size = new Size(360, 240);
+            dgvConfigs.TabIndex = 9;
+            // 
+            // lblConfigs
+            // 
+            lblConfigs.AutoSize = true;
+            lblConfigs.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblConfigs.ForeColor = Color.White;
+            lblConfigs.Location = new Point(0, 19);
+            lblConfigs.Name = "lblConfigs";
+            lblConfigs.Size = new Size(66, 21);
+            lblConfigs.TabIndex = 8;
+            lblConfigs.Text = "Configs";
             // 
             // MainForm
             // 
@@ -307,8 +347,7 @@
             BackgroundImage = Resources.bg_fs24sh;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(784, 461);
-            Controls.Add(btnSettings);
-            Controls.Add(lblVersion);
+            Controls.Add(pnConfigs);
             Controls.Add(pnApps);
             Controls.Add(chbKeepOpen);
             Controls.Add(btnSave);
@@ -324,6 +363,9 @@
             Load += MainForm_Load;
             pnApps.ResumeLayout(false);
             pnApps.PerformLayout();
+            pnConfigs.ResumeLayout(false);
+            pnConfigs.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvConfigs).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -345,5 +387,8 @@
         private Panel pnApps;
         private Label lblVersion;
         private Button btnSettings;
+        private Panel pnConfigs;
+        private Label lblConfigs;
+        private DataGridView dgvConfigs;
     }
 }

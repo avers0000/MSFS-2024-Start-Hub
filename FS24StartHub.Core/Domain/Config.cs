@@ -6,7 +6,7 @@
     public class Config
     {
         public string Id { get; set; } = string.Empty;
-        public string FolderName { get; set; } = string.Empty;
+        public string? Name { get; set; }
         public string? Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastUsed { get; set; }
