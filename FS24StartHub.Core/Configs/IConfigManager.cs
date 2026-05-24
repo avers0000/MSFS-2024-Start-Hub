@@ -14,5 +14,9 @@ namespace FS24StartHub.Core.Configs
         /// Returns all saved config snapshots.
         /// </summary>
         IEnumerable<Config> GetConfigs();
+
+        string? SelectedConfigId { get; }
+
+        void SelectConfig(string? id);
     }
 }

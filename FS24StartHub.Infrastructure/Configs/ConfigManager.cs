@@ -30,7 +30,12 @@ namespace FS24StartHub.Infrastructure.Configs
             IsDirty = false;
         }
 
-        public IEnumerable<Config> GetConfigs() => _configs.ToList();
+        public IEnumerable<Config> GetConfigs()
+        {
+            foreach (var cfg in _configs)
+                cfg.IsCurrent = cfg.Id == _currentConfigId;
+            return _configs.ToList();
+        }
 
         public bool HasChanges() => IsDirty;
 
@@ -52,7 +57,7 @@ namespace FS24StartHub.Infrastructure.Configs
 
         public ILaunchTask GetSaveTask()
         {
-            // TODO: реализовать SaveConfigManagerTask
+            // TODO: implement SaveConfigManagerTask
             throw new NotImplementedException();
         }
 
@@ -61,6 +66,13 @@ namespace FS24StartHub.Infrastructure.Configs
             _configs = [.. _settingsManager.CurrentSettings?.Configs ?? []];
             _currentConfigId = _settingsManager.CurrentSettings?.CurrentConfigId;
             IsDirty = false;
+        }
+
+        public string? SelectedConfigId { get; private set; }
+
+        public void SelectConfig(string? id)
+        {
+            SelectedConfigId = id;
         }
     }
 }

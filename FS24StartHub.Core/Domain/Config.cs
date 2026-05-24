@@ -12,6 +12,9 @@
         public DateTime LastUsed { get; set; }
         public int? Rating { get; set; }
 
+        [System.Text.Json.Serialization.JsonIgnore]
+        public bool IsCurrent { get; set; }
+
         public Config Clone()
         {
             return (Config)MemberwiseClone();

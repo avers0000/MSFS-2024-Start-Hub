@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             btnStart = new Button();
             btnExit = new Button();
@@ -47,6 +48,12 @@
             pnConfigs = new Panel();
             dgvConfigs = new DataGridView();
             lblConfigs = new Label();
+            colMarker = new DataGridViewTextBoxColumn();
+            colName = new DataGridViewTextBoxColumn();
+            colCreatedDate = new DataGridViewTextBoxColumn();
+            colInfo = new DataGridViewButtonColumn();
+            colEdit = new DataGridViewButtonColumn();
+            colDelete = new DataGridViewButtonColumn();
             pnApps.SuspendLayout();
             pnConfigs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvConfigs).BeginInit();
@@ -134,7 +141,7 @@
             btnAppsRemove.Name = "btnAppsRemove";
             btnAppsRemove.Size = new Size(30, 30);
             btnAppsRemove.TabIndex = 3;
-            btnAppsRemove.Text = "";
+            btnAppsRemove.Text = "";
             btnAppsRemove.UseVisualStyleBackColor = false;
             btnAppsRemove.Click += btnAppsRemove_Click;
             // 
@@ -319,14 +326,32 @@
             // dgvConfigs
             // 
             dgvConfigs.AllowUserToAddRows = false;
+            dgvConfigs.AllowUserToDeleteRows = false;
+            dgvConfigs.AllowUserToResizeColumns = false;
+            dgvConfigs.AllowUserToResizeRows = false;
             dgvConfigs.BackgroundColor = Color.DimGray;
             dgvConfigs.BorderStyle = BorderStyle.None;
-            dgvConfigs.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvConfigs.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvConfigs.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvConfigs.ColumnHeadersHeight = 20;
+            dgvConfigs.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvConfigs.Columns.AddRange(new DataGridViewColumn[] { colMarker, colName, colCreatedDate, colInfo, colEdit, colDelete });
+            dgvConfigs.EnableHeadersVisualStyles = false;
+            dgvConfigs.GridColor = Color.Silver;
             dgvConfigs.Location = new Point(0, 47);
+            dgvConfigs.MultiSelect = false;
             dgvConfigs.Name = "dgvConfigs";
             dgvConfigs.ReadOnly = true;
+            dgvConfigs.RowHeadersVisible = false;
+            dgvConfigs.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgvConfigs.RowTemplate.Height = 20;
+            dgvConfigs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvConfigs.ShowCellToolTips = false;
             dgvConfigs.Size = new Size(360, 240);
             dgvConfigs.TabIndex = 9;
+            dgvConfigs.CellClick += dgvConfigs_CellClick;
+            dgvConfigs.CellDoubleClick += dgvConfigs_CellDoubleClick;
+            dgvConfigs.KeyDown += dgvConfigs_KeyDown;
             // 
             // lblConfigs
             // 
@@ -338,6 +363,66 @@
             lblConfigs.Size = new Size(66, 21);
             lblConfigs.TabIndex = 8;
             lblConfigs.Text = "Configs";
+            // 
+            // colMarker
+            // 
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colMarker.DefaultCellStyle = dataGridViewCellStyle1;
+            colMarker.HeaderText = "";
+            colMarker.Name = "colMarker";
+            colMarker.ReadOnly = true;
+            colMarker.Resizable = DataGridViewTriState.False;
+            colMarker.SortMode = DataGridViewColumnSortMode.NotSortable;
+            colMarker.Width = 20;
+            // 
+            // colName
+            // 
+            colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colName.HeaderText = "Name";
+            colName.Name = "colName";
+            colName.ReadOnly = true;
+            colName.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colCreatedDate
+            // 
+            colCreatedDate.HeaderText = "Created Date";
+            colCreatedDate.Name = "colCreatedDate";
+            colCreatedDate.ReadOnly = true;
+            colCreatedDate.SortMode = DataGridViewColumnSortMode.NotSortable;
+            colCreatedDate.Width = 90;
+            // 
+            // colInfo
+            // 
+            colInfo.FlatStyle = FlatStyle.Flat;
+            colInfo.HeaderText = "";
+            colInfo.Name = "colInfo";
+            colInfo.ReadOnly = true;
+            colInfo.Resizable = DataGridViewTriState.False;
+            colInfo.Text = "ℹ";
+            colInfo.UseColumnTextForButtonValue = true;
+            colInfo.Width = 20;
+            // 
+            // colEdit
+            // 
+            colEdit.FlatStyle = FlatStyle.Flat;
+            colEdit.HeaderText = "";
+            colEdit.Name = "colEdit";
+            colEdit.ReadOnly = true;
+            colEdit.Resizable = DataGridViewTriState.False;
+            colEdit.Text = "";
+            colEdit.UseColumnTextForButtonValue = true;
+            colEdit.Width = 20;
+            // 
+            // colDelete
+            // 
+            colDelete.FlatStyle = FlatStyle.Flat;
+            colDelete.HeaderText = "";
+            colDelete.Name = "colDelete";
+            colDelete.ReadOnly = true;
+            colDelete.Resizable = DataGridViewTriState.False;
+            colDelete.Text = "";
+            colDelete.UseColumnTextForButtonValue = true;
+            colDelete.Width = 20;
             // 
             // MainForm
             // 
@@ -390,5 +475,11 @@
         private Panel pnConfigs;
         private Label lblConfigs;
         private DataGridView dgvConfigs;
+        private DataGridViewTextBoxColumn colMarker;
+        private DataGridViewTextBoxColumn colName;
+        private DataGridViewTextBoxColumn colCreatedDate;
+        private DataGridViewButtonColumn colInfo;
+        private DataGridViewButtonColumn colEdit;
+        private DataGridViewButtonColumn colDelete;
     }
 }
