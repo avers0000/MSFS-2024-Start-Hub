@@ -71,8 +71,7 @@ namespace FS24StartHub.Infrastructure.Configs
 
         public ILaunchTask GetSaveTask()
         {
-            // TODO: implement SaveConfigManagerTask
-            throw new NotImplementedException();
+            return new ApplyConfigTask(this, _logManager);
         }
 
         private void LoadData()
@@ -204,6 +203,24 @@ namespace FS24StartHub.Infrastructure.Configs
                 ?? throw new InvalidOperationException("SimPath is not configured.");
 
             return Path.Combine(simPath, "..", "UserCfg.opt");
+        }
+
+        public void ApplySelectedConfig()
+        {
+            if (string.IsNullOrWhiteSpace(SelectedConfigId))
+                return;
+
+            var sourcePath = GetConfigFilePath(SelectedConfigId);
+            if (!_fileStorage.FileExists(sourcePath))
+                throw new FileNotFoundException("Config file not found.", sourcePath);
+
+            var destPath = GetSourceUserCfgPath();
+            _fileStorage.CopyFile(sourcePath, destPath, overwrite: true);
+
+            _currentConfigId = SelectedConfigId;
+            IsDirty = true;
+
+            _logManager.Info($"Config '{SelectedConfigId}' applied to simulator.", "ConfigManager");
         }
     }
 }

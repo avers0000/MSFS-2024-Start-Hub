@@ -26,5 +26,6 @@ namespace FS24StartHub.Core.Configs
         void DeleteConfig(string configId);
         bool IsCurrentConfigUpToDate();
         void SaveCurrentConfig(string? name = null);
+        void ApplySelectedConfig();
     }
 }

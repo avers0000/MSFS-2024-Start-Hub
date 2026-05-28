@@ -252,7 +252,7 @@ namespace FS24StartHub.App.WinForms
                 KeepAppOpen = chbKeepOpen.Checked
             };
 
-            var simLauncherManager = new SimLauncherManager(_logManager, _settingsManager, _appsManager);
+            var simLauncherManager = new SimLauncherManager(_logManager, _settingsManager, _appsManager, _configManager);
 
             using var startForm = new StartForm(simLauncherManager, _logManager, request);
             var result = startForm.ShowDialog();
