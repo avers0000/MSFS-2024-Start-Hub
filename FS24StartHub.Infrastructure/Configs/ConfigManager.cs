@@ -29,6 +29,17 @@ namespace FS24StartHub.Infrastructure.Configs
             _settingsManager.SettingsReloaded += LoadData;
 
             LoadData();
+
+            try
+            {
+                if (!IsCurrentConfigUpToDate())
+                    SaveCurrentConfig($"autosave-{DateTime.Now:yyyy-MM-dd HH:mm}");
+            }
+            catch (IOException ex)
+            {
+                _logManager.Error($"Failed to sync current config: {ex.Message}", "ConfigManager");
+            }
+
             _logManager.Info("ConfigManager initialized.", "ConfigManager");
             IsDirty = false;
         }
@@ -137,7 +148,7 @@ namespace FS24StartHub.Infrastructure.Configs
             DataChanged?.Invoke();
         }
 
-        public async Task<bool> IsCurrentConfigUpToDateAsync()
+        public bool IsCurrentConfigUpToDate()
         {
             if (string.IsNullOrEmpty(_currentConfigId))
                 return false;
@@ -150,13 +161,13 @@ namespace FS24StartHub.Infrastructure.Configs
             if (!_fileStorage.FileExists(snapshotPath))
                 return false;
 
-            var sourceHash = await _fileStorage.ComputeFileHashAsync(sourcePath);
-            var snapshotHash = await _fileStorage.ComputeFileHashAsync(snapshotPath);
+            var sourceHash = _fileStorage.ComputeFileHash(sourcePath);
+            var snapshotHash = _fileStorage.ComputeFileHash(snapshotPath);
 
             return sourceHash == snapshotHash;
         }
 
-        public async Task SaveCurrentConfigAsync(string? name = null)
+        public void SaveCurrentConfig(string? name = null)
         {
             var sourcePath = GetSourceUserCfgPath();
             if (!_fileStorage.FileExists(sourcePath))

@@ -24,7 +24,7 @@ namespace FS24StartHub.Core.Configs
         string GetConfigFilePath(string configId);
 
         void DeleteConfig(string configId);
-        Task<bool> IsCurrentConfigUpToDateAsync();
-        Task SaveCurrentConfigAsync(string? name = null);
+        bool IsCurrentConfigUpToDate();
+        void SaveCurrentConfig(string? name = null);
     }
 }

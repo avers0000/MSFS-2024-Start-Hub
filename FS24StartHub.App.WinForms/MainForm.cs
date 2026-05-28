@@ -435,12 +435,11 @@ namespace FS24StartHub.App.WinForms
             }
         }
 
-        private async void btnCaptureConfig_Click(object sender, EventArgs e)
+        private void btnCaptureConfig_Click(object sender, EventArgs e)
         {
             try
             {
-                var upToDate = await _configManager.IsCurrentConfigUpToDateAsync();
-                if (upToDate)
+                if (_configManager.IsCurrentConfigUpToDate())
                 {
                     MessageBox.Show(
                         "Current config is already up to date.",
@@ -450,9 +449,9 @@ namespace FS24StartHub.App.WinForms
                     return;
                 }
 
-                await _configManager.SaveCurrentConfigAsync();
+                _configManager.SaveCurrentConfig();
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
                 MessageBox.Show(
                     $"Failed to save config: {ex.Message}",

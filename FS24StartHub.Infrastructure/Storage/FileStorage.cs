@@ -86,11 +86,11 @@ namespace FS24StartHub.Infrastructure.Storage
             File.Copy(sourcePath, destPath, overwrite);
         }
 
-        public async Task<string> ComputeFileHashAsync(string path)
+        public string ComputeFileHash(string path)
         {
             using var sha = System.Security.Cryptography.SHA256.Create();
-            await using var stream = File.OpenRead(path);
-            var hash = await sha.ComputeHashAsync(stream);
+            using var stream = File.OpenRead(path);
+            var hash = sha.ComputeHash(stream);
             return Convert.ToHexString(hash);
         }
     }
