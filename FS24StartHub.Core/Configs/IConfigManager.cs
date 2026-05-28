@@ -18,5 +18,13 @@ namespace FS24StartHub.Core.Configs
         string? SelectedConfigId { get; }
 
         void SelectConfig(string? id);
+
+        void UpdateConfig(Config config);
+
+        string GetConfigFilePath(string configId);
+
+        void DeleteConfig(string configId);
+        Task<bool> IsCurrentConfigUpToDateAsync();
+        Task SaveCurrentConfigAsync(string? name = null);
     }
 }

@@ -20,5 +20,8 @@
 
         void Delete(string path);
         void Move(string sourcePath, string destinationPath);
+        void DeleteDirectory(string path, bool recursive = true);
+        void CopyFile(string sourcePath, string destPath, bool overwrite = false);
+        Task<string> ComputeFileHashAsync(string path);
     }
 }

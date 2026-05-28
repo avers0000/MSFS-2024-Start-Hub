@@ -68,5 +68,10 @@ namespace FS24StartHub.Core.Settings
         /// Updates current config id and saves to disk.
         /// </summary>
         void SaveCurrentConfigId(string? currentConfigId);
+
+        /// <summary>
+        /// Returns the base folder path for settings.
+        /// </summary>
+        string BaseFolderPath { get; }
     }
 }

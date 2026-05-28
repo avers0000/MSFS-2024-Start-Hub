@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             btnStart = new Button();
@@ -46,14 +47,18 @@
             lblVersion = new Label();
             btnSettings = new Button();
             pnConfigs = new Panel();
+            btnCaptureConfig = new Button();
             dgvConfigs = new DataGridView();
-            lblConfigs = new Label();
             colMarker = new DataGridViewTextBoxColumn();
             colName = new DataGridViewTextBoxColumn();
             colCreatedDate = new DataGridViewTextBoxColumn();
             colInfo = new DataGridViewButtonColumn();
             colEdit = new DataGridViewButtonColumn();
             colDelete = new DataGridViewButtonColumn();
+            lblConfigs = new Label();
+            toolTip1 = new ToolTip(components);
+            lblLegendCurrent = new Label();
+            lblLegendSelected = new Label();
             pnApps.SuspendLayout();
             pnConfigs.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvConfigs).BeginInit();
@@ -108,6 +113,7 @@
             btnAppsEdit.Size = new Size(30, 30);
             btnAppsEdit.TabIndex = 2;
             btnAppsEdit.Text = "";
+            toolTip1.SetToolTip(btnAppsEdit, "Edit");
             btnAppsEdit.UseVisualStyleBackColor = false;
             btnAppsEdit.Click += btnAppsEdit_Click;
             // 
@@ -125,6 +131,7 @@
             btnAppsAdd.Size = new Size(30, 30);
             btnAppsAdd.TabIndex = 1;
             btnAppsAdd.Text = "";
+            toolTip1.SetToolTip(btnAppsAdd, "Add");
             btnAppsAdd.UseVisualStyleBackColor = false;
             btnAppsAdd.Click += btnAppsAdd_Click;
             // 
@@ -142,6 +149,7 @@
             btnAppsRemove.Size = new Size(30, 30);
             btnAppsRemove.TabIndex = 3;
             btnAppsRemove.Text = "";
+            toolTip1.SetToolTip(btnAppsRemove, "Delete");
             btnAppsRemove.UseVisualStyleBackColor = false;
             btnAppsRemove.Click += btnAppsRemove_Click;
             // 
@@ -159,6 +167,7 @@
             btnAppsReload.Size = new Size(30, 30);
             btnAppsReload.TabIndex = 4;
             btnAppsReload.Text = "";
+            toolTip1.SetToolTip(btnAppsReload, "Reload");
             btnAppsReload.UseVisualStyleBackColor = false;
             btnAppsReload.Click += btnAppsReload_Click;
             // 
@@ -176,6 +185,7 @@
             btnAppsMoveDown.Size = new Size(30, 30);
             btnAppsMoveDown.TabIndex = 6;
             btnAppsMoveDown.Text = "";
+            toolTip1.SetToolTip(btnAppsMoveDown, "Move Down");
             btnAppsMoveDown.UseVisualStyleBackColor = false;
             btnAppsMoveDown.Click += btnAppsMoveDown_Click;
             // 
@@ -193,6 +203,7 @@
             btnAppsMoveUp.Size = new Size(30, 30);
             btnAppsMoveUp.TabIndex = 5;
             btnAppsMoveUp.Text = "";
+            toolTip1.SetToolTip(btnAppsMoveUp, "Move Up");
             btnAppsMoveUp.UseVisualStyleBackColor = false;
             btnAppsMoveUp.Click += btnAppsMoveUp_Click;
             // 
@@ -247,7 +258,7 @@
             chbKeepOpen.FlatStyle = FlatStyle.Flat;
             chbKeepOpen.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chbKeepOpen.ForeColor = Color.White;
-            chbKeepOpen.Location = new Point(659, 290);
+            chbKeepOpen.Location = new Point(661, 297);
             chbKeepOpen.Name = "chbKeepOpen";
             chbKeepOpen.Size = new Size(89, 21);
             chbKeepOpen.TabIndex = 2;
@@ -314,6 +325,7 @@
             // pnConfigs
             // 
             pnConfigs.BackColor = Color.Transparent;
+            pnConfigs.Controls.Add(btnCaptureConfig);
             pnConfigs.Controls.Add(dgvConfigs);
             pnConfigs.Controls.Add(lblConfigs);
             pnConfigs.Controls.Add(lblVersion);
@@ -322,6 +334,23 @@
             pnConfigs.Name = "pnConfigs";
             pnConfigs.Size = new Size(380, 287);
             pnConfigs.TabIndex = 7;
+            // 
+            // btnCaptureConfig
+            // 
+            btnCaptureConfig.FlatAppearance.BorderSize = 0;
+            btnCaptureConfig.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
+            btnCaptureConfig.FlatAppearance.MouseOverBackColor = Color.White;
+            btnCaptureConfig.FlatStyle = FlatStyle.Flat;
+            btnCaptureConfig.Font = new Font("Segoe MDL2 Assets", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCaptureConfig.ForeColor = Color.White;
+            btnCaptureConfig.Location = new Point(149, 14);
+            btnCaptureConfig.Name = "btnCaptureConfig";
+            btnCaptureConfig.Size = new Size(30, 30);
+            btnCaptureConfig.TabIndex = 8;
+            btnCaptureConfig.Text = "";
+            toolTip1.SetToolTip(btnCaptureConfig, "Capture Current Graphics Settings");
+            btnCaptureConfig.UseVisualStyleBackColor = false;
+            btnCaptureConfig.Click += btnCaptureConfig_Click;
             // 
             // dgvConfigs
             // 
@@ -352,17 +381,6 @@
             dgvConfigs.CellClick += dgvConfigs_CellClick;
             dgvConfigs.CellDoubleClick += dgvConfigs_CellDoubleClick;
             dgvConfigs.KeyDown += dgvConfigs_KeyDown;
-            // 
-            // lblConfigs
-            // 
-            lblConfigs.AutoSize = true;
-            lblConfigs.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblConfigs.ForeColor = Color.White;
-            lblConfigs.Location = new Point(0, 19);
-            lblConfigs.Name = "lblConfigs";
-            lblConfigs.Size = new Size(66, 21);
-            lblConfigs.TabIndex = 8;
-            lblConfigs.Text = "Configs";
             // 
             // colMarker
             // 
@@ -424,6 +442,40 @@
             colDelete.UseColumnTextForButtonValue = true;
             colDelete.Width = 20;
             // 
+            // lblConfigs
+            // 
+            lblConfigs.AutoSize = true;
+            lblConfigs.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblConfigs.ForeColor = Color.White;
+            lblConfigs.Location = new Point(0, 19);
+            lblConfigs.Name = "lblConfigs";
+            lblConfigs.Size = new Size(132, 21);
+            lblConfigs.TabIndex = 8;
+            lblConfigs.Text = "Graphics Profiles";
+            // 
+            // lblLegendCurrent
+            // 
+            lblLegendCurrent.AutoSize = true;
+            lblLegendCurrent.BackColor = Color.Transparent;
+            lblLegendCurrent.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblLegendCurrent.ForeColor = Color.Yellow;
+            lblLegendCurrent.Location = new Point(400, 290);
+            lblLegendCurrent.Name = "lblLegendCurrent";
+            lblLegendCurrent.Size = new Size(94, 15);
+            lblLegendCurrent.TabIndex = 8;
+            lblLegendCurrent.Text = "● Current profile";
+            // 
+            // lblLegendSelected
+            // 
+            lblLegendSelected.AutoSize = true;
+            lblLegendSelected.BackColor = Color.Transparent;
+            lblLegendSelected.ForeColor = Color.Lime;
+            lblLegendSelected.Location = new Point(513, 290);
+            lblLegendSelected.Name = "lblLegendSelected";
+            lblLegendSelected.Size = new Size(98, 15);
+            lblLegendSelected.TabIndex = 9;
+            lblLegendSelected.Text = "● Selected profile";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -432,6 +484,8 @@
             BackgroundImage = Resources.bg_fs24sh;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(784, 461);
+            Controls.Add(lblLegendSelected);
+            Controls.Add(lblLegendCurrent);
             Controls.Add(pnConfigs);
             Controls.Add(pnApps);
             Controls.Add(chbKeepOpen);
@@ -481,5 +535,9 @@
         private DataGridViewButtonColumn colInfo;
         private DataGridViewButtonColumn colEdit;
         private DataGridViewButtonColumn colDelete;
+        private Button btnCaptureConfig;
+        private ToolTip toolTip1;
+        private Label lblLegendCurrent;
+        private Label lblLegendSelected;
     }
 }

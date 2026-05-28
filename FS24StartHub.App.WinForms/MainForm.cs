@@ -144,7 +144,39 @@ namespace FS24StartHub.App.WinForms
             if (e.ColumnIndex == colEdit.Index)
             {
                 if (row.Tag is Config cfg)
-                    MessageBox.Show($"Edit config: {cfg.Id}", "TODO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                {
+                    using var form = new ConfigDetailsForm(_configManager, cfg);
+                    form.ShowDialog();
+                }
+                return;
+            }
+
+            if (e.ColumnIndex == colDelete.Index)
+            {
+                if (row.Tag is not Config cfg) return;
+                if (cfg.IsCurrent) return;
+
+                var name = cfg.Name ?? cfg.Id;
+                var result = MessageBox.Show(
+                    $"Delete config \"{name}\"?\n\nThis will permanently remove the config file.",
+                    "Delete Config",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result != DialogResult.Yes) return;
+
+                try
+                {
+                    _configManager.DeleteConfig(cfg.Id);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        $"Failed to delete config: {ex.Message}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
                 return;
             }
 
@@ -400,6 +432,33 @@ namespace FS24StartHub.App.WinForms
                 _configManager.SelectConfig((dgvConfigs.SelectedRows[0].Tag as Config)?.Id);
                 ApplyConfigRowStyles();
                 e.Handled = true;
+            }
+        }
+
+        private async void btnCaptureConfig_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var upToDate = await _configManager.IsCurrentConfigUpToDateAsync();
+                if (upToDate)
+                {
+                    MessageBox.Show(
+                        "Current config is already up to date.",
+                        "Save Config",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                await _configManager.SaveCurrentConfigAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Failed to save config: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
     }

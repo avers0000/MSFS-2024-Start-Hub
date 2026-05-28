@@ -132,7 +132,7 @@ namespace FS24StartHub.App.WinForms
 
             // Initialize AppsManager
             IAppsManager appsManager = new AppsManager(settingsManager, logManager);
-            IConfigManager configManager = new ConfigManager(settingsManager, logManager);
+            IConfigManager configManager = new ConfigManager(settingsManager, fileStorage, logManager);
             // Run the main form
             Application.Run(new MainForm(settingsManager, appsManager, configManager, logManager));
         }
