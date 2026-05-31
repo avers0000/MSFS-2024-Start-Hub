@@ -252,6 +252,7 @@
             // 
             chbKeepOpen.AutoSize = true;
             chbKeepOpen.BackColor = Color.Transparent;
+            chbKeepOpen.BackgroundImageLayout = ImageLayout.None;
             chbKeepOpen.FlatAppearance.BorderColor = Color.Red;
             chbKeepOpen.FlatAppearance.BorderSize = 3;
             chbKeepOpen.FlatAppearance.CheckedBackColor = Color.White;
@@ -480,8 +481,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Black;
-            BackgroundImage = Resources.bg_fs24sh;
+            BackColor = Color.FromArgb(24, 36, 54);
+            BackgroundImage = Resources.bg080_1u;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(784, 461);
             Controls.Add(lblLegendSelected);

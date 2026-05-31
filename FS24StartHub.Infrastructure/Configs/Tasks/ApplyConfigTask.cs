@@ -28,17 +28,14 @@ public sealed class ApplyConfigTask : ILaunchTask
             var selected = _configManager.SelectedConfigId;
             var current = _configManager.CurrentConfigId;
 
-            if (string.IsNullOrWhiteSpace(selected) || selected == current)
-            {
-                sw.Stop();
-                _logManager.Info("No profile to apply, skipping.", Module);
-                return Task.FromResult(new StepProgress(Name, ProgressType.StepCompleted, "Skipped", null, sw.Elapsed, true, null));
-            }
+            if (!string.IsNullOrWhiteSpace(selected) && selected != current)
+                _configManager.ApplySelectedConfig();
 
-            _configManager.ApplySelectedConfig();
+            _configManager.UpdateLastUsed();
+            _configManager.SaveChanges();
 
             sw.Stop();
-            _logManager.Info($"Profile '{selected}' applied successfully.", Module);
+            _logManager.Info($"Profile '{_configManager.CurrentConfigId}' updated.", Module);
             return Task.FromResult(new StepProgress(Name, ProgressType.StepCompleted, "Profile applied", null, sw.Elapsed, true, null));
         }
         catch (IOException ex)

@@ -67,6 +67,7 @@ namespace FS24StartHub.Infrastructure.Configs
             _settingsManager.SaveConfigs(_configs);
             _settingsManager.SaveCurrentConfigId(_currentConfigId);
             IsDirty = false;
+            DataChanged?.Invoke();
         }
 
         public ILaunchTask GetSaveTask()
@@ -102,7 +103,6 @@ namespace FS24StartHub.Infrastructure.Configs
 
             IsDirty = true;
             SaveChanges();
-            DataChanged?.Invoke();
         }
 
         public string GetConfigFilePath(string configId)
@@ -144,7 +144,6 @@ namespace FS24StartHub.Infrastructure.Configs
 
             IsDirty = true;
             SaveChanges();
-            DataChanged?.Invoke();
         }
 
         public bool IsCurrentConfigUpToDate()
@@ -194,7 +193,6 @@ namespace FS24StartHub.Infrastructure.Configs
 
             IsDirty = true;
             SaveChanges();
-            DataChanged?.Invoke();
         }
 
         private string GetSourceUserCfgPath()
@@ -221,6 +219,19 @@ namespace FS24StartHub.Infrastructure.Configs
             IsDirty = true;
 
             _logManager.Info($"Config '{SelectedConfigId}' applied to simulator.", "ConfigManager");
+        }
+
+        public void UpdateLastUsed()
+        {
+            if (string.IsNullOrWhiteSpace(_currentConfigId)) return;
+
+            var config = _configs.FirstOrDefault(c => c.Id == _currentConfigId);
+            if (config is null) return;
+
+            config.LastUsed = DateTime.Now;
+            IsDirty = true;
+
+            _logManager.Info($"LastUsed updated for profile '{_currentConfigId}'.", "ConfigManager");
         }
     }
 }

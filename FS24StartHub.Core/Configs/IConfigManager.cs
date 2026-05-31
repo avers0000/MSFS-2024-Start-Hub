@@ -27,5 +27,6 @@ namespace FS24StartHub.Core.Configs
         bool IsCurrentConfigUpToDate();
         void SaveCurrentConfig(string? name = null);
         void ApplySelectedConfig();
+        void UpdateLastUsed();
     }
 }

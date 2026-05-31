@@ -63,9 +63,9 @@ namespace FS24StartHub.App.WinForms {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap bg_fs24sh {
+        public static System.Drawing.Bitmap bg080_1u {
             get {
-                object obj = ResourceManager.GetObject("bg-fs24sh", resourceCulture);
+                object obj = ResourceManager.GetObject("bg080-1u", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
