@@ -21,6 +21,7 @@ namespace FS24StartHub.Infrastructure.Settings
 
         public SettingsManager(string baseFolderPath, IFileStorage fileStorage, IJsonStorage jsonStorage, ILogManager logManager)
         {
+            BaseFolderPath = baseFolderPath;
             _settingsPath = Path.Combine(baseFolderPath, "fs24sh.json");
             _fileStorage = fileStorage;
             _jsonStorage = jsonStorage;
@@ -29,6 +30,8 @@ namespace FS24StartHub.Infrastructure.Settings
 
         // Return a copy of the current settings to prevent external modifications
         public AppSettings? CurrentSettings => _currentSettings?.Clone();
+
+        public string BaseFolderPath { get; }
 
         public AppSettings Load()
         {
@@ -185,6 +188,82 @@ namespace FS24StartHub.Infrastructure.Settings
             if (anyServiceChanges)
             {
                 SettingsChanged?.Invoke();
+            }
+        }
+
+        public void UpdateConfigs(IEnumerable<Config> configs)
+        {
+            _currentSettings!.Configs = [.. configs];
+            _logManager.Info("Configs updated in memory.", "SettingsManager", "ConfigsUpdated");
+
+            if (!_suppressChangeEvents)
+                SettingsChanged?.Invoke();
+        }
+
+        public void UpdateCurrentConfigId(string? currentConfigId)
+        {
+            _currentSettings!.CurrentConfigId = currentConfigId ?? string.Empty;
+            _logManager.Info("CurrentConfigId updated in memory.", "SettingsManager", "CurrentConfigIdUpdated");
+
+            if (!_suppressChangeEvents)
+                SettingsChanged?.Invoke();
+        }
+
+        public void SaveConfigs(IEnumerable<Config> configs)
+        {
+            if (_currentSettings == null)
+                throw new InvalidOperationException("Current settings are not loaded.");
+
+            _currentSettings.Configs = [.. configs];
+
+            try
+            {
+                _jsonStorage.Save(_settingsPath, _currentSettings);
+                _logManager.Info("Configs saved successfully.", "SettingsManager", "ConfigsSaved");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logManager.Error("Access denied while saving configs.", "SettingsManager", ex);
+                throw;
+            }
+            catch (IOException ex)
+            {
+                _logManager.Error("I/O error occurred while saving configs.", "SettingsManager", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logManager.Error("Unexpected error occurred while saving configs.", "SettingsManager", ex);
+                throw;
+            }
+        }
+
+        public void SaveCurrentConfigId(string? currentConfigId)
+        {
+            if (_currentSettings == null)
+                throw new InvalidOperationException("Current settings are not loaded.");
+
+            _currentSettings.CurrentConfigId = currentConfigId ?? string.Empty;
+
+            try
+            {
+                _jsonStorage.Save(_settingsPath, _currentSettings);
+                _logManager.Info("CurrentConfigId saved successfully.", "SettingsManager", "CurrentConfigIdSaved");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logManager.Error("Access denied while saving CurrentConfigId.", "SettingsManager", ex);
+                throw;
+            }
+            catch (IOException ex)
+            {
+                _logManager.Error("I/O error occurred while saving CurrentConfigId.", "SettingsManager", ex);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logManager.Error("Unexpected error occurred while saving CurrentConfigId.", "SettingsManager", ex);
+                throw;
             }
         }
     }

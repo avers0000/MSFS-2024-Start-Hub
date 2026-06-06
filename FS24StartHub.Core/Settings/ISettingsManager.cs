@@ -48,5 +48,30 @@ namespace FS24StartHub.Core.Settings
         /// Triggered when settings are changed in memory.
         /// </summary>
         event Action? SettingsChanged;
+
+        /// <summary>
+        /// Updates configs list in CurrentSettings.
+        /// </summary>
+        void UpdateConfigs(IEnumerable<Config> configs);
+
+        /// <summary>
+        /// Updates current config id in CurrentSettings.
+        /// </summary>
+        void UpdateCurrentConfigId(string? currentConfigId);
+
+        /// <summary>
+        /// Updates configs list and saves to disk.
+        /// </summary>
+        void SaveConfigs(IEnumerable<Config> configs);
+
+        /// <summary>
+        /// Updates current config id and saves to disk.
+        /// </summary>
+        void SaveCurrentConfigId(string? currentConfigId);
+
+        /// <summary>
+        /// Returns the base folder path for settings.
+        /// </summary>
+        string BaseFolderPath { get; }
     }
 }

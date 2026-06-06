@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             btnStart = new Button();
             btnExit = new Button();
@@ -44,7 +46,22 @@
             pnApps = new Panel();
             lblVersion = new Label();
             btnSettings = new Button();
+            pnConfigs = new Panel();
+            btnCaptureConfig = new Button();
+            dgvConfigs = new DataGridView();
+            colMarker = new DataGridViewTextBoxColumn();
+            colName = new DataGridViewTextBoxColumn();
+            colCreatedDate = new DataGridViewTextBoxColumn();
+            colInfo = new DataGridViewButtonColumn();
+            colEdit = new DataGridViewButtonColumn();
+            colDelete = new DataGridViewButtonColumn();
+            lblConfigs = new Label();
+            toolTip1 = new ToolTip(components);
+            lblLegendCurrent = new Label();
+            lblLegendSelected = new Label();
             pnApps.SuspendLayout();
+            pnConfigs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvConfigs).BeginInit();
             SuspendLayout();
             // 
             // btnStart
@@ -89,13 +106,14 @@
             btnAppsEdit.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsEdit.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsEdit.FlatStyle = FlatStyle.Flat;
-            btnAppsEdit.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsEdit.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAppsEdit.ForeColor = Color.White;
-            btnAppsEdit.Location = new Point(375, 70);
+            btnAppsEdit.Location = new Point(330, 70);
             btnAppsEdit.Name = "btnAppsEdit";
-            btnAppsEdit.Size = new Size(90, 30);
+            btnAppsEdit.Size = new Size(30, 30);
             btnAppsEdit.TabIndex = 2;
-            btnAppsEdit.Text = "Edit...";
+            btnAppsEdit.Text = "";
+            toolTip1.SetToolTip(btnAppsEdit, "Edit");
             btnAppsEdit.UseVisualStyleBackColor = false;
             btnAppsEdit.Click += btnAppsEdit_Click;
             // 
@@ -106,13 +124,14 @@
             btnAppsAdd.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsAdd.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsAdd.FlatStyle = FlatStyle.Flat;
-            btnAppsAdd.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsAdd.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAppsAdd.ForeColor = Color.White;
-            btnAppsAdd.Location = new Point(375, 35);
+            btnAppsAdd.Location = new Point(330, 35);
             btnAppsAdd.Name = "btnAppsAdd";
-            btnAppsAdd.Size = new Size(90, 30);
+            btnAppsAdd.Size = new Size(30, 30);
             btnAppsAdd.TabIndex = 1;
-            btnAppsAdd.Text = "Add...";
+            btnAppsAdd.Text = "";
+            toolTip1.SetToolTip(btnAppsAdd, "Add");
             btnAppsAdd.UseVisualStyleBackColor = false;
             btnAppsAdd.Click += btnAppsAdd_Click;
             // 
@@ -123,13 +142,14 @@
             btnAppsRemove.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsRemove.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsRemove.FlatStyle = FlatStyle.Flat;
-            btnAppsRemove.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsRemove.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold);
             btnAppsRemove.ForeColor = Color.White;
-            btnAppsRemove.Location = new Point(375, 105);
+            btnAppsRemove.Location = new Point(330, 105);
             btnAppsRemove.Name = "btnAppsRemove";
-            btnAppsRemove.Size = new Size(90, 30);
+            btnAppsRemove.Size = new Size(30, 30);
             btnAppsRemove.TabIndex = 3;
-            btnAppsRemove.Text = "Remove";
+            btnAppsRemove.Text = "";
+            toolTip1.SetToolTip(btnAppsRemove, "Delete");
             btnAppsRemove.UseVisualStyleBackColor = false;
             btnAppsRemove.Click += btnAppsRemove_Click;
             // 
@@ -140,13 +160,14 @@
             btnAppsReload.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsReload.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsReload.FlatStyle = FlatStyle.Flat;
-            btnAppsReload.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsReload.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold);
             btnAppsReload.ForeColor = Color.White;
-            btnAppsReload.Location = new Point(375, 175);
+            btnAppsReload.Location = new Point(330, 175);
             btnAppsReload.Name = "btnAppsReload";
-            btnAppsReload.Size = new Size(90, 30);
+            btnAppsReload.Size = new Size(30, 30);
             btnAppsReload.TabIndex = 4;
-            btnAppsReload.Text = "Reload";
+            btnAppsReload.Text = "";
+            toolTip1.SetToolTip(btnAppsReload, "Reload");
             btnAppsReload.UseVisualStyleBackColor = false;
             btnAppsReload.Click += btnAppsReload_Click;
             // 
@@ -157,13 +178,14 @@
             btnAppsMoveDown.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsMoveDown.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsMoveDown.FlatStyle = FlatStyle.Flat;
-            btnAppsMoveDown.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsMoveDown.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold);
             btnAppsMoveDown.ForeColor = Color.White;
-            btnAppsMoveDown.Location = new Point(375, 245);
+            btnAppsMoveDown.Location = new Point(330, 245);
             btnAppsMoveDown.Name = "btnAppsMoveDown";
-            btnAppsMoveDown.Size = new Size(90, 30);
+            btnAppsMoveDown.Size = new Size(30, 30);
             btnAppsMoveDown.TabIndex = 6;
-            btnAppsMoveDown.Text = "Down";
+            btnAppsMoveDown.Text = "";
+            toolTip1.SetToolTip(btnAppsMoveDown, "Move Down");
             btnAppsMoveDown.UseVisualStyleBackColor = false;
             btnAppsMoveDown.Click += btnAppsMoveDown_Click;
             // 
@@ -174,13 +196,14 @@
             btnAppsMoveUp.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
             btnAppsMoveUp.FlatAppearance.MouseOverBackColor = Color.White;
             btnAppsMoveUp.FlatStyle = FlatStyle.Flat;
-            btnAppsMoveUp.Font = new Font("Segoe UI Semibold", 9.75F);
+            btnAppsMoveUp.Font = new Font("Segoe MDL2 Assets", 9.75F, FontStyle.Bold);
             btnAppsMoveUp.ForeColor = Color.White;
-            btnAppsMoveUp.Location = new Point(375, 210);
+            btnAppsMoveUp.Location = new Point(330, 210);
             btnAppsMoveUp.Name = "btnAppsMoveUp";
-            btnAppsMoveUp.Size = new Size(90, 30);
+            btnAppsMoveUp.Size = new Size(30, 30);
             btnAppsMoveUp.TabIndex = 5;
-            btnAppsMoveUp.Text = "Up";
+            btnAppsMoveUp.Text = "";
+            toolTip1.SetToolTip(btnAppsMoveUp, "Move Up");
             btnAppsMoveUp.UseVisualStyleBackColor = false;
             btnAppsMoveUp.Click += btnAppsMoveUp_Click;
             // 
@@ -200,7 +223,7 @@
             clbApps.Name = "clbApps";
             clbApps.ReadonlyForeColor = Color.Empty;
             clbApps.ReadonlySelectedForeColor = Color.Empty;
-            clbApps.Size = new Size(350, 240);
+            clbApps.Size = new Size(324, 240);
             clbApps.TabIndex = 0;
             clbApps.ToolTipBackColor = Color.Empty;
             clbApps.ToolTipForeColor = Color.Empty;
@@ -229,13 +252,14 @@
             // 
             chbKeepOpen.AutoSize = true;
             chbKeepOpen.BackColor = Color.Transparent;
+            chbKeepOpen.BackgroundImageLayout = ImageLayout.None;
             chbKeepOpen.FlatAppearance.BorderColor = Color.Red;
             chbKeepOpen.FlatAppearance.BorderSize = 3;
             chbKeepOpen.FlatAppearance.CheckedBackColor = Color.White;
             chbKeepOpen.FlatStyle = FlatStyle.Flat;
             chbKeepOpen.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             chbKeepOpen.ForeColor = Color.White;
-            chbKeepOpen.Location = new Point(659, 290);
+            chbKeepOpen.Location = new Point(661, 297);
             chbKeepOpen.Name = "chbKeepOpen";
             chbKeepOpen.Size = new Size(89, 21);
             chbKeepOpen.TabIndex = 2;
@@ -266,7 +290,7 @@
             pnApps.Controls.Add(btnAppsMoveDown);
             pnApps.Location = new Point(21, 12);
             pnApps.Name = "pnApps";
-            pnApps.Size = new Size(465, 275);
+            pnApps.Size = new Size(360, 275);
             pnApps.TabIndex = 1;
             // 
             // lblVersion
@@ -274,7 +298,7 @@
             lblVersion.BackColor = Color.FromArgb(20, 72, 147);
             lblVersion.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblVersion.ForeColor = Color.White;
-            lblVersion.Location = new Point(642, 10);
+            lblVersion.Location = new Point(250, 6);
             lblVersion.Name = "lblVersion";
             lblVersion.Size = new Size(100, 30);
             lblVersion.TabIndex = 5;
@@ -290,7 +314,7 @@
             btnSettings.FlatStyle = FlatStyle.Flat;
             btnSettings.Font = new Font("Segoe UI Semibold", 14F, FontStyle.Bold);
             btnSettings.ForeColor = Color.White;
-            btnSettings.Location = new Point(742, 10);
+            btnSettings.Location = new Point(350, 6);
             btnSettings.Name = "btnSettings";
             btnSettings.Size = new Size(30, 30);
             btnSettings.TabIndex = 6;
@@ -299,16 +323,171 @@
             btnSettings.UseVisualStyleBackColor = false;
             btnSettings.Click += btnSettings_Click;
             // 
+            // pnConfigs
+            // 
+            pnConfigs.BackColor = Color.Transparent;
+            pnConfigs.Controls.Add(btnCaptureConfig);
+            pnConfigs.Controls.Add(dgvConfigs);
+            pnConfigs.Controls.Add(lblConfigs);
+            pnConfigs.Controls.Add(lblVersion);
+            pnConfigs.Controls.Add(btnSettings);
+            pnConfigs.Location = new Point(400, 0);
+            pnConfigs.Name = "pnConfigs";
+            pnConfigs.Size = new Size(380, 287);
+            pnConfigs.TabIndex = 7;
+            // 
+            // btnCaptureConfig
+            // 
+            btnCaptureConfig.FlatAppearance.BorderSize = 0;
+            btnCaptureConfig.FlatAppearance.MouseDownBackColor = Color.FromArgb(255, 255, 128);
+            btnCaptureConfig.FlatAppearance.MouseOverBackColor = Color.White;
+            btnCaptureConfig.FlatStyle = FlatStyle.Flat;
+            btnCaptureConfig.Font = new Font("Segoe MDL2 Assets", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCaptureConfig.ForeColor = Color.White;
+            btnCaptureConfig.Location = new Point(149, 14);
+            btnCaptureConfig.Name = "btnCaptureConfig";
+            btnCaptureConfig.Size = new Size(30, 30);
+            btnCaptureConfig.TabIndex = 8;
+            btnCaptureConfig.Text = "";
+            toolTip1.SetToolTip(btnCaptureConfig, "Capture Current Graphics Settings");
+            btnCaptureConfig.UseVisualStyleBackColor = false;
+            btnCaptureConfig.Click += btnCaptureConfig_Click;
+            // 
+            // dgvConfigs
+            // 
+            dgvConfigs.AllowUserToAddRows = false;
+            dgvConfigs.AllowUserToDeleteRows = false;
+            dgvConfigs.AllowUserToResizeColumns = false;
+            dgvConfigs.AllowUserToResizeRows = false;
+            dgvConfigs.BackgroundColor = Color.DimGray;
+            dgvConfigs.BorderStyle = BorderStyle.None;
+            dgvConfigs.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvConfigs.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvConfigs.ColumnHeadersHeight = 20;
+            dgvConfigs.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvConfigs.Columns.AddRange(new DataGridViewColumn[] { colMarker, colName, colCreatedDate, colInfo, colEdit, colDelete });
+            dgvConfigs.EnableHeadersVisualStyles = false;
+            dgvConfigs.GridColor = Color.Silver;
+            dgvConfigs.Location = new Point(0, 47);
+            dgvConfigs.MultiSelect = false;
+            dgvConfigs.Name = "dgvConfigs";
+            dgvConfigs.ReadOnly = true;
+            dgvConfigs.RowHeadersVisible = false;
+            dgvConfigs.RowTemplate.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgvConfigs.RowTemplate.Height = 20;
+            dgvConfigs.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvConfigs.ShowCellToolTips = false;
+            dgvConfigs.Size = new Size(360, 240);
+            dgvConfigs.TabIndex = 9;
+            dgvConfigs.CellClick += dgvConfigs_CellClick;
+            dgvConfigs.CellDoubleClick += dgvConfigs_CellDoubleClick;
+            dgvConfigs.KeyDown += dgvConfigs_KeyDown;
+            // 
+            // colMarker
+            // 
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colMarker.DefaultCellStyle = dataGridViewCellStyle1;
+            colMarker.HeaderText = "";
+            colMarker.Name = "colMarker";
+            colMarker.ReadOnly = true;
+            colMarker.Resizable = DataGridViewTriState.False;
+            colMarker.SortMode = DataGridViewColumnSortMode.NotSortable;
+            colMarker.Width = 20;
+            // 
+            // colName
+            // 
+            colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            colName.HeaderText = "Name";
+            colName.Name = "colName";
+            colName.ReadOnly = true;
+            colName.SortMode = DataGridViewColumnSortMode.NotSortable;
+            // 
+            // colCreatedDate
+            // 
+            colCreatedDate.HeaderText = "Created Date";
+            colCreatedDate.Name = "colCreatedDate";
+            colCreatedDate.ReadOnly = true;
+            colCreatedDate.SortMode = DataGridViewColumnSortMode.NotSortable;
+            colCreatedDate.Width = 90;
+            // 
+            // colInfo
+            // 
+            colInfo.FlatStyle = FlatStyle.Flat;
+            colInfo.HeaderText = "";
+            colInfo.Name = "colInfo";
+            colInfo.ReadOnly = true;
+            colInfo.Resizable = DataGridViewTriState.False;
+            colInfo.Text = "ℹ";
+            colInfo.UseColumnTextForButtonValue = true;
+            colInfo.Width = 20;
+            // 
+            // colEdit
+            // 
+            colEdit.FlatStyle = FlatStyle.Flat;
+            colEdit.HeaderText = "";
+            colEdit.Name = "colEdit";
+            colEdit.ReadOnly = true;
+            colEdit.Resizable = DataGridViewTriState.False;
+            colEdit.Text = "";
+            colEdit.UseColumnTextForButtonValue = true;
+            colEdit.Width = 20;
+            // 
+            // colDelete
+            // 
+            colDelete.FlatStyle = FlatStyle.Flat;
+            colDelete.HeaderText = "";
+            colDelete.Name = "colDelete";
+            colDelete.ReadOnly = true;
+            colDelete.Resizable = DataGridViewTriState.False;
+            colDelete.Text = "";
+            colDelete.UseColumnTextForButtonValue = true;
+            colDelete.Width = 20;
+            // 
+            // lblConfigs
+            // 
+            lblConfigs.AutoSize = true;
+            lblConfigs.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblConfigs.ForeColor = Color.White;
+            lblConfigs.Location = new Point(0, 19);
+            lblConfigs.Name = "lblConfigs";
+            lblConfigs.Size = new Size(132, 21);
+            lblConfigs.TabIndex = 8;
+            lblConfigs.Text = "Graphics Profiles";
+            // 
+            // lblLegendCurrent
+            // 
+            lblLegendCurrent.AutoSize = true;
+            lblLegendCurrent.BackColor = Color.Transparent;
+            lblLegendCurrent.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblLegendCurrent.ForeColor = Color.Yellow;
+            lblLegendCurrent.Location = new Point(400, 290);
+            lblLegendCurrent.Name = "lblLegendCurrent";
+            lblLegendCurrent.Size = new Size(94, 15);
+            lblLegendCurrent.TabIndex = 8;
+            lblLegendCurrent.Text = "● Current profile";
+            // 
+            // lblLegendSelected
+            // 
+            lblLegendSelected.AutoSize = true;
+            lblLegendSelected.BackColor = Color.Transparent;
+            lblLegendSelected.ForeColor = Color.Lime;
+            lblLegendSelected.Location = new Point(513, 290);
+            lblLegendSelected.Name = "lblLegendSelected";
+            lblLegendSelected.Size = new Size(98, 15);
+            lblLegendSelected.TabIndex = 9;
+            lblLegendSelected.Text = "● Selected profile";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Black;
-            BackgroundImage = Resources.bg_fs24sh;
+            BackColor = Color.FromArgb(24, 36, 54);
+            BackgroundImage = Resources.bg080_1u;
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(784, 461);
-            Controls.Add(btnSettings);
-            Controls.Add(lblVersion);
+            Controls.Add(lblLegendSelected);
+            Controls.Add(lblLegendCurrent);
+            Controls.Add(pnConfigs);
             Controls.Add(pnApps);
             Controls.Add(chbKeepOpen);
             Controls.Add(btnSave);
@@ -324,6 +503,9 @@
             Load += MainForm_Load;
             pnApps.ResumeLayout(false);
             pnApps.PerformLayout();
+            pnConfigs.ResumeLayout(false);
+            pnConfigs.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvConfigs).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -345,5 +527,18 @@
         private Panel pnApps;
         private Label lblVersion;
         private Button btnSettings;
+        private Panel pnConfigs;
+        private Label lblConfigs;
+        private DataGridView dgvConfigs;
+        private DataGridViewTextBoxColumn colMarker;
+        private DataGridViewTextBoxColumn colName;
+        private DataGridViewTextBoxColumn colCreatedDate;
+        private DataGridViewButtonColumn colInfo;
+        private DataGridViewButtonColumn colEdit;
+        private DataGridViewButtonColumn colDelete;
+        private Button btnCaptureConfig;
+        private ToolTip toolTip1;
+        private Label lblLegendCurrent;
+        private Label lblLegendSelected;
     }
 }

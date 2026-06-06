@@ -11,7 +11,9 @@
 - Support for EXE, COM, BAT, CMD, and PowerShell (PS1) files  
 - Enable or disable items in the startup list  
 - Control the launch order — applications can be started before or after MSFS depending on their position in the list  
-- “Keep open” mode to keep the launcher running after startup (future versions may include in‑game monitoring)  
+- Graphics Profiles — save and switch between multiple graphics configurations; the selected profile is applied automatically before each launch  
+- Optional process check per startup item — skip or warn if a process is already running  
+- "Keep open" mode to keep the launcher running after startup (future versions may include in‑game monitoring)  
 - Clean, lightweight, and intuitive user interface
 
 ---
@@ -35,8 +37,9 @@
 2. Arrange the launch order using the Up/Down buttons  
 3. Enable the items you want to include in the sequence for each specific start  
 4. Adjust the before/after start delay, display name, and other options using the Add/Edit Startup Item dialog  
-5. Enable “Keep open” if you want the launcher to remain running after the simulator startup  
-6. Press **Start** — the launcher will run each enabled item in the order shown
+5. Select a graphics profile from the Graphics Profiles panel — it will be applied automatically when you press Start  
+6. Enable "Keep open" if you want the launcher to remain running after the simulator startup  
+7. Press **Start** — the launcher will apply the selected graphics profile and run each enabled item in the order shown
 
 ---
 

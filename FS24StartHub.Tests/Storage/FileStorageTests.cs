@@ -171,5 +171,65 @@ namespace FS24StartHub.Tests.Storage
             Assert.IsFalse(File.Exists(src));
             Assert.AreEqual("original", File.ReadAllText(dest));
         }
+
+        [TestMethod]
+        public void CopyFile_ShouldCopyFileToDestination()
+        {
+            var src = Path.Combine(_tempDir, "source.txt");
+            var dest = Path.Combine(_tempDir, "dest.txt");
+            File.WriteAllText(src, "content");
+
+            _fileStorage.CopyFile(src, dest);
+
+            Assert.IsTrue(File.Exists(dest));
+            Assert.AreEqual("content", File.ReadAllText(dest));
+        }
+
+        [TestMethod]
+        public void CopyFile_ShouldCreateDestinationDirectory_IfNotExists()
+        {
+            var src = Path.Combine(_tempDir, "source.txt");
+            var dest = Path.Combine(_tempDir, "subdir", "dest.txt");
+            File.WriteAllText(src, "content");
+
+            _fileStorage.CopyFile(src, dest);
+
+            Assert.IsTrue(File.Exists(dest));
+        }
+
+        [TestMethod]
+        public void CopyFile_ShouldOverwrite_WhenOverwriteIsTrue()
+        {
+            var src = Path.Combine(_tempDir, "source.txt");
+            var dest = Path.Combine(_tempDir, "dest.txt");
+            File.WriteAllText(src, "new");
+            File.WriteAllText(dest, "old");
+
+            _fileStorage.CopyFile(src, dest, overwrite: true);
+
+            Assert.AreEqual("new", File.ReadAllText(dest));
+        }
+
+        [TestMethod]
+        public void DeleteDirectory_ShouldRemoveDirectory()
+        {
+            var dir = Path.Combine(_tempDir, "toDelete");
+            Directory.CreateDirectory(dir);
+            File.WriteAllText(Path.Combine(dir, "file.txt"), "x");
+
+            _fileStorage.DeleteDirectory(dir);
+
+            Assert.IsFalse(Directory.Exists(dir));
+        }
+
+        [TestMethod]
+        public void DeleteDirectory_ShouldBeIdempotent_WhenDirectoryNotExists()
+        {
+            var dir = Path.Combine(_tempDir, "nonexistent");
+
+            _fileStorage.DeleteDirectory(dir); // should not throw
+
+            Assert.IsFalse(Directory.Exists(dir));
+        }
     }
 }

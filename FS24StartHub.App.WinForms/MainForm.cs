@@ -1,5 +1,6 @@
 ﻿using FS24StartHub.App.WinForms.Controls;
 using FS24StartHub.Core.Apps;
+using FS24StartHub.Core.Configs;
 using FS24StartHub.Core.Domain;
 using FS24StartHub.Core.Launcher;
 using FS24StartHub.Core.Logging;
@@ -14,22 +15,22 @@ namespace FS24StartHub.App.WinForms
         private readonly ISettingsManager _settingsManager;
         private readonly IAppsManager _appsManager;
         private readonly ILogManager _logManager;
+        private readonly IConfigManager _configManager;
 
         private bool isUpdating = false;
 
-        public MainForm(ISettingsManager settingsManager, IAppsManager appsManager, ILogManager logManager)
+        public MainForm(ISettingsManager settingsManager, IAppsManager appsManager, IConfigManager configManager, ILogManager logManager)
         {
             _settingsManager = settingsManager;
             _appsManager = appsManager;
+            _configManager = configManager;
             _logManager = logManager;
 
             InitializeComponent();
 
-            // Load startup items on form load
-            LoadStartupItems();
-
             // Subscribe to changes in AppsManager
             _appsManager.DataChanged += OnStartupItemsChanged;
+            _configManager.DataChanged += OnConfigsDataChanged;
 
             // Hide debug buttons in release mode
 #if !DEBUG
@@ -95,6 +96,115 @@ namespace FS24StartHub.App.WinForms
             UpdateAppsButtonsStates();
         }
 
+        private void LoadConfigs()
+        {
+            dgvConfigs.Rows.Clear();
+            foreach (var config in _configManager.GetConfigs())
+            {
+                var createdDate = config.CreatedDate == default ? "" : config.CreatedDate.ToString("d");
+                var rowIndex = dgvConfigs.Rows.Add("", config.Name ?? string.Empty, createdDate, "", "", "");
+                var row = dgvConfigs.Rows[rowIndex];
+                row.Tag = config;
+                row.Cells["colMarker"].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+
+            ApplyConfigRowStyles();
+            dgvConfigs.ClearSelection();
+            dgvConfigs.CurrentCell = null;
+        }
+
+        private void ApplyConfigRowStyles()
+        {
+            foreach (DataGridViewRow row in dgvConfigs.Rows)
+            {
+                var config = row.Tag as Config;
+                var configId = config?.Id;
+                bool isCurrent = config?.IsCurrent ?? false;
+                bool isSelected = configId == _configManager.SelectedConfigId;
+
+                var color = isCurrent ? Color.Yellow : (isSelected ? Color.Lime : Color.White);
+
+                row.DefaultCellStyle.ForeColor = color;
+                row.DefaultCellStyle.SelectionForeColor = color;
+
+                row.Cells["colMarker"].Value = (isCurrent || isSelected) ? "●" : "";
+                row.Cells["colMarker"].Style.ForeColor = color;
+                row.Cells["colMarker"].Style.SelectionForeColor = color;
+            }
+        }
+
+        private string? _lastClickedConfigId;
+
+        private void dgvConfigs_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            var row = dgvConfigs.Rows[e.RowIndex];
+
+            if (e.ColumnIndex == colEdit.Index)
+            {
+                if (row.Tag is Config cfg)
+                {
+                    using var form = new ConfigDetailsForm(_configManager, cfg);
+                    form.ShowDialog();
+                }
+                return;
+            }
+
+            if (e.ColumnIndex == colDelete.Index)
+            {
+                if (row.Tag is not Config cfg) return;
+                if (cfg.IsCurrent) return;
+
+                var name = cfg.Name ?? cfg.Id;
+                var result = MessageBox.Show(
+                    $"Delete config \"{name}\"?\n\nThis will permanently remove the config file.",
+                    "Delete Config",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result != DialogResult.Yes) return;
+
+                try
+                {
+                    _configManager.DeleteConfig(cfg.Id);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        $"Failed to delete config: {ex.Message}",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+                return;
+            }
+
+            var clickedId = (row.Tag as Config)?.Id;
+
+            if (clickedId == _lastClickedConfigId)
+            {
+                _configManager.SelectConfig(clickedId);
+                ApplyConfigRowStyles();
+                _lastClickedConfigId = null;
+            }
+            else
+            {
+                _lastClickedConfigId = clickedId;
+            }
+        }
+
+        private void OnConfigsDataChanged()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(OnConfigsDataChanged));
+                return;
+            }
+
+            LoadConfigs();
+        }
+
         private void OnStartupItemsChanged()
         {
             if (InvokeRequired)
@@ -142,7 +252,7 @@ namespace FS24StartHub.App.WinForms
                 KeepAppOpen = chbKeepOpen.Checked
             };
 
-            var simLauncherManager = new SimLauncherManager(_logManager, _settingsManager, _appsManager);
+            var simLauncherManager = new SimLauncherManager(_logManager, _settingsManager, _appsManager, _configManager);
 
             using var startForm = new StartForm(simLauncherManager, _logManager, request);
             var result = startForm.ShowDialog();
@@ -289,15 +399,66 @@ namespace FS24StartHub.App.WinForms
         {
             lblVersion.Text = "v" + Application.ProductVersion.Split('+')[0];
 
+            // Load startup items on form load
+            LoadStartupItems();
+            LoadConfigs();
+
             UIStyler.ApplyStyleToAllButtons(this);
             UIStyler.StyleCheckBox(chbKeepOpen);
             UIStyler.StyleCustomCheckedListBox(clbApps);
+            UIStyler.StyleDataGridView(dgvConfigs);
         }
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
             using var form = new SettingsForm(_settingsManager, _logManager);
             form.ShowDialog();
+        }
+
+        private void dgvConfigs_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+            if (e.ColumnIndex == colEdit.Index) return;
+
+            _lastClickedConfigId = null;
+            _configManager.SelectConfig((dgvConfigs.Rows[e.RowIndex].Tag as Config)?.Id);
+            ApplyConfigRowStyles();
+        }
+
+        private void dgvConfigs_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space && dgvConfigs.SelectedRows.Count > 0)
+            {
+                _configManager.SelectConfig((dgvConfigs.SelectedRows[0].Tag as Config)?.Id);
+                ApplyConfigRowStyles();
+                e.Handled = true;
+            }
+        }
+
+        private void btnCaptureConfig_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_configManager.IsCurrentConfigUpToDate())
+                {
+                    MessageBox.Show(
+                        "Current config is already up to date.",
+                        "Save Config",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    return;
+                }
+
+                _configManager.SaveCurrentConfig();
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(
+                    $"Failed to save config: {ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }

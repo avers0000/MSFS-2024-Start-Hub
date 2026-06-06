@@ -1,10 +1,12 @@
 ﻿using FS24StartHub.Core.Apps;
+using FS24StartHub.Core.Configs;
 using FS24StartHub.Core.Domain;
 using FS24StartHub.Core.Launcher;
 using FS24StartHub.Core.Launcher.Progress;
 using FS24StartHub.Core.Launcher.Tasks;
 using FS24StartHub.Core.Logging;
 using FS24StartHub.Core.Settings;
+using FS24StartHub.Infrastructure.Configs;
 using FS24StartHub.Infrastructure.Helpers;
 using FS24StartHub.Infrastructure.Launcher.Tasks;
 
@@ -19,11 +21,14 @@ namespace FS24StartHub.Infrastructure.Launcher
         private readonly List<ILaunchTask> _tasks;
         private readonly ILogManager _logManager;
 
-        public SimLauncherManager(ILogManager logManager, ISettingsManager settingsManager, IAppsManager appsManager)
+        public SimLauncherManager(ILogManager logManager, ISettingsManager settingsManager, IAppsManager appsManager, IConfigManager configManager)
         {
             _logManager = logManager;
 
             _tasks = new List<ILaunchTask>();
+
+            // Add the save and apply task from ConfigManager
+            _tasks.Add(configManager.GetSaveTask());
 
             // Add the save task from AppsManager
             _tasks.Add(appsManager.GetSaveTask());

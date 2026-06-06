@@ -54,7 +54,7 @@ namespace FS24StartHub.IntegrationTests.Settings
             var config = new Config
             {
                 Id = "config-001",
-                FolderName = "DefaultConfig",
+                Name = "DefaultConfig",  // было FolderName
                 Description = "Test configuration",
                 CreatedDate = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc),
                 LastUsed = new DateTime(2025, 9, 17, 12, 0, 0, DateTimeKind.Utc),
@@ -84,7 +84,7 @@ namespace FS24StartHub.IntegrationTests.Settings
             Assert.AreEqual("dump-123", reloaded.Careers[0].CurrentDump);
 
             Assert.AreEqual(1, reloaded.Configs.Count);
-            Assert.AreEqual("DefaultConfig", reloaded.Configs[0].FolderName);
+            Assert.AreEqual("DefaultConfig", reloaded.Configs[0].Name);
             Assert.AreEqual("Test configuration", reloaded.Configs[0].Description);
             Assert.AreEqual(5, reloaded.Configs[0].Rating);
         }

@@ -71,5 +71,27 @@ namespace FS24StartHub.Infrastructure.Storage
             File.Move(sourcePath, destinationPath);
         }
 
+        public void DeleteDirectory(string path, bool recursive = true)
+        {
+            if (Directory.Exists(path))
+                Directory.Delete(path, recursive);
+        }
+
+        public void CopyFile(string sourcePath, string destPath, bool overwrite = false)
+        {
+            var destDir = Path.GetDirectoryName(destPath);
+            if (!string.IsNullOrEmpty(destDir) && !Directory.Exists(destDir))
+                Directory.CreateDirectory(destDir);
+
+            File.Copy(sourcePath, destPath, overwrite);
+        }
+
+        public string ComputeFileHash(string path)
+        {
+            using var sha = System.Security.Cryptography.SHA256.Create();
+            using var stream = File.OpenRead(path);
+            var hash = sha.ComputeHash(stream);
+            return Convert.ToHexString(hash);
+        }
     }
 }

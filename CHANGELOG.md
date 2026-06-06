@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## [0.8.0]
+### Added
+- Graphics Profiles: save and switch between multiple graphics configurations (UserCfg.opt snapshots).
+- The selected graphics profile is applied automatically on each launch.
+
 ## [0.7.3]
 ### Added
 - Process check for startup items: optional skip and/or warning if a process is already running before launch.
